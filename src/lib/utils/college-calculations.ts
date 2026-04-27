@@ -1,4 +1,12 @@
-import type { College, CollegeModel, GameConfig } from '$lib/types/game.types';
+import type {
+	CampaignCollege,
+	College,
+	CollegeModel,
+	GameConfig,
+	MerchantItem
+} from '$lib/types/game.types';
+import { FACTIONS } from '$lib/data/factions';
+import { UNIVERSAL_MODELS } from '$lib/data/universal-models';
 
 /** Calculate total shilling cost of a single model including upgrades and merchant item. */
 export const calculateModelCost = (model: CollegeModel): number => {
@@ -19,26 +27,83 @@ export const calculateEruditeCharges = (totalSpent: number, gameSize: number): n
 	return fromSpending + fromUnspent;
 };
 
+/** Check whether a model satisfies a merchant item's restriction. */
+export const checkMerchantItemRestriction = (model: CollegeModel, item: MerchantItem): boolean => {
+	if (!item.restriction) return true;
+
+	switch (item.restriction) {
+		case 'Wizard only':
+			return model.template.id === 'wizard';
+		case 'Dragoon/Familiar only':
+			return (
+				model.template.id === 'dragoon' ||
+				model.template.id === 'feral-familiar' ||
+				model.equippedUpgrades.some((eu) => eu.upgrade.name === 'Familiar')
+			);
+		case 'Cargo Hold models only':
+			return model.template.specialRules.some((r) => r.name === 'Cargo Hold');
+		default:
+			return true;
+	}
+};
+
 /** Validate that a college meets list-building constraints. */
 export const validateCollege = (college: College, config: GameConfig): string[] => {
 	const errors: string[] = [];
 
+	// Exactly one Wizard
 	const wizards = college.models.filter((m) => m.template.id === 'wizard');
 	if (wizards.length !== 1) {
 		errors.push(`A College must contain exactly one Wizard (found ${wizards.length}).`);
 	}
 
+	// Cost within points limit
 	if (college.totalCost > config.pointsLimit) {
 		errors.push(
 			`College costs ${college.totalCost} Shillings, exceeding the ${config.pointsLimit} limit.`
 		);
 	}
 
-	const modelsWithMultipleItems = college.models.filter(
-		(m) => m.merchantItem && m.equippedUpgrades.some((eu) => eu.upgrade.name === m.merchantItem?.name)
-	);
-	if (modelsWithMultipleItems.length > 0) {
-		errors.push('Each model may carry a maximum of one Merchant item.');
+	// Faction restriction: only universal models and the faction's unique model
+	const faction = FACTIONS.find((f) => f.id === college.factionId);
+	const universalIds = new Set(UNIVERSAL_MODELS.map((m) => m.id));
+	const allowedIds = new Set([...universalIds, ...(faction ? [faction.uniqueModel.id] : [])]);
+
+	for (const model of college.models) {
+		if (!allowedIds.has(model.template.id)) {
+			errors.push(
+				`${model.template.name} is not available to this faction. A College may only include Universal Models and its faction's unique model.`
+			);
+		}
+	}
+
+	// Summonable models cannot carry merchant items
+	for (const model of college.models) {
+		if (model.template.isSummonable && model.merchantItem) {
+			errors.push(`${model.name} is a summonable model and cannot be given merchant items.`);
+		}
+	}
+
+	// Merchant item restrictions
+	for (const model of college.models) {
+		if (model.merchantItem && !checkMerchantItemRestriction(model, model.merchantItem)) {
+			errors.push(
+				`${model.name} cannot carry ${model.merchantItem.name} (restricted to ${model.merchantItem.restriction}).`
+			);
+		}
+	}
+
+	return errors;
+};
+
+/** Validate campaign-specific college constraints. */
+export const validateCampaignCollege = (college: CampaignCollege, config: GameConfig): string[] => {
+	const errors = validateCollege(college, config);
+
+	if (college.coffers.length > 10) {
+		errors.push(
+			`College Coffers contain ${college.coffers.length} items, exceeding the maximum of 10.`
+		);
 	}
 
 	return errors;

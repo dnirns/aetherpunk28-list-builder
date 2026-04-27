@@ -10,12 +10,12 @@ export type DicePool = {
 };
 
 export type StatBlock = {
-	mv: string;          // e.g. "6\"" — stored as display string
+	mv: string; // e.g. "6\"" — stored as display string
 	ra: DicePool;
 	me: DicePool;
 	df: DieStep;
 	wp: DieStep;
-	range: string;       // e.g. "24\""
+	range: string; // e.g. "24\""
 	passiveSurge: PassiveSurge;
 };
 
@@ -56,7 +56,7 @@ export type EmpoweredBonus = {
 
 export type FactionSpell = {
 	name: string;
-	cost: number;       // erudite charge cost
+	cost: number; // erudite charge cost
 	description: string;
 };
 
@@ -71,7 +71,14 @@ export type Faction = {
 
 // --- Models ---
 
-export type BaseSize = '25mm' | '32-40mm' | '40-50mm' | '50-60mm' | '60-80mm' | '80-100mm' | '120-150mm';
+export type BaseSize =
+	| '25mm'
+	| '32-40mm'
+	| '40-50mm'
+	| '50-60mm'
+	| '60-80mm'
+	| '80-100mm'
+	| '120-150mm';
 
 export type SpecialRule = {
 	name: string;
@@ -89,8 +96,8 @@ export type WeaponProfile = {
 
 export type Upgrade = {
 	name: string;
-	cost: number;       // shillings
-	replaces?: string;  // name of equipment it replaces
+	cost: number; // shillings
+	replaces?: string; // name of equipment it replaces
 	weapon?: WeaponProfile;
 	statModifier?: Partial<StatBlock>;
 	specialRules?: string[];
@@ -100,14 +107,14 @@ export type Upgrade = {
 export type ModelTemplate = {
 	id: string;
 	name: string;
-	baseCost: number;   // shillings
+	baseCost: number; // shillings
 	baseSize: BaseSize;
 	stats: StatBlock;
 	baseEquipment: WeaponProfile[];
 	specialRules: SpecialRule[];
 	upgrades: Upgrade[];
 	isSummonable?: boolean;
-	isUnique?: boolean;  // faction-specific unique model
+	isUnique?: boolean; // faction-specific unique model
 };
 
 // --- College (Army List) ---
@@ -120,17 +127,17 @@ export type EquippedUpgrade = {
 export type MerchantItem = {
 	name: string;
 	cost: number;
-	restriction?: string;  // e.g. "Wizard only", "Dragoon/Familiar only"
+	restriction?: string; // e.g. "Wizard only", "Dragoon/Familiar only"
 	description: string;
 };
 
 export type CollegeModel = {
-	id: string;           // unique instance id
+	id: string; // unique instance id
 	template: ModelTemplate;
-	name: string;         // custom name for this instance
+	name: string; // custom name for this instance
 	equippedUpgrades: EquippedUpgrade[];
 	merchantItem?: MerchantItem;
-	totalCost: number;    // derived: baseCost + upgrades + item
+	totalCost: number; // derived: baseCost + upgrades + item
 };
 
 export type College = {
@@ -138,7 +145,7 @@ export type College = {
 	name: string;
 	factionId: FactionId;
 	models: CollegeModel[];
-	totalCost: number;    // derived: sum of all model costs
+	totalCost: number; // derived: sum of all model costs
 	eruditeCharges: number; // derived from game size and spending
 };
 
@@ -156,7 +163,7 @@ export type CampaignModel = CollegeModel & {
 
 export type CampaignCollege = Omit<College, 'models'> & {
 	models: CampaignModel[];
-	coffers: MerchantItem[];  // up to 10 stored items
+	coffers: MerchantItem[]; // up to 10 stored items
 	eruditeReserve: number;
 };
 
@@ -171,6 +178,6 @@ export type CoreSpell = {
 // --- Game Setup ---
 
 export type GameConfig = {
-	pointsLimit: number;  // default 50 shillings
+	pointsLimit: number; // default 50 shillings
 	isCampaign: boolean;
 };
