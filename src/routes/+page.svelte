@@ -58,7 +58,7 @@
 						</a>
 						<div class="absolute right-5 top-1/2 flex -translate-y-1/2 gap-2">
 							<a
-								href="{resolve('/builder')}?edit={saved.id}"
+								href="{resolve('/edit')}?id={saved.id}"
 								class="rounded bg-amber-500/20 px-3 py-1.5 text-sm font-medium text-amber-400 transition hover:bg-amber-500/30"
 							>
 								Edit

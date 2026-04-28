@@ -29,17 +29,31 @@
 	const wizardModel = $derived(allModels.find((m) => m.template.id === 'wizard'));
 
 	let selectedModelId = $state<string | null>(null);
+	let previewTemplate = $state<ModelTemplate | null>(null);
 
 	// Auto-select wizard initially, and keep selection valid after removals
 	const selectedModel = $derived.by(() => {
+		if (previewTemplate) return null;
 		const match = allModels.find((m) => m.id === selectedModelId);
 		if (match) return match;
 		// Fall back to wizard or first model
 		return wizardModel ?? allModels[0] ?? null;
 	});
 
-	const addModel = (template: ModelTemplate) => {
-		const id = collegeStore.addModel(template);
+	const selectRosterModel = (id: string) => {
+		previewTemplate = null;
+		selectedModelId = id;
+	};
+
+	const previewCatalogueModel = (template: ModelTemplate) => {
+		selectedModelId = null;
+		previewTemplate = template;
+	};
+
+	const addPreviewedModel = () => {
+		if (!previewTemplate) return;
+		const id = collegeStore.addModel(previewTemplate);
+		previewTemplate = null;
 		selectedModelId = id;
 	};
 
@@ -49,6 +63,9 @@
 		}
 		collegeStore.removeModel(modelId);
 	};
+
+	const formatDicePool = (pool: { count: number; die: string | number }) =>
+		pool.die === 0 ? '-' : `${pool.count}x${pool.die}`;
 </script>
 
 <div class="mx-auto max-w-5xl">
@@ -82,7 +99,7 @@
 				<div class="space-y-1">
 					{#each allModels as model (model.id)}
 						<button
-							onclick={() => (selectedModelId = model.id)}
+							onclick={() => selectRosterModel(model.id)}
 							class="flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left text-sm transition
 								{selectedModel?.id === model.id
 								? 'border-amber-500 bg-amber-500/10'
@@ -108,8 +125,11 @@
 				<div class="space-y-1">
 					{#each availableModels as template (template.id)}
 						<button
-							onclick={() => addModel(template)}
-							class="flex w-full items-center justify-between rounded-lg border border-dashed border-slate-700 px-3 py-2 text-left text-sm transition hover:border-amber-500/50 hover:bg-slate-800"
+							onclick={() => previewCatalogueModel(template)}
+							class="flex w-full items-center justify-between rounded-lg border border-dashed px-3 py-2 text-left text-sm transition
+								{previewTemplate?.id === template.id
+								? 'border-amber-500 bg-amber-500/10'
+								: 'border-slate-700 hover:border-amber-500/50 hover:bg-slate-800'}"
 						>
 							<div class="min-w-0">
 								<div class="truncate text-slate-300">{template.name}</div>
@@ -126,9 +146,81 @@
 			</div>
 		</div>
 
-		<!-- Right: selected model detail -->
+		<!-- Right: selected model detail or catalogue preview -->
 		<div class="min-w-0 flex-1">
-			{#if selectedModel}
+			{#if previewTemplate}
+				<div class="rounded-lg border border-slate-700 bg-slate-800/50 p-4">
+					<div class="mb-4 flex items-start justify-between gap-4">
+						<div>
+							<h3 class="text-lg font-bold text-slate-100">{previewTemplate.name}</h3>
+							<span class="text-sm text-slate-500">{previewTemplate.baseSize}</span>
+							<div class="mt-1 text-sm font-semibold text-amber-400">{previewTemplate.baseCost} Shillings</div>
+						</div>
+						<button
+							onclick={addPreviewedModel}
+							class="shrink-0 rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-amber-400"
+						>
+							Add to College
+						</button>
+					</div>
+
+					<!-- Stats -->
+					<div class="mb-4 flex flex-wrap gap-2 text-xs">
+						<span class="rounded bg-slate-700 px-2 py-1">Mv {previewTemplate.stats.mv}</span>
+						<span class="rounded bg-slate-700 px-2 py-1">Ra {formatDicePool(previewTemplate.stats.ra)}</span>
+						<span class="rounded bg-slate-700 px-2 py-1">Me {formatDicePool(previewTemplate.stats.me)}</span>
+						<span class="rounded bg-slate-700 px-2 py-1">Df {previewTemplate.stats.df || '-'}</span>
+						<span class="rounded bg-slate-700 px-2 py-1">Wp {previewTemplate.stats.wp || '-'}</span>
+						{#if previewTemplate.stats.range !== '-'}
+							<span class="rounded bg-slate-700 px-2 py-1">Range {previewTemplate.stats.range}</span>
+						{/if}
+						<span class="rounded bg-slate-700 px-2 py-1">Surge: {previewTemplate.stats.passiveSurge}</span>
+					</div>
+
+					<!-- Base Equipment -->
+					<div class="mb-4">
+						<h4 class="mb-1 text-xs font-medium tracking-wider text-slate-500 uppercase">Base Equipment</h4>
+						<div class="flex flex-wrap gap-2">
+							{#each previewTemplate.baseEquipment as equip (equip.name)}
+								<span class="rounded bg-slate-700/50 px-2 py-1 text-xs text-slate-300">
+									{equip.name}{#if equip.range} ({equip.range}){/if}
+								</span>
+							{/each}
+						</div>
+					</div>
+
+					<!-- Special Rules -->
+					{#if previewTemplate.specialRules.length > 0}
+						<div class="mb-4">
+							<h4 class="mb-1 text-xs font-medium tracking-wider text-slate-500 uppercase">Special Rules</h4>
+							<div class="flex flex-wrap gap-2">
+								{#each previewTemplate.specialRules as rule (rule.name)}
+									<span
+										class="rounded bg-indigo-900/50 px-2 py-1 text-xs text-indigo-300"
+										title={rule.description ?? ''}
+									>
+										{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}
+									</span>
+								{/each}
+							</div>
+						</div>
+					{/if}
+
+					<!-- Available Upgrades -->
+					{#if previewTemplate.upgrades.length > 0}
+						<div>
+							<h4 class="mb-1 text-xs font-medium tracking-wider text-slate-500 uppercase">Available Upgrades</h4>
+							<div class="flex flex-wrap gap-2">
+								{#each previewTemplate.upgrades as upgrade (upgrade.name)}
+									<span class="rounded bg-slate-700/50 px-2 py-1 text-xs text-slate-300">
+										{upgrade.name} (+{upgrade.cost} Sh)
+									</span>
+								{/each}
+							</div>
+						</div>
+					{/if}
+				</div>
+			{:else if selectedModel}
 				<ModelConfigurator
 					modelId={selectedModel.id}
 					showRemove={selectedModel.template.id !== 'wizard'}
