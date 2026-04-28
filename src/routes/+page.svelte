@@ -2,9 +2,7 @@
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
 	import { savedCollegesStore } from '$lib/stores/saved-colleges.store.svelte';
-	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { FACTIONS } from '$lib/data/factions';
-	import { goto } from '$app/navigation';
 
 	onMount(() => {
 		savedCollegesStore.refresh();
@@ -20,11 +18,6 @@
 			month: 'short',
 			year: 'numeric'
 		});
-	};
-
-	const handleLoad = (saved: (typeof savedCollegesStore.colleges)[number]) => {
-		collegeStore.loadFromSaved(saved);
-		goto(resolve('/builder') + '?edit=true');
 	};
 
 	const handleDelete = (id: string) => {
@@ -52,23 +45,24 @@
 			<h2 class="mb-4 text-2xl font-semibold text-slate-200">Saved Colleges</h2>
 			<ul class="space-y-3">
 				{#each savedCollegesStore.colleges as saved (saved.id)}
-					<li
-						class="flex items-center justify-between rounded-lg border border-slate-700 bg-slate-800/50 px-5 py-4"
-					>
-						<div>
+					<li class="relative rounded-lg border border-slate-700 bg-slate-800/50 transition hover:border-amber-500/50 hover:bg-slate-800">
+						<a
+							href="{resolve('/builder')}?view={saved.id}"
+							class="block px-5 py-4"
+						>
 							<p class="font-semibold text-slate-100">{saved.name}</p>
 							<p class="text-sm text-slate-400">
 								{getFactionName(saved.factionId)} &middot; {saved.totalCost}/{saved.gameConfig.pointsLimit}
 								shillings &middot; {formatDate(saved.savedAt)}
 							</p>
-						</div>
-						<div class="flex gap-2">
-							<button
-								onclick={() => handleLoad(saved)}
+						</a>
+						<div class="absolute right-5 top-1/2 flex -translate-y-1/2 gap-2">
+							<a
+								href="{resolve('/builder')}?edit={saved.id}"
 								class="rounded bg-amber-500/20 px-3 py-1.5 text-sm font-medium text-amber-400 transition hover:bg-amber-500/30"
 							>
 								Edit
-							</button>
+							</a>
 							<button
 								onclick={() => handleDelete(saved.id)}
 								class="rounded bg-red-500/20 px-3 py-1.5 text-sm font-medium text-red-400 transition hover:bg-red-500/30"

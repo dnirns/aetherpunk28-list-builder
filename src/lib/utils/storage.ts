@@ -36,5 +36,9 @@ export const storage = {
 	removeCollege: (id: string) => {
 		const colleges = storage.load().filter((c) => c.id !== id);
 		storage.save(colleges);
+	},
+
+	findById: (id: string): SavedCollege | undefined => {
+		return storage.load().find((c) => c.id === id);
 	}
 };

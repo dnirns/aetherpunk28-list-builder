@@ -13,6 +13,7 @@
 	import type { FactionId } from '$lib/types/game.types';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import { storage } from '$lib/utils/storage';
 
 	type Step = 'name' | 'faction' | 'wizard' | 'models' | 'review' | 'complete';
 
@@ -33,15 +34,22 @@
 		selectedModelId ? collegeStore.models.find((m) => m.id === selectedModelId) ?? null : null
 	);
 
-	// Only reset if this is a fresh build (not loading from saved)
-	const isEditing = page.url.searchParams.get('edit') === 'true';
-	if (!isEditing) {
-		collegeStore.reset();
+	// Load a saved college by ID from URL, or reset for a fresh build
+	const editId = page.url.searchParams.get('edit');
+	const viewId = page.url.searchParams.get('view');
+	const collegeId = editId ?? viewId;
+
+	if (collegeId) {
+		const saved = storage.findById(collegeId);
+		if (saved) {
+			collegeStore.loadFromSaved(saved);
+			selectedFactionId = collegeStore.factionId;
+			const existingWizard = collegeStore.models.find((m) => m.template.id === 'wizard');
+			if (existingWizard) wizardModelId = existingWizard.id;
+			if (viewId) currentStep = 'complete';
+		}
 	} else {
-		// Pre-populate local state from loaded college
-		selectedFactionId = collegeStore.factionId;
-		const existingWizard = collegeStore.models.find((m) => m.template.id === 'wizard');
-		if (existingWizard) wizardModelId = existingWizard.id;
+		collegeStore.reset();
 	}
 
 	const goTo = (step: Step) => {
