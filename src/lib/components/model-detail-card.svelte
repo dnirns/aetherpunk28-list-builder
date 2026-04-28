@@ -13,13 +13,12 @@
 		return pool.count > 1 ? `${pool.count}${pool.die}` : `${pool.die}`;
 	};
 
-	const formatDie = (die: DieStep): string => {
-		return die === 0 ? '-' : `${die}`;
-	};
+	const formatDie = (die: DieStep): string => (die === 0 ? '-' : `${die}`);
 
-	// Work out the effective equipment: start with base, apply replacements from upgrades
 	const effectiveEquipment = $derived.by(() => {
-		const replaced = new Set(model.equippedUpgrades.map((eu) => eu.replacedEquipment).filter(Boolean));
+		const replaced = new Set(
+			model.equippedUpgrades.map((eu) => eu.replacedEquipment).filter(Boolean)
+		);
 		const base = model.template.baseEquipment.filter((w) => !replaced.has(w.name));
 		const upgradeWeapons = model.equippedUpgrades
 			.filter((eu) => eu.upgrade.weapon)
@@ -27,97 +26,77 @@
 		return [...base, ...upgradeWeapons];
 	});
 
-	// Non-weapon upgrades (stat mods, abilities, etc.)
-	const abilityUpgrades = $derived(
-		model.equippedUpgrades.filter((eu) => !eu.upgrade.weapon)
-	);
+	const abilityUpgrades = $derived(model.equippedUpgrades.filter((eu) => !eu.upgrade.weapon));
 </script>
 
-<div class="rounded-lg border border-slate-600 bg-slate-800 p-5">
-	<!-- Header -->
-	<div class="mb-4 flex items-start justify-between">
+<div class="detail">
+	<header class="head">
 		<div>
-			<h3 class="text-lg font-bold text-amber-400">{model.name}</h3>
+			<h3 class="name">{model.name}</h3>
 			{#if model.name !== model.template.name}
-				<p class="text-sm text-slate-500">{model.template.name}</p>
+				<p class="template">{model.template.name}</p>
 			{/if}
-			<p class="mt-0.5 text-xs text-slate-500">
-				Base: {model.template.baseSize} &middot; {model.totalCost} Sh
-			</p>
+			<p class="meta">{model.template.baseSize} · {model.totalCost} Sh</p>
 		</div>
-		<button
-			onclick={onclose}
-			class="rounded p-1 text-slate-500 transition hover:bg-slate-700 hover:text-slate-300"
-			aria-label="Close"
-		>
-			<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-			</svg>
-		</button>
-	</div>
+		<button class="close" onclick={onclose} aria-label="Close">✕</button>
+	</header>
 
-	<!-- Stat Block -->
-	<div class="mb-4 overflow-x-auto">
-		<table class="w-full text-center text-sm">
+	<div class="ed-section">
+		<div class="ap-section-label-ink">Statline</div>
+		<table class="stat-table">
 			<thead>
-				<tr class="border-b border-slate-700 text-xs tracking-wider text-slate-500 uppercase">
-					<th class="px-2 py-1">MV</th>
-					<th class="px-2 py-1">RA</th>
-					<th class="px-2 py-1">ME</th>
-					<th class="px-2 py-1">DF</th>
-					<th class="px-2 py-1">WP</th>
-					<th class="px-2 py-1">Range</th>
-					<th class="px-2 py-1">Surge</th>
+				<tr>
+					<th>MV</th>
+					<th>RA</th>
+					<th>ME</th>
+					<th>DF</th>
+					<th>WP</th>
+					<th>Range</th>
+					<th>Surge</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="font-mono text-slate-200">
-					<td class="px-2 py-1.5">{model.template.stats.mv}</td>
-					<td class="px-2 py-1.5">{formatDice(model.template.stats.ra)}</td>
-					<td class="px-2 py-1.5">{formatDice(model.template.stats.me)}</td>
-					<td class="px-2 py-1.5">{formatDie(model.template.stats.df)}</td>
-					<td class="px-2 py-1.5">{formatDie(model.template.stats.wp)}</td>
-					<td class="px-2 py-1.5">{model.template.stats.range}</td>
-					<td class="px-2 py-1.5 text-xs">{model.template.stats.passiveSurge}</td>
+				<tr>
+					<td>{model.template.stats.mv}</td>
+					<td>{formatDice(model.template.stats.ra)}</td>
+					<td>{formatDice(model.template.stats.me)}</td>
+					<td>{formatDie(model.template.stats.df)}</td>
+					<td>{formatDie(model.template.stats.wp)}</td>
+					<td>{model.template.stats.range}</td>
+					<td class="surge">{model.template.stats.passiveSurge}</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 
-	<!-- Equipment -->
-	<div class="mb-4">
-		<h4 class="mb-1.5 text-xs font-medium tracking-wider text-slate-500 uppercase">Equipment</h4>
-		<div class="space-y-1">
+	<div class="ed-section">
+		<div class="ap-section-label-ink">Equipment</div>
+		<div class="rows">
 			{#each effectiveEquipment as weapon (weapon.name)}
-				<div class="flex items-center justify-between rounded bg-slate-700/50 px-3 py-1.5 text-sm">
-					<span class="text-slate-200">{weapon.name}</span>
-					<span class="text-xs text-slate-400">
+				<div class="row">
+					<span class="row-name">{weapon.name}</span>
+					<span class="row-meta">
 						{weapon.type === 'ranged' ? 'Ranged' : 'Melee'}
-						{#if weapon.range}
-							&middot; {weapon.range}
-						{/if}
-						{#if weapon.dice}
-							&middot; {formatDice(weapon.dice)}
-						{/if}
+						{#if weapon.range}· {weapon.range}{/if}
+						{#if weapon.dice}· {formatDice(weapon.dice)}{/if}
 					</span>
 				</div>
 			{/each}
 		</div>
 	</div>
 
-	<!-- Ability Upgrades -->
 	{#if abilityUpgrades.length > 0}
-		<div class="mb-4">
-			<h4 class="mb-1.5 text-xs font-medium tracking-wider text-slate-500 uppercase">Upgrades</h4>
-			<div class="space-y-1">
+		<div class="ed-section">
+			<div class="ap-section-label-ink">Upgrades</div>
+			<div class="rows">
 				{#each abilityUpgrades as eu (eu.upgrade.name)}
-					<div class="rounded bg-slate-700/50 px-3 py-1.5 text-sm">
-						<div class="flex items-center justify-between">
-							<span class="font-medium text-slate-200">{eu.upgrade.name}</span>
-							<span class="text-xs text-amber-400">+{eu.upgrade.cost} Sh</span>
+					<div class="row stacked">
+						<div class="row-head">
+							<span class="row-name">{eu.upgrade.name}</span>
+							<span class="row-cost">+{eu.upgrade.cost} Sh</span>
 						</div>
 						{#if eu.upgrade.description}
-							<p class="mt-0.5 text-xs text-slate-400">{eu.upgrade.description}</p>
+							<p class="row-desc">{eu.upgrade.description}</p>
 						{/if}
 					</div>
 				{/each}
@@ -125,18 +104,15 @@
 		</div>
 	{/if}
 
-	<!-- Special Rules -->
 	{#if model.template.specialRules.length > 0}
-		<div class="mb-4">
-			<h4 class="mb-1.5 text-xs font-medium tracking-wider text-slate-500 uppercase">
-				Special Rules
-			</h4>
-			<div class="space-y-1">
+		<div class="ed-section">
+			<div class="ap-section-label-ink">Special Rules</div>
+			<div class="rows">
 				{#each model.template.specialRules as rule (rule.name)}
-					<div class="rounded bg-indigo-900/20 px-3 py-1.5 text-sm">
-						<span class="font-medium text-indigo-300">{rule.name}</span>
+					<div class="row stacked rule">
+						<span class="row-name">{rule.name}</span>
 						{#if rule.description}
-							<p class="mt-0.5 text-xs text-slate-400">{rule.description}</p>
+							<p class="row-desc">{rule.description}</p>
 						{/if}
 					</div>
 				{/each}
@@ -144,19 +120,163 @@
 		</div>
 	{/if}
 
-	<!-- Merchant Item -->
 	{#if model.merchantItem}
-		<div>
-			<h4 class="mb-1.5 text-xs font-medium tracking-wider text-slate-500 uppercase">
-				Merchant Item
-			</h4>
-			<div class="rounded bg-amber-900/20 px-3 py-1.5 text-sm">
-				<div class="flex items-center justify-between">
-					<span class="font-medium text-amber-300">{model.merchantItem.name}</span>
-					<span class="text-xs text-amber-400">+{model.merchantItem.cost} Sh</span>
+		<div class="ed-section">
+			<div class="ap-section-label-ink">Merchant Item</div>
+			<div class="row stacked merchant">
+				<div class="row-head">
+					<span class="row-name">{model.merchantItem.name}</span>
+					<span class="row-cost">+{model.merchantItem.cost} Sh</span>
 				</div>
-				<p class="mt-0.5 text-xs text-slate-400">{model.merchantItem.description}</p>
+				<p class="row-desc">{model.merchantItem.description}</p>
 			</div>
 		</div>
 	{/if}
 </div>
+
+<style>
+	.detail {
+		background: var(--panel2);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: 4px;
+		padding: 22px 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	.head {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 12px;
+	}
+	.name {
+		font-family: 'Cinzel', serif;
+		font-size: 20px;
+		font-weight: 600;
+		color: var(--gold-light);
+	}
+	.template {
+		font-family: 'Lora', serif;
+		font-size: 12px;
+		color: var(--ink-light);
+		font-style: italic;
+		margin-top: 2px;
+	}
+	.meta {
+		font-family: 'Lora', serif;
+		font-size: 11px;
+		color: var(--ink-light);
+		margin-top: 2px;
+	}
+	.close {
+		background: transparent;
+		border: 1px solid rgba(122, 110, 98, 0.25);
+		border-radius: var(--r);
+		padding: 4px 10px;
+		color: var(--ink-light);
+		cursor: pointer;
+		font-size: 13px;
+		transition:
+			color 0.15s,
+			border-color 0.15s;
+	}
+	.close:hover {
+		color: var(--gold);
+		border-color: var(--border-gold);
+	}
+
+	.ed-section {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.stat-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-family: 'Cinzel', serif;
+	}
+	.stat-table th {
+		font-size: 9px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--ink-light);
+		font-weight: 400;
+		padding: 6px 4px;
+		border-bottom: 1px solid var(--border-gold-faint);
+	}
+	.stat-table td {
+		font-size: 14px;
+		color: var(--parchment);
+		padding: 8px 4px;
+		text-align: center;
+	}
+	.stat-table td.surge {
+		font-size: 11px;
+	}
+
+	.rows {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	.row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		padding: 8px 12px;
+		background: rgba(184, 144, 58, 0.05);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: 2px;
+	}
+	.row.stacked {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 4px;
+	}
+	.row-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+	}
+	.row-name {
+		font-family: 'Cinzel', serif;
+		font-size: 13px;
+		color: var(--parchment);
+	}
+	.row-meta {
+		font-family: 'Lora', serif;
+		font-size: 11px;
+		color: var(--ink-light);
+		font-style: italic;
+	}
+	.row-cost {
+		font-family: 'Cinzel', serif;
+		font-size: 11px;
+		color: var(--gold-light);
+	}
+	.row-desc {
+		font-family: 'Lora', serif;
+		font-size: 12px;
+		color: var(--ink-light);
+		line-height: 1.5;
+	}
+	.row.rule {
+		background: rgba(90, 62, 122, 0.08);
+		border-color: rgba(90, 62, 122, 0.3);
+	}
+	.row.rule .row-name {
+		color: #c2a8e0;
+	}
+	.row.merchant {
+		background: rgba(184, 144, 58, 0.08);
+		border-color: rgba(184, 144, 58, 0.3);
+	}
+	.row.merchant .row-name {
+		color: var(--gold-light);
+	}
+</style>

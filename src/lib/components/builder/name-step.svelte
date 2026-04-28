@@ -14,9 +14,10 @@
 	};
 </script>
 
-<div class="mx-auto max-w-md pt-16 text-center">
-	<h2 class="mb-2 text-3xl font-bold">Name your College</h2>
-	<p class="mb-8 text-slate-400">Every great warband needs a name.</p>
+<div class="name-step">
+	<div class="ap-section-label-ink heading-rule">Begin</div>
+	<h2 class="title">Name your College</h2>
+	<p class="subtitle">Every great warband needs a name.</p>
 
 	<input
 		type="text"
@@ -24,14 +25,45 @@
 		oninput={(e) => onnamechange(e.currentTarget.value)}
 		onkeydown={handleKeydown}
 		placeholder="e.g. The Iron Scholars"
-		class="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-center text-lg text-slate-100 placeholder-slate-500 outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+		class="ap-field-input-dark name-input"
 	/>
 
-	<button
-		onclick={onnext}
-		disabled={!isValid}
-		class="mt-6 rounded-lg bg-amber-500 px-8 py-3 font-semibold text-slate-950 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-40"
-	>
-		Next
-	</button>
+	<div class="actions">
+		<button class="ap-btn-ghost-dark" onclick={onnext} disabled={!isValid}>Next</button>
+	</div>
 </div>
+
+<style>
+	.name-step {
+		max-width: 480px;
+		margin: 0 auto;
+		padding-top: 48px;
+		text-align: center;
+	}
+	.heading-rule {
+		justify-content: center;
+		margin-bottom: 20px;
+	}
+	.title {
+		font-family: 'Cinzel', serif;
+		font-size: 28px;
+		font-weight: 600;
+		color: var(--parchment);
+		margin-bottom: 8px;
+	}
+	.subtitle {
+		font-family: 'Lora', serif;
+		font-size: 14px;
+		color: var(--ink-light);
+		font-style: italic;
+		margin-bottom: 28px;
+	}
+	.name-input {
+		text-align: center;
+		font-family: 'Cinzel', serif;
+		font-size: 18px;
+	}
+	.actions {
+		margin-top: 24px;
+	}
+</style>

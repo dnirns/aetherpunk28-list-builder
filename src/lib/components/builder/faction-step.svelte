@@ -19,52 +19,168 @@
 			.join(', ');
 </script>
 
-<div class="mx-auto max-w-4xl">
-	<h2 class="mb-2 text-center text-3xl font-bold">Choose your Faction</h2>
-	<p class="mb-8 text-center text-slate-400">
-		Your faction determines empowered bonuses, a unique spell, and access to a unique model.
-	</p>
+<div class="faction-step">
+	<div class="ap-section-label-ink heading-rule">Choose a Faction</div>
+	<h2 class="title">Select your Faction</h2>
+	<p class="subtitle">Empowered bonuses, a unique spell, and access to a unique model.</p>
 
-	<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+	<div class="faction-grid">
 		{#each FACTIONS as faction (faction.id)}
 			<button
+				class="faction-card"
+				class:selected={selectedFaction === faction.id}
 				onclick={() => onfactionselect(faction.id)}
-				class="rounded-lg border p-4 text-left transition
-					{selectedFaction === faction.id
-					? 'border-amber-500 bg-amber-500/10'
-					: 'border-slate-700 bg-slate-800/50 hover:border-slate-600 hover:bg-slate-800'}"
 			>
-				<div class="mb-1 flex items-center gap-2">
-					<span class="text-lg font-bold">{faction.name}</span>
-					<span class="text-sm text-slate-500">({faction.symbol})</span>
+				<div class="faction-head">
+					<span class="faction-name">{faction.name}</span>
+					<span class="faction-symbol">{faction.symbol}</span>
 				</div>
-				<div class="mb-2 text-sm text-slate-400">
-					Empowered: {formatEmpowered(faction.empowered)}
+				<div class="faction-row">
+					<span class="row-label">Empowered</span>
+					<span class="row-val">{formatEmpowered(faction.empowered)}</span>
 				</div>
-				<div class="mb-1 text-sm">
-					<span class="text-amber-400">{faction.factionSpell.name}</span>
-					<span class="text-slate-500"> ({faction.factionSpell.cost} Ch)</span>
+				<div class="faction-row">
+					<span class="row-label">Spell</span>
+					<span class="row-val">
+						<span class="gold">{faction.factionSpell.name}</span>
+						<span class="dim">({faction.factionSpell.cost} Ch)</span>
+					</span>
 				</div>
-				<div class="text-sm text-slate-500">
-					Unique: {faction.uniqueModel.name} ({faction.uniqueModel.baseCost} Sh)
+				<div class="faction-row">
+					<span class="row-label">Unique</span>
+					<span class="row-val">
+						{faction.uniqueModel.name}
+						<span class="dim">({faction.uniqueModel.baseCost} Sh)</span>
+					</span>
 				</div>
 			</button>
 		{/each}
 	</div>
 
-	<div class="mt-8 flex justify-between">
-		<button
-			onclick={onback}
-			class="rounded-lg border border-slate-700 px-6 py-3 text-slate-300 transition hover:bg-slate-800"
-		>
-			Back
-		</button>
-		<button
-			onclick={onnext}
-			disabled={!selectedFaction}
-			class="rounded-lg bg-amber-500 px-8 py-3 font-semibold text-slate-950 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-40"
-		>
-			Next
-		</button>
+	<div class="actions">
+		<button class="ap-btn-ghost-dark" onclick={onback}>Back</button>
+		<button class="ap-btn-ghost-dark" onclick={onnext} disabled={!selectedFaction}>Next</button>
 	</div>
 </div>
+
+<style>
+	.faction-step {
+		max-width: 1100px;
+		margin: 0 auto;
+	}
+	.heading-rule {
+		margin-bottom: 12px;
+	}
+	.title {
+		font-family: 'Cinzel', serif;
+		font-size: 24px;
+		font-weight: 600;
+		color: var(--parchment);
+		margin-bottom: 6px;
+	}
+	.subtitle {
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		color: var(--ink-light);
+		font-style: italic;
+		margin-bottom: 24px;
+	}
+
+	.faction-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 14px;
+	}
+
+	.faction-card {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 16px;
+		text-align: left;
+		background: var(--panel2);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: 4px;
+		cursor: pointer;
+		color: inherit;
+		transition:
+			border-color 0.15s,
+			background 0.15s;
+		position: relative;
+		overflow: hidden;
+	}
+	.faction-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 2px;
+		background: linear-gradient(90deg, var(--gold), transparent);
+		opacity: 0;
+		transition: opacity 0.2s;
+	}
+	.faction-card:hover {
+		border-color: var(--border-gold);
+		background: var(--panel3);
+	}
+	.faction-card:hover::before,
+	.faction-card.selected::before {
+		opacity: 1;
+	}
+	.faction-card.selected {
+		border-color: var(--gold);
+		background: rgba(184, 144, 58, 0.06);
+	}
+
+	.faction-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 8px;
+	}
+	.faction-name {
+		font-family: 'Cinzel', serif;
+		font-size: 17px;
+		font-weight: 600;
+		color: var(--parchment);
+	}
+	.faction-symbol {
+		font-family: 'Lora', serif;
+		font-size: 11px;
+		font-style: italic;
+		color: var(--ink-light);
+	}
+
+	.faction-row {
+		display: flex;
+		gap: 10px;
+		font-size: 12px;
+		line-height: 1.4;
+	}
+	.row-label {
+		font-family: 'Cinzel', serif;
+		font-size: 9px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-light);
+		padding-top: 2px;
+		flex-shrink: 0;
+		min-width: 64px;
+	}
+	.row-val {
+		color: var(--parchment);
+	}
+	.row-val .gold {
+		color: var(--gold-light);
+	}
+	.row-val .dim {
+		color: var(--ink-light);
+	}
+
+	.actions {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 32px;
+	}
+</style>

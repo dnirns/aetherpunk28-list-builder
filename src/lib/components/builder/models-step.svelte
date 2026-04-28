@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ModelConfigurator from './model-configurator.svelte';
+	import ModelPickerDialog from './model-picker-dialog.svelte';
 	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { UNIVERSAL_MODELS } from '$lib/data/universal-models';
 	import { FACTIONS } from '$lib/data/factions';
@@ -14,241 +15,294 @@
 
 	const faction = $derived(FACTIONS.find((f) => f.id === collegeStore.factionId));
 
-	// Available models: universal (minus Wizard) + faction unique
 	const availableModels = $derived.by(() => {
 		const models: ModelTemplate[] = UNIVERSAL_MODELS.filter((m) => m.id !== 'wizard');
 		if (faction) models.push(faction.uniqueModel);
 		return models;
 	});
 
-	// All models including wizard
 	const allModels = $derived(collegeStore.models);
-
 	const budgetRemaining = $derived(collegeStore.gameConfig.pointsLimit - collegeStore.totalCost);
-
 	const wizardModel = $derived(allModels.find((m) => m.template.id === 'wizard'));
 
 	let selectedModelId = $state<string | null>(null);
-	let previewTemplate = $state<ModelTemplate | null>(null);
+	let pickerOpen = $state(false);
 
-	// Auto-select wizard initially, and keep selection valid after removals
 	const selectedModel = $derived.by(() => {
-		if (previewTemplate) return null;
 		const match = allModels.find((m) => m.id === selectedModelId);
 		if (match) return match;
-		// Fall back to wizard or first model
 		return wizardModel ?? allModels[0] ?? null;
 	});
 
 	const selectRosterModel = (id: string) => {
-		previewTemplate = null;
 		selectedModelId = id;
 	};
 
-	const previewCatalogueModel = (template: ModelTemplate) => {
-		selectedModelId = null;
-		previewTemplate = template;
-	};
-
-	const addPreviewedModel = () => {
-		if (!previewTemplate) return;
-		const id = collegeStore.addModel(previewTemplate);
-		previewTemplate = null;
+	const handlePickModel = (template: ModelTemplate) => {
+		const id = collegeStore.addModel(template);
 		selectedModelId = id;
 	};
 
 	const removeModel = (modelId: string) => {
-		if (selectedModelId === modelId) {
-			selectedModelId = null;
-		}
+		if (selectedModelId === modelId) selectedModelId = null;
 		collegeStore.removeModel(modelId);
 	};
-
-	const formatDicePool = (pool: { count: number; die: string | number }) =>
-		pool.die === 0 ? '-' : `${pool.count}x${pool.die}`;
 </script>
 
-<div class="mx-auto max-w-5xl">
-	<!-- Header with budget -->
-	<div class="mb-4 flex flex-wrap items-start justify-between gap-4">
+<div class="models-step">
+	<header class="step-head">
 		<div>
-			<h2 class="text-3xl font-bold">Build your Roster</h2>
-			<p class="text-slate-400">Select a model to configure it. Add new models from the catalogue.</p>
+			<div class="ap-section-label-ink">Roster</div>
+			<h2 class="title">Build your Roster</h2>
+			<p class="subtitle">
+				Select a model to configure it. Add new models from the catalogue.
+			</p>
 		</div>
-		<div class="text-right">
-			<div class="text-2xl font-bold text-amber-400">
-				{collegeStore.totalCost} / {collegeStore.gameConfig.pointsLimit} Sh
+		<div class="budget">
+			<div class="budget-amount">
+				{collegeStore.totalCost} <span class="budget-sep">/</span>
+				{collegeStore.gameConfig.pointsLimit} <span class="budget-unit">Sh</span>
 			</div>
-			<div class="text-sm {budgetRemaining >= 0 ? 'text-slate-400' : 'text-red-400'}">
+			<div class="budget-remaining" class:over={budgetRemaining < 0}>
 				{budgetRemaining >= 0
 					? `${budgetRemaining} Shillings remaining`
 					: `${Math.abs(budgetRemaining)} Shillings over budget`}
 			</div>
 		</div>
-	</div>
+	</header>
 
-	<!-- Master-detail layout -->
-	<div class="flex gap-4" style="min-height: 32rem;">
-		<!-- Left: model list + catalogue -->
-		<div class="flex w-64 shrink-0 flex-col gap-3 overflow-y-auto">
-			<!-- Roster list -->
-			<div>
-				<h3 class="mb-2 text-xs font-medium tracking-wider text-slate-500 uppercase">
-					Roster ({allModels.length})
-				</h3>
-				<div class="space-y-1">
+	<div class="layout">
+		<aside class="lists">
+			<section class="list-section">
+				<div class="list-header">Roster ({allModels.length})</div>
+				<div class="list-items">
 					{#each allModels as model (model.id)}
 						<button
+							class="list-row"
+							class:active={selectedModel?.id === model.id}
 							onclick={() => selectRosterModel(model.id)}
-							class="flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left text-sm transition
-								{selectedModel?.id === model.id
-								? 'border-amber-500 bg-amber-500/10'
-								: 'border-slate-700 bg-slate-800/50 hover:border-slate-600 hover:bg-slate-800'}"
 						>
-							<div class="min-w-0">
-								<div class="truncate font-medium text-slate-100">{model.name}</div>
-								<div class="text-xs text-slate-500">{model.template.name}</div>
+							<div class="list-row-main">
+								<div class="list-row-name">{model.name}</div>
+								<div class="list-row-sub">{model.template.name}</div>
 							</div>
-							<div class="ml-2 shrink-0 text-xs font-semibold text-amber-400">
-								{model.totalCost} Sh
-							</div>
+							<div class="list-row-cost">{model.totalCost} Sh</div>
 						</button>
 					{/each}
 				</div>
-			</div>
 
-			<!-- Add model catalogue -->
-			<div>
-				<h3 class="mb-2 text-xs font-medium tracking-wider text-slate-500 uppercase">
-					Add Model
-				</h3>
-				<div class="space-y-1">
-					{#each availableModels as template (template.id)}
-						<button
-							onclick={() => previewCatalogueModel(template)}
-							class="flex w-full items-center justify-between rounded-lg border border-dashed px-3 py-2 text-left text-sm transition
-								{previewTemplate?.id === template.id
-								? 'border-amber-500 bg-amber-500/10'
-								: 'border-slate-700 hover:border-amber-500/50 hover:bg-slate-800'}"
-						>
-							<div class="min-w-0">
-								<div class="truncate text-slate-300">{template.name}</div>
-								{#if template.isUnique}
-									<span class="text-xs text-purple-400">Unique</span>
-								{:else if template.isSummonable}
-									<span class="text-xs text-slate-500">Summonable</span>
-								{/if}
-							</div>
-							<div class="ml-2 shrink-0 text-xs text-amber-400/70">{template.baseCost} Sh</div>
-						</button>
-					{/each}
-				</div>
-			</div>
-		</div>
+				<button class="add-model-btn" onclick={() => (pickerOpen = true)}>
+					<span class="plus">+</span> Add Model
+				</button>
+			</section>
+		</aside>
 
-		<!-- Right: selected model detail or catalogue preview -->
-		<div class="min-w-0 flex-1">
-			{#if previewTemplate}
-				<div class="rounded-lg border border-slate-700 bg-slate-800/50 p-4">
-					<div class="mb-4 flex items-start justify-between gap-4">
-						<div>
-							<h3 class="text-lg font-bold text-slate-100">{previewTemplate.name}</h3>
-							<span class="text-sm text-slate-500">{previewTemplate.baseSize}</span>
-							<div class="mt-1 text-sm font-semibold text-amber-400">{previewTemplate.baseCost} Shillings</div>
-						</div>
-						<button
-							onclick={addPreviewedModel}
-							class="shrink-0 rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-amber-400"
-						>
-							Add to College
-						</button>
-					</div>
-
-					<!-- Stats -->
-					<div class="mb-4 flex flex-wrap gap-2 text-xs">
-						<span class="rounded bg-slate-700 px-2 py-1">Mv {previewTemplate.stats.mv}</span>
-						<span class="rounded bg-slate-700 px-2 py-1">Ra {formatDicePool(previewTemplate.stats.ra)}</span>
-						<span class="rounded bg-slate-700 px-2 py-1">Me {formatDicePool(previewTemplate.stats.me)}</span>
-						<span class="rounded bg-slate-700 px-2 py-1">Df {previewTemplate.stats.df || '-'}</span>
-						<span class="rounded bg-slate-700 px-2 py-1">Wp {previewTemplate.stats.wp || '-'}</span>
-						{#if previewTemplate.stats.range !== '-'}
-							<span class="rounded bg-slate-700 px-2 py-1">Range {previewTemplate.stats.range}</span>
-						{/if}
-						<span class="rounded bg-slate-700 px-2 py-1">Surge: {previewTemplate.stats.passiveSurge}</span>
-					</div>
-
-					<!-- Base Equipment -->
-					<div class="mb-4">
-						<h4 class="mb-1 text-xs font-medium tracking-wider text-slate-500 uppercase">Base Equipment</h4>
-						<div class="flex flex-wrap gap-2">
-							{#each previewTemplate.baseEquipment as equip (equip.name)}
-								<span class="rounded bg-slate-700/50 px-2 py-1 text-xs text-slate-300">
-									{equip.name}{#if equip.range} ({equip.range}){/if}
-								</span>
-							{/each}
-						</div>
-					</div>
-
-					<!-- Special Rules -->
-					{#if previewTemplate.specialRules.length > 0}
-						<div class="mb-4">
-							<h4 class="mb-1 text-xs font-medium tracking-wider text-slate-500 uppercase">Special Rules</h4>
-							<div class="flex flex-wrap gap-2">
-								{#each previewTemplate.specialRules as rule (rule.name)}
-									<span
-										class="rounded bg-indigo-900/50 px-2 py-1 text-xs text-indigo-300"
-										title={rule.description ?? ''}
-									>
-										{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}
-									</span>
-								{/each}
-							</div>
-						</div>
-					{/if}
-
-					<!-- Available Upgrades -->
-					{#if previewTemplate.upgrades.length > 0}
-						<div>
-							<h4 class="mb-1 text-xs font-medium tracking-wider text-slate-500 uppercase">Available Upgrades</h4>
-							<div class="flex flex-wrap gap-2">
-								{#each previewTemplate.upgrades as upgrade (upgrade.name)}
-									<span class="rounded bg-slate-700/50 px-2 py-1 text-xs text-slate-300">
-										{upgrade.name} (+{upgrade.cost} Sh)
-									</span>
-								{/each}
-							</div>
-						</div>
-					{/if}
-				</div>
-			{:else if selectedModel}
+		<main class="detail">
+			{#if selectedModel}
 				<ModelConfigurator
 					modelId={selectedModel.id}
 					showRemove={selectedModel.template.id !== 'wizard'}
 					onremove={() => removeModel(selectedModel.id)}
 				/>
 			{:else}
-				<div
-					class="flex h-full items-center justify-center rounded-lg border border-dashed border-slate-700 text-slate-500"
-				>
-					Select a model from the list to configure it.
-				</div>
+				<div class="empty">Select a model from the list to configure it.</div>
 			{/if}
-		</div>
+		</main>
 	</div>
 
-	<!-- Footer navigation -->
-	<div class="mt-6 flex justify-between">
-		<button
-			onclick={onback}
-			class="rounded-lg border border-slate-700 px-6 py-3 text-slate-300 transition hover:bg-slate-800"
-		>
-			Back
-		</button>
-		<button
-			onclick={onnext}
-			class="rounded-lg bg-amber-500 px-8 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
-		>
-			Review College
-		</button>
-	</div>
+	<footer class="actions">
+		<button class="ap-btn-ghost-dark" onclick={onback}>Back</button>
+		<button class="ap-btn-ghost-dark" onclick={onnext}>Review College</button>
+	</footer>
 </div>
+
+<ModelPickerDialog
+	open={pickerOpen}
+	templates={availableModels}
+	onclose={() => (pickerOpen = false)}
+	onpick={handlePickModel}
+/>
+
+<style>
+	.models-step {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.step-head {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 24px;
+		margin-bottom: 24px;
+	}
+	.title {
+		font-family: 'Cinzel', serif;
+		font-size: 24px;
+		font-weight: 600;
+		color: var(--parchment);
+		margin-top: 6px;
+	}
+	.subtitle {
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		color: var(--ink-light);
+		font-style: italic;
+		margin-top: 4px;
+	}
+	.budget {
+		text-align: right;
+	}
+	.budget-amount {
+		font-family: 'Cinzel', serif;
+		font-size: 22px;
+		font-weight: 600;
+		color: var(--gold-light);
+	}
+	.budget-sep,
+	.budget-unit {
+		color: var(--ink-light);
+		font-weight: 400;
+	}
+	.budget-remaining {
+		font-family: 'Lora', serif;
+		font-size: 12px;
+		color: var(--ink-light);
+		font-style: italic;
+		margin-top: 2px;
+	}
+	.budget-remaining.over {
+		color: var(--danger);
+	}
+
+	.layout {
+		display: grid;
+		grid-template-columns: 260px 1fr;
+		gap: 18px;
+		min-height: 32rem;
+	}
+
+	.lists {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+	.list-section {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+	.list-header {
+		font-family: 'Cinzel', serif;
+		font-size: 9px;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--gold);
+		padding: 0 4px;
+	}
+	.list-items {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	.list-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		text-align: left;
+		padding: 9px 12px;
+		background: var(--panel2);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: var(--r);
+		color: inherit;
+		cursor: pointer;
+		transition:
+			background 0.12s,
+			border-color 0.12s;
+	}
+	.list-row:hover {
+		background: var(--panel3);
+		border-color: var(--border-gold);
+	}
+	.list-row.active {
+		border-color: var(--gold);
+		background: rgba(184, 144, 58, 0.08);
+	}
+	.list-row-main {
+		min-width: 0;
+		flex: 1;
+	}
+	.list-row-name {
+		font-family: 'Cinzel', serif;
+		font-size: 13px;
+		color: var(--parchment);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.list-row-sub {
+		font-family: 'Lora', serif;
+		font-size: 11px;
+		font-style: italic;
+		color: var(--ink-light);
+		margin-top: 1px;
+	}
+	.list-row-cost {
+		font-family: 'Cinzel', serif;
+		font-size: 12px;
+		color: var(--gold-light);
+		flex-shrink: 0;
+	}
+
+	.add-model-btn {
+		margin-top: 4px;
+		padding: 10px 14px;
+		background: transparent;
+		border: 1px dashed rgba(184, 144, 58, 0.35);
+		border-radius: var(--r);
+		color: var(--gold);
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		transition:
+			background 0.15s,
+			border-color 0.15s;
+	}
+	.add-model-btn:hover {
+		background: rgba(184, 144, 58, 0.07);
+		border-color: var(--gold);
+	}
+	.add-model-btn .plus {
+		font-size: 18px;
+		line-height: 1;
+	}
+
+	.detail {
+		min-width: 0;
+	}
+
+	.empty {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		min-height: 320px;
+		border: 1px dashed rgba(122, 110, 98, 0.3);
+		border-radius: 4px;
+		color: var(--ink-light);
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		font-style: italic;
+	}
+
+	.actions {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 24px;
+	}
+</style>

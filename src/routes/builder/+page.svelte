@@ -26,12 +26,12 @@
 	let currentStep = $state<Step>('name');
 	let selectedFactionId = $state<FactionId | null>(null);
 	let selectedModelId = $state<string | null>(null);
+	let mode = $state<'build' | 'view'>('build');
 
 	const selectedModel = $derived(
 		selectedModelId ? collegeStore.models.find((m) => m.id === selectedModelId) ?? null : null
 	);
 
-	// Load a saved college by ID from URL for viewing, or reset for a fresh build
 	const viewId = page.url.searchParams.get('view');
 
 	if (viewId) {
@@ -40,6 +40,7 @@
 			collegeStore.loadFromSaved(saved);
 			selectedFactionId = collegeStore.factionId;
 			currentStep = 'complete';
+			mode = 'view';
 		}
 	} else {
 		collegeStore.reset();
@@ -50,11 +51,7 @@
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 
-	// --- Step handlers ---
-
-	const handleNameNext = () => {
-		goTo('faction');
-	};
+	const handleNameNext = () => goTo('faction');
 
 	const handleFactionSelect = (id: FactionId) => {
 		selectedFactionId = id;
@@ -66,7 +63,6 @@
 		const oldFactionId = collegeStore.factionId;
 		collegeStore.setFaction(selectedFactionId);
 
-		// If faction changed, remove models belonging to the old faction's unique
 		if (oldFactionId !== selectedFactionId) {
 			const oldFaction = FACTIONS.find((f) => f.id === oldFactionId);
 			if (oldFaction) {
@@ -79,7 +75,6 @@
 			}
 		}
 
-		// Add the Wizard if not already present
 		const wizardTemplate = UNIVERSAL_MODELS.find((m) => m.id === 'wizard');
 		const existingWizard = collegeStore.models.find((m) => m.template.id === 'wizard');
 
@@ -90,30 +85,23 @@
 		goTo('models');
 	};
 
-	const handleFactionBack = () => {
-		goTo('name');
-	};
+	const handleFactionBack = () => goTo('name');
 
 	const handleFinish = () => {
 		collegeStore.save();
 		goTo('complete');
 	};
 
-	const handleNewCollege = () => {
-		collegeStore.reset();
-		selectedFactionId = null;
-		goTo('name');
-	};
 </script>
 
 <svelte:head>
 	<title>Build a College &mdash; Aetherpunk 28</title>
 </svelte:head>
 
-<div class="min-h-screen px-4 py-8">
-	<div class="mx-auto max-w-5xl">
+<div class="builder-shell">
+	<div class="builder-inner">
 		{#if currentStep !== 'complete'}
-			<div class="mb-8">
+			<div class="step-rail">
 				<StepIndicator steps={STEPS} {currentStep} />
 			</div>
 		{/if}
@@ -136,46 +124,109 @@
 		{:else if currentStep === 'review'}
 			<ReviewStep onback={() => goTo('models')} onfinish={handleFinish} />
 		{:else if currentStep === 'complete'}
-			<div>
-				<h2 class="mb-2 text-center text-3xl font-bold text-amber-400">College Saved</h2>
-				<p class="mb-8 text-center text-slate-400">
-					{collegeStore.name} has been saved to your device.
-				</p>
+			<div class="complete">
+				<div class="ap-section-label-ink heading-rule">
+					{mode === 'view' ? 'College' : 'Saved'}
+				</div>
+				<h2 class="complete-title">{collegeStore.name}</h2>
+				{#if mode === 'build'}
+					<p class="complete-sub">College has been saved to your device.</p>
+				{/if}
 
-				<div class="mb-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
+				<div class="complete-grid">
 					<CollegeSummary
 						{selectedModelId}
 						onmodelselect={(id) => (selectedModelId = selectedModelId === id ? null : id)}
 					/>
 
 					{#if selectedModel}
-						<div class="lg:sticky lg:top-8">
+						<div class="detail-sticky">
 							<ModelDetailCard model={selectedModel} onclose={() => (selectedModelId = null)} />
 						</div>
 					{:else}
-						<div
-							class="flex h-48 items-center justify-center rounded-lg border border-dashed border-slate-700 text-slate-500"
-						>
-							Select a model to view its details
-						</div>
+						<div class="detail-empty">Select a model to view its details</div>
 					{/if}
 				</div>
 
-				<div class="flex justify-center gap-4">
+				<div class="complete-actions">
+					<a class="ap-btn-ghost-dark" href={resolve('/')}>Home</a>
 					<a
-						href={resolve('/')}
-						class="rounded-lg border border-slate-700 px-6 py-3 text-slate-300 transition hover:bg-slate-800"
+						class="ap-btn-ghost-dark"
+						href="{resolve('/edit')}?id={viewId ?? collegeStore.college.id}"
 					>
-						Home
+						Edit
 					</a>
-					<button
-						onclick={handleNewCollege}
-						class="rounded-lg bg-amber-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
-					>
-						Create Another
-					</button>
 				</div>
 			</div>
 		{/if}
 	</div>
 </div>
+
+<style>
+	.builder-shell {
+		min-height: 100%;
+		padding: 32px 32px 64px;
+	}
+	.builder-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+	.step-rail {
+		margin-bottom: 32px;
+	}
+
+	.complete {
+		max-width: 1100px;
+		margin: 0 auto;
+	}
+	.heading-rule {
+		margin-bottom: 12px;
+	}
+	.complete-title {
+		font-family: 'Cinzel', serif;
+		font-size: 28px;
+		font-weight: 600;
+		color: var(--gold-light);
+		margin-bottom: 4px;
+	}
+	.complete-sub {
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		color: var(--ink-light);
+		font-style: italic;
+		margin-bottom: 24px;
+	}
+	.complete-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 24px;
+		margin-bottom: 28px;
+		align-items: start;
+	}
+	@media (min-width: 1000px) {
+		.complete-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.detail-sticky {
+		position: sticky;
+		top: 24px;
+	}
+	.detail-empty {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 200px;
+		border: 1px dashed rgba(122, 110, 98, 0.3);
+		border-radius: 4px;
+		color: var(--ink-light);
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		font-style: italic;
+	}
+	.complete-actions {
+		display: flex;
+		justify-content: center;
+		gap: 12px;
+	}
+</style>

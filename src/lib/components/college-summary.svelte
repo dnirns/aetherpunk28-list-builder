@@ -13,52 +13,48 @@
 	const isSelectable = $derived(!!onmodelselect);
 </script>
 
-<div class="rounded-lg border border-slate-700 bg-slate-800/50 p-6">
-	<!-- Header -->
-	<div class="mb-4 flex items-center justify-between">
+<div class="summary">
+	<header class="summary-head">
 		<div>
-			<h3 class="text-xl font-bold">{collegeStore.name}</h3>
-			<p class="text-slate-400">{faction?.name} ({faction?.symbol})</p>
+			<h3 class="summary-name">{collegeStore.name}</h3>
+			<p class="summary-faction">{faction?.name} ({faction?.symbol})</p>
 		</div>
-		<div class="text-right">
-			<div class="text-2xl font-bold text-amber-400">{collegeStore.totalCost} Sh</div>
-			<div class="text-sm text-slate-400">of {collegeStore.gameConfig.pointsLimit}</div>
+		<div class="summary-cost">
+			<div class="cost-amount">{collegeStore.totalCost} <span class="unit">Sh</span></div>
+			<div class="cost-of">of {collegeStore.gameConfig.pointsLimit}</div>
 		</div>
-	</div>
+	</header>
 
-	<!-- Key stats -->
-	<div class="mb-4 flex gap-4 rounded bg-slate-700/50 p-3 text-sm">
-		<div>
-			<span class="text-slate-400">Erudite Charges:</span>
-			<span class="ml-1 font-bold text-amber-400">{collegeStore.eruditeCharges}</span>
+	<div class="key-stats">
+		<div class="key-stat">
+			<span class="key-label">Erudite Charges</span>
+			<span class="key-val gold">{collegeStore.eruditeCharges}</span>
 		</div>
-		<div>
-			<span class="text-slate-400">Models:</span>
-			<span class="ml-1 font-bold">{collegeStore.models.length}</span>
+		<div class="key-stat">
+			<span class="key-label">Models</span>
+			<span class="key-val">{collegeStore.models.length}</span>
 		</div>
-		<div>
-			<span class="text-slate-400">Unspent:</span>
-			<span class="ml-1 font-bold">
-				{collegeStore.gameConfig.pointsLimit - collegeStore.totalCost} Sh
+		<div class="key-stat">
+			<span class="key-label">Unspent</span>
+			<span class="key-val">
+				{collegeStore.gameConfig.pointsLimit - collegeStore.totalCost} <span class="unit">Sh</span>
 			</span>
 		</div>
 	</div>
 
-	<!-- Faction Spell -->
 	{#if faction}
-		<div class="mb-4 rounded bg-indigo-900/30 p-3 text-sm">
-			<span class="text-indigo-300">Faction Spell:</span>
-			<span class="ml-1 font-medium">{faction.factionSpell.name}</span>
-			<span class="text-slate-400"> ({faction.factionSpell.cost} Ch)</span>
-			<p class="mt-1 text-slate-400">{faction.factionSpell.description}</p>
+		<div class="info-block faction-spell">
+			<div class="info-label">Faction Spell</div>
+			<div>
+				<span class="info-name">{faction.factionSpell.name}</span>
+				<span class="info-cost">({faction.factionSpell.cost} Ch)</span>
+			</div>
+			<p class="info-desc">{faction.factionSpell.description}</p>
 		</div>
-	{/if}
 
-	<!-- Empowered Bonuses -->
-	{#if faction}
-		<div class="mb-4 rounded bg-amber-900/20 p-3 text-sm">
-			<span class="text-amber-300">Empowered:</span>
-			<span class="ml-1 text-slate-300">
+		<div class="info-block empowered">
+			<div class="info-label">Empowered</div>
+			<p class="info-desc">
 				{faction.empowered
 					.map((e) =>
 						e.stat === 'lightCover'
@@ -66,87 +62,275 @@
 							: `${e.stat.toUpperCase()} ${e.value}`
 					)
 					.join(', ')}
-			</span>
+			</p>
 		</div>
 	{/if}
 
-	<!-- Model List -->
-	<h4 class="mb-2 text-xs font-medium tracking-wider text-slate-500 uppercase">Models</h4>
-	<div class="space-y-3">
+	<div class="ap-section-label-ink models-label">Models</div>
+	<div class="model-list">
 		{#each collegeStore.models as model (model.id)}
 			{#if isSelectable}
 				<button
 					type="button"
+					class="model-row"
+					class:active={selectedModelId === model.id}
 					onclick={() => onmodelselect?.(model.id)}
-					class="w-full rounded border p-3 text-left transition {selectedModelId === model.id
-						? 'border-amber-500 bg-amber-500/10'
-						: 'border-slate-700 bg-slate-900/50 hover:border-slate-500'}"
 				>
-					<div class="flex items-center justify-between">
-						<div>
-							<span class="font-medium">{model.name}</span>
-							{#if model.name !== model.template.name}
-								<span class="text-sm text-slate-500">({model.template.name})</span>
-							{/if}
-							{#if model.template.id === 'wizard'}
-								<span class="ml-2 rounded bg-amber-900/30 px-1.5 py-0.5 text-xs text-amber-300">
-									Leader
-								</span>
-							{/if}
-						</div>
-						<span class="text-amber-400">{model.totalCost} Sh</span>
-					</div>
-					{#if model.equippedUpgrades.length > 0}
-						<div class="mt-1 flex flex-wrap gap-1">
-							{#each model.equippedUpgrades as eu (eu.upgrade.name)}
-								<span class="rounded bg-slate-700 px-1.5 py-0.5 text-xs text-slate-300">
-									{eu.upgrade.name} (+{eu.upgrade.cost})
-								</span>
-							{/each}
-						</div>
-					{/if}
-					{#if model.merchantItem}
-						<div class="mt-1">
-							<span class="rounded bg-amber-900/30 px-1.5 py-0.5 text-xs text-amber-300">
-								{model.merchantItem.name} (+{model.merchantItem.cost})
-							</span>
-						</div>
-					{/if}
+					{@render modelInner(model)}
 				</button>
 			{:else}
-				<div class="rounded border border-slate-700 bg-slate-900/50 p-3">
-					<div class="flex items-center justify-between">
-						<div>
-							<span class="font-medium">{model.name}</span>
-							{#if model.name !== model.template.name}
-								<span class="text-sm text-slate-500">({model.template.name})</span>
-							{/if}
-							{#if model.template.id === 'wizard'}
-								<span class="ml-2 rounded bg-amber-900/30 px-1.5 py-0.5 text-xs text-amber-300">
-									Leader
-								</span>
-							{/if}
-						</div>
-						<span class="text-amber-400">{model.totalCost} Sh</span>
-					</div>
-					{#if model.equippedUpgrades.length > 0}
-						<div class="mt-1 flex flex-wrap gap-1">
-							{#each model.equippedUpgrades as eu (eu.upgrade.name)}
-								<span class="rounded bg-slate-700 px-1.5 py-0.5 text-xs text-slate-300">
-									{eu.upgrade.name} (+{eu.upgrade.cost})
-								</span>
-							{/each}
-						</div>
-					{/if}
-					{#if model.merchantItem}
-						<div class="mt-1">
-							<span class="rounded bg-amber-900/30 px-1.5 py-0.5 text-xs text-amber-300">
-								{model.merchantItem.name} (+{model.merchantItem.cost})
-							</span>
-						</div>
-					{/if}
+				<div class="model-row static">
+					{@render modelInner(model)}
 				</div>
 			{/if}
 		{/each}
 	</div>
 </div>
+
+{#snippet modelInner(model: (typeof collegeStore.models)[number])}
+	<div class="model-head">
+		<div class="model-name-row">
+			<span class="model-name">{model.name}</span>
+			{#if model.name !== model.template.name}
+				<span class="model-template">({model.template.name})</span>
+			{/if}
+			{#if model.template.id === 'wizard'}
+				<span class="leader-badge">Leader</span>
+			{/if}
+		</div>
+		<span class="model-cost">{model.totalCost} Sh</span>
+	</div>
+	{#if model.equippedUpgrades.length > 0}
+		<div class="model-tags">
+			{#each model.equippedUpgrades as eu (eu.upgrade.name)}
+				<span class="ap-tag pale-tag">
+					{eu.upgrade.name} (+{eu.upgrade.cost})
+				</span>
+			{/each}
+		</div>
+	{/if}
+	{#if model.merchantItem}
+		<div class="model-tags">
+			<span class="ap-tag gold-tag">
+				{model.merchantItem.name} (+{model.merchantItem.cost})
+			</span>
+		</div>
+	{/if}
+{/snippet}
+
+<style>
+	.summary {
+		background: var(--panel2);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: 4px;
+		padding: 22px 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	.summary-head {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 16px;
+	}
+	.summary-name {
+		font-family: 'Cinzel', serif;
+		font-size: 22px;
+		font-weight: 600;
+		color: var(--parchment);
+	}
+	.summary-faction {
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		color: var(--ink-light);
+		font-style: italic;
+		margin-top: 2px;
+	}
+	.summary-cost {
+		text-align: right;
+	}
+	.cost-amount {
+		font-family: 'Cinzel', serif;
+		font-size: 22px;
+		font-weight: 600;
+		color: var(--gold-light);
+	}
+	.cost-amount .unit {
+		font-size: 13px;
+		color: var(--ink-light);
+		font-weight: 400;
+	}
+	.cost-of {
+		font-family: 'Lora', serif;
+		font-size: 11px;
+		color: var(--ink-light);
+		font-style: italic;
+	}
+
+	.key-stats {
+		display: flex;
+		gap: 18px;
+		padding: 12px 14px;
+		background: rgba(184, 144, 58, 0.06);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: var(--r);
+	}
+	.key-stat {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	.key-label {
+		font-family: 'Cinzel', serif;
+		font-size: 9px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--ink-light);
+	}
+	.key-val {
+		font-family: 'Cinzel', serif;
+		font-size: 16px;
+		font-weight: 600;
+		color: var(--parchment);
+	}
+	.key-val.gold {
+		color: var(--gold-light);
+	}
+	.key-val .unit {
+		font-size: 11px;
+		color: var(--ink-light);
+		font-weight: 400;
+	}
+
+	.info-block {
+		padding: 12px 14px;
+		border-radius: var(--r);
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	.info-label {
+		font-family: 'Cinzel', serif;
+		font-size: 9px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--gold);
+	}
+	.info-name {
+		font-family: 'Cinzel', serif;
+		font-size: 14px;
+		color: var(--parchment);
+		font-weight: 600;
+	}
+	.info-cost {
+		font-family: 'Lora', serif;
+		font-size: 12px;
+		color: var(--ink-light);
+		margin-left: 6px;
+	}
+	.info-desc {
+		font-family: 'Lora', serif;
+		font-size: 12px;
+		color: var(--ink-light);
+		font-style: italic;
+		line-height: 1.5;
+	}
+	.faction-spell {
+		background: rgba(90, 62, 122, 0.08);
+		border: 1px solid rgba(90, 62, 122, 0.3);
+	}
+	.empowered {
+		background: rgba(184, 144, 58, 0.06);
+		border: 1px solid var(--border-gold-faint);
+	}
+
+	.models-label {
+		margin-top: 4px;
+	}
+	.model-list {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+	.model-row {
+		text-align: left;
+		background: var(--panel);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: var(--r);
+		padding: 12px 14px;
+		color: inherit;
+		cursor: pointer;
+		transition:
+			border-color 0.15s,
+			background 0.15s;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+	.model-row:hover {
+		border-color: var(--border-gold);
+	}
+	.model-row.active {
+		border-color: var(--gold);
+		background: rgba(184, 144, 58, 0.06);
+	}
+	.model-row.static {
+		cursor: default;
+	}
+	.model-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+	}
+	.model-name-row {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+	.model-name {
+		font-family: 'Cinzel', serif;
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--parchment);
+	}
+	.model-template {
+		font-family: 'Lora', serif;
+		font-size: 12px;
+		font-style: italic;
+		color: var(--ink-light);
+	}
+	.leader-badge {
+		font-family: 'Cinzel', serif;
+		font-size: 9px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #a07acc;
+		border: 1px solid rgba(90, 62, 122, 0.4);
+		border-radius: 2px;
+		padding: 1px 6px;
+	}
+	.model-cost {
+		font-family: 'Cinzel', serif;
+		font-size: 13px;
+		color: var(--gold-light);
+	}
+	.model-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 5px;
+	}
+	.pale-tag {
+		color: var(--parchment);
+		font-style: normal;
+		border-color: var(--border-gold-faint);
+	}
+	.gold-tag {
+		color: var(--gold-light);
+		font-style: normal;
+		border-color: rgba(184, 144, 58, 0.4);
+	}
+</style>

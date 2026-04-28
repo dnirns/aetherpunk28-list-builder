@@ -14,7 +14,6 @@
 
 	const model = $derived(collegeStore.models.find((m) => m.id === modelId));
 
-	// Derived reactive state for equipped upgrades
 	const equippedNames = $derived(
 		new Set(model?.equippedUpgrades.map((eu) => eu.upgrade.name) ?? [])
 	);
@@ -31,7 +30,6 @@
 		return selections;
 	});
 
-	// Group upgrades: weapon replacements by slot vs additional gear
 	const upgradeGroups = $derived.by(() => {
 		if (!model)
 			return {
@@ -59,7 +57,6 @@
 		};
 	});
 
-	// Merchant items this model is eligible for
 	const availableItems = $derived.by(() => {
 		if (!model) return [];
 		return MERCHANT_ITEMS.filter((item) => checkMerchantItemRestriction(model, item));
@@ -67,14 +64,8 @@
 
 	const handleSlotChange = (equipmentName: string, upgradeName: string) => {
 		if (!model) return;
-
-		// Remove current upgrade for this slot
 		const current = model.equippedUpgrades.find((eu) => eu.replacedEquipment === equipmentName);
-		if (current) {
-			collegeStore.removeUpgrade(modelId, current.upgrade.name);
-		}
-
-		// Equip the new upgrade (if not "keep base")
+		if (current) collegeStore.removeUpgrade(modelId, current.upgrade.name);
 		if (upgradeName) {
 			const upgrade = model.template.upgrades.find((u) => u.name === upgradeName);
 			if (upgrade) collegeStore.equipUpgrade(modelId, upgrade);
@@ -108,77 +99,82 @@
 </script>
 
 {#if model}
-	<div class="rounded-lg border border-slate-700 bg-slate-800/50 p-4">
-		<!-- Header -->
-		<div class="mb-4 flex items-start justify-between gap-4">
-			<div class="min-w-0 flex-1">
-				<div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-					<input
-						type="text"
-						value={model.name}
-						oninput={handleNameChange}
-						class="border-b border-transparent bg-transparent text-lg font-bold text-slate-100 outline-none focus:border-amber-500"
-					/>
-					<span class="text-sm text-slate-500"
-						>{model.template.name} &middot; {model.template.baseSize}</span
-					>
+	<div class="configurator">
+		<div class="head">
+			<div class="head-main">
+				<input
+					type="text"
+					value={model.name}
+					oninput={handleNameChange}
+					class="name-input"
+					placeholder="Character name…"
+				/>
+				<div class="meta">
+					<span>{model.template.name}</span>
+					<span class="dot">·</span>
+					<span>{model.template.baseSize}</span>
 				</div>
-				<div class="mt-1 text-sm font-semibold text-amber-400">{model.totalCost} Shillings</div>
 			</div>
+			<div class="cost">{model.totalCost} Sh</div>
 			{#if showRemove && onremove}
-				<button
-					onclick={onremove}
-					class="shrink-0 text-sm text-red-400 transition hover:text-red-300"
-				>
-					Remove
-				</button>
+				<button class="remove-btn" onclick={onremove}>Remove</button>
 			{/if}
 		</div>
 
-		<!-- Stats -->
-		<div class="mb-4 flex flex-wrap gap-2 text-xs">
-			<span class="rounded bg-slate-700 px-2 py-1">Mv {model.template.stats.mv}</span>
-			<span class="rounded bg-slate-700 px-2 py-1"
-				>Ra {formatDicePool(model.template.stats.ra)}</span
-			>
-			<span class="rounded bg-slate-700 px-2 py-1"
-				>Me {formatDicePool(model.template.stats.me)}</span
-			>
-			<span class="rounded bg-slate-700 px-2 py-1">Df {model.template.stats.df || '-'}</span>
-			<span class="rounded bg-slate-700 px-2 py-1">Wp {model.template.stats.wp || '-'}</span>
-			{#if model.template.stats.range !== '-'}
-				<span class="rounded bg-slate-700 px-2 py-1">Range {model.template.stats.range}</span>
-			{/if}
-			<span class="rounded bg-slate-700 px-2 py-1">Surge: {model.template.stats.passiveSurge}</span>
+		<div class="ed-section">
+			<div class="ap-section-label-ink">Statistics</div>
+			<div class="stat-row">
+				<div class="stat-cell">
+					<div class="stat-val">{model.template.stats.mv}</div>
+					<div class="stat-lbl">MV</div>
+				</div>
+				<div class="stat-cell">
+					<div class="stat-val">{formatDicePool(model.template.stats.ra)}</div>
+					<div class="stat-lbl">RA</div>
+				</div>
+				<div class="stat-cell">
+					<div class="stat-val">{formatDicePool(model.template.stats.me)}</div>
+					<div class="stat-lbl">ME</div>
+				</div>
+				<div class="stat-cell">
+					<div class="stat-val">{model.template.stats.df || '-'}</div>
+					<div class="stat-lbl">DF</div>
+				</div>
+				<div class="stat-cell">
+					<div class="stat-val">{model.template.stats.wp || '-'}</div>
+					<div class="stat-lbl">WP</div>
+				</div>
+				{#if model.template.stats.range !== '-'}
+					<div class="stat-cell">
+						<div class="stat-val small">{model.template.stats.range}</div>
+						<div class="stat-lbl">RNG</div>
+					</div>
+				{/if}
+				<div class="stat-cell">
+					<div class="stat-val small">{model.template.stats.passiveSurge}</div>
+					<div class="stat-lbl">SURGE</div>
+				</div>
+			</div>
 		</div>
 
-		<!-- Base Equipment -->
-		<div class="mb-4">
-			<h4 class="mb-1 text-xs font-medium tracking-wider text-slate-500 uppercase">
-				Base Equipment
-			</h4>
-			<div class="flex flex-wrap gap-2">
+		<div class="ed-section">
+			<div class="ap-section-label-ink">Base Equipment</div>
+			<div class="tag-row">
 				{#each model.template.baseEquipment as equip (equip.name)}
-					<span class="rounded bg-slate-700/50 px-2 py-1 text-xs text-slate-300">
-						{equip.name}
-						{#if equip.range}({equip.range}){/if}
+					<span class="ap-tag base-tag">
+						{equip.name}{#if equip.range}
+							({equip.range}){/if}
 					</span>
 				{/each}
 			</div>
 		</div>
 
-		<!-- Special Rules -->
 		{#if model.template.specialRules.length > 0}
-			<div class="mb-4">
-				<h4 class="mb-1 text-xs font-medium tracking-wider text-slate-500 uppercase">
-					Special Rules
-				</h4>
-				<div class="flex flex-wrap gap-2">
+			<div class="ed-section">
+				<div class="ap-section-label-ink">Special Rules</div>
+				<div class="tag-row">
 					{#each model.template.specialRules as rule (rule.name)}
-						<span
-							class="rounded bg-indigo-900/50 px-2 py-1 text-xs text-indigo-300"
-							title={rule.description ?? ''}
-						>
+						<span class="ap-tag rule-tag" title={rule.description ?? ''}>
 							{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}
 						</span>
 					{/each}
@@ -186,90 +182,71 @@
 			</div>
 		{/if}
 
-		<!-- Upgrades -->
 		{#if model.template.upgrades.length > 0}
-			<div class="mb-4">
-				<h4 class="mb-2 text-xs font-medium tracking-wider text-slate-500 uppercase">Upgrades</h4>
+			<div class="ed-section">
+				<div class="ap-section-label-ink">Upgrades</div>
 
-				<!-- Weapon Replacement Slots -->
 				{#each upgradeGroups.slots as slot (slot.equipmentName)}
-					<fieldset class="mb-3">
-						<legend class="mb-1 text-sm text-slate-400">Replace {slot.equipmentName}</legend>
-						<div class="space-y-1">
-							<label
-								class="flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm hover:bg-slate-700/50"
-							>
+					<fieldset class="upgrade-group">
+						<legend class="upgrade-legend">Replace {slot.equipmentName}</legend>
+						<label class="upgrade-row">
+							<input
+								type="radio"
+								name="{modelId}-{slot.equipmentName}"
+								checked={!slotSelections[slot.equipmentName]}
+								onchange={() => handleSlotChange(slot.equipmentName, '')}
+							/>
+							<span class="upgrade-name dim">Keep {slot.equipmentName}</span>
+						</label>
+						{#each slot.options as upgrade (upgrade.name)}
+							<label class="upgrade-row">
 								<input
 									type="radio"
 									name="{modelId}-{slot.equipmentName}"
-									checked={!slotSelections[slot.equipmentName]}
-									onchange={() => handleSlotChange(slot.equipmentName, '')}
-									class="accent-amber-500"
+									checked={slotSelections[slot.equipmentName] === upgrade.name}
+									onchange={() => handleSlotChange(slot.equipmentName, upgrade.name)}
 								/>
-								<span class="text-slate-300">Keep {slot.equipmentName}</span>
+								<span class="upgrade-name">{upgrade.name}</span>
+								<span class="upgrade-cost">+{upgrade.cost} Sh</span>
+								{#if upgrade.description}
+									<span class="upgrade-desc">{upgrade.description}</span>
+								{/if}
 							</label>
-							{#each slot.options as upgrade (upgrade.name)}
-								<label
-									class="flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm hover:bg-slate-700/50"
-								>
-									<input
-										type="radio"
-										name="{modelId}-{slot.equipmentName}"
-										checked={slotSelections[slot.equipmentName] === upgrade.name}
-										onchange={() => handleSlotChange(slot.equipmentName, upgrade.name)}
-										class="accent-amber-500"
-									/>
-									<span class="text-slate-100">{upgrade.name}</span>
-									<span class="text-amber-400">+{upgrade.cost} Sh</span>
-									{#if upgrade.description}
-										<span class="text-xs text-slate-500">{upgrade.description}</span>
-									{/if}
-								</label>
-							{/each}
-						</div>
+						{/each}
 					</fieldset>
 				{/each}
 
-				<!-- Additional Gear -->
 				{#if upgradeGroups.additional.length > 0}
-					<fieldset>
-						<legend class="mb-1 text-sm text-slate-400">Additional Gear</legend>
-						<div class="space-y-1">
-							{#each upgradeGroups.additional as upgrade (upgrade.name)}
-								<label
-									class="flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm hover:bg-slate-700/50"
-								>
-									<input
-										type="checkbox"
-										checked={equippedNames.has(upgrade.name)}
-										onchange={() => toggleUpgrade(upgrade)}
-										class="accent-amber-500"
-									/>
-									<span class="text-slate-100">{upgrade.name}</span>
-									<span class="text-amber-400">+{upgrade.cost} Sh</span>
-									{#if upgrade.description}
-										<span class="text-xs text-slate-500">{upgrade.description}</span>
-									{/if}
-								</label>
-							{/each}
-						</div>
+					<fieldset class="upgrade-group">
+						<legend class="upgrade-legend">Additional Gear</legend>
+						{#each upgradeGroups.additional as upgrade (upgrade.name)}
+							<label class="upgrade-row">
+								<input
+									type="checkbox"
+									checked={equippedNames.has(upgrade.name)}
+									onchange={() => toggleUpgrade(upgrade)}
+								/>
+								<span class="upgrade-name">{upgrade.name}</span>
+								<span class="upgrade-cost">+{upgrade.cost} Sh</span>
+								{#if upgrade.description}
+									<span class="upgrade-desc">{upgrade.description}</span>
+								{/if}
+							</label>
+						{/each}
 					</fieldset>
 				{/if}
 			</div>
 		{/if}
 
-		<!-- Merchant Item -->
-		<div>
-			<h4 class="mb-1 text-xs font-medium tracking-wider text-slate-500 uppercase">
-				Merchant Item
-			</h4>
+		<div class="ed-section">
+			<div class="ap-section-label-ink">Merchant Item</div>
 			{#if model.template.isSummonable}
-				<p class="text-xs text-slate-500 italic">Summonable models cannot carry merchant items.</p>
+				<p class="muted-line">Summonable models cannot carry merchant items.</p>
 			{:else}
 				<select
 					onchange={handleMerchantItem}
 					value={model.merchantItem?.name ?? ''}
-					class="w-full rounded border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none focus:border-amber-500"
+					class="merchant-select"
 				>
 					<option value="">None</option>
 					{#each availableItems as item (item.name)}
@@ -282,3 +259,212 @@
 		</div>
 	</div>
 {/if}
+
+<style>
+	.configurator {
+		background: var(--panel2);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: 4px;
+		padding: 22px 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.head {
+		display: flex;
+		align-items: flex-start;
+		gap: 16px;
+	}
+	.head-main {
+		flex: 1;
+		min-width: 0;
+	}
+	.name-input {
+		display: block;
+		width: 100%;
+		font-family: 'Cinzel', serif;
+		font-size: 22px;
+		font-weight: 600;
+		color: var(--parchment);
+		background: transparent;
+		border: none;
+		border-bottom: 1.5px solid transparent;
+		outline: none;
+		padding: 2px 0;
+		transition: border-color 0.15s;
+	}
+	.name-input:focus {
+		border-bottom-color: var(--gold);
+	}
+	.meta {
+		font-family: 'Lora', serif;
+		font-size: 12px;
+		font-style: italic;
+		color: var(--ink-light);
+		margin-top: 4px;
+		display: flex;
+		gap: 6px;
+	}
+	.dot {
+		opacity: 0.5;
+	}
+	.cost {
+		font-family: 'Cinzel', serif;
+		font-size: 18px;
+		font-weight: 600;
+		color: var(--gold-light);
+		flex-shrink: 0;
+	}
+	.remove-btn {
+		font-family: 'Cinzel', serif;
+		font-size: 11px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--danger);
+		background: transparent;
+		border: 1px solid rgba(139, 42, 42, 0.4);
+		border-radius: var(--r);
+		padding: 5px 12px;
+		cursor: pointer;
+		transition: background 0.15s;
+		flex-shrink: 0;
+	}
+	.remove-btn:hover {
+		background: rgba(139, 42, 42, 0.12);
+	}
+
+	.ed-section {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.stat-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+	.stat-cell {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 4px;
+		min-width: 52px;
+	}
+	.stat-val {
+		min-width: 52px;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(184, 144, 58, 0.06);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: 2px;
+		font-family: 'Cinzel', serif;
+		font-size: 18px;
+		font-weight: 600;
+		color: var(--parchment);
+		padding: 0 8px;
+	}
+	.stat-val.small {
+		font-size: 12px;
+	}
+	.stat-lbl {
+		font-family: 'Cinzel', serif;
+		font-size: 9px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--ink-light);
+	}
+
+	.tag-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+	.base-tag {
+		color: var(--parchment);
+		font-style: normal;
+		border-color: var(--border-gold-faint);
+	}
+	.rule-tag {
+		color: #c2a8e0;
+		font-style: normal;
+		border-color: rgba(90, 62, 122, 0.4);
+	}
+
+	.upgrade-group {
+		border: none;
+		padding: 0;
+		margin: 0 0 14px;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	.upgrade-legend {
+		font-family: 'Lora', serif;
+		font-size: 12px;
+		font-style: italic;
+		color: var(--ink-light);
+		padding: 0;
+		margin-bottom: 4px;
+	}
+	.upgrade-row {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 5px 8px;
+		border-radius: 2px;
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		color: var(--parchment);
+		cursor: pointer;
+		transition: background 0.12s;
+	}
+	.upgrade-row:hover {
+		background: var(--panel3);
+	}
+	.upgrade-row input {
+		accent-color: var(--gold);
+	}
+	.upgrade-name {
+		min-width: 100px;
+	}
+	.upgrade-name.dim {
+		color: var(--ink-light);
+	}
+	.upgrade-cost {
+		color: var(--gold-light);
+		font-family: 'Cinzel', serif;
+		font-size: 11px;
+	}
+	.upgrade-desc {
+		color: var(--ink-light);
+		font-size: 12px;
+		font-style: italic;
+	}
+
+	.muted-line {
+		font-family: 'Lora', serif;
+		font-size: 12px;
+		color: var(--ink-light);
+		font-style: italic;
+	}
+
+	.merchant-select {
+		width: 100%;
+		background: var(--panel);
+		border: 1px solid var(--border-gold-faint);
+		color: var(--parchment);
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		padding: 8px 12px;
+		border-radius: var(--r);
+		outline: none;
+		transition: border-color 0.15s;
+	}
+	.merchant-select:focus {
+		border-color: var(--gold);
+	}
+</style>
