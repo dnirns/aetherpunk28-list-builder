@@ -19,7 +19,7 @@ export type StatBlock = {
 	passiveSurge: PassiveSurge;
 };
 
-export type PassiveSurge = 'Hunker Down' | 'Fight' | 'Unbind' | 'Charge';
+export type PassiveSurge = 'Hunker Down' | 'Fight' | 'Unbind' | 'Charge' | 'Fire' | 'Move';
 
 // --- Factions ---
 
@@ -173,6 +173,19 @@ export type CoreSpell = {
 	name: string;
 	cost: number;
 	description: string;
+};
+
+// --- Saved Colleges ---
+
+export type SavedCollege = {
+	id: string;
+	name: string;
+	factionId: FactionId;
+	models: CollegeModel[];
+	totalCost: number;
+	eruditeCharges: number;
+	gameConfig: GameConfig;
+	savedAt: string; // ISO timestamp
 };
 
 // --- Game Setup ---

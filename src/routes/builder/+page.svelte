@@ -5,14 +5,16 @@
 	import WizardStep from '$lib/components/builder/wizard-step.svelte';
 	import ModelsStep from '$lib/components/builder/models-step.svelte';
 	import ReviewStep from '$lib/components/builder/review-step.svelte';
+	import CollegeSummary from '$lib/components/college-summary.svelte';
+	import ModelDetailCard from '$lib/components/model-detail-card.svelte';
 	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { UNIVERSAL_MODELS } from '$lib/data/universal-models';
 	import { FACTIONS } from '$lib/data/factions';
 	import type { FactionId } from '$lib/types/game.types';
-	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 
-	type Step = 'name' | 'faction' | 'wizard' | 'models' | 'review';
+	type Step = 'name' | 'faction' | 'wizard' | 'models' | 'review' | 'complete';
 
 	const STEPS = [
 		{ id: 'name', label: 'Name' },
@@ -25,9 +27,22 @@
 	let currentStep = $state<Step>('name');
 	let selectedFactionId = $state<FactionId | null>(null);
 	let wizardModelId = $state('');
+	let selectedModelId = $state<string | null>(null);
 
-	// Reset store for a fresh build
-	collegeStore.reset();
+	const selectedModel = $derived(
+		selectedModelId ? collegeStore.models.find((m) => m.id === selectedModelId) ?? null : null
+	);
+
+	// Only reset if this is a fresh build (not loading from saved)
+	const isEditing = page.url.searchParams.get('edit') === 'true';
+	if (!isEditing) {
+		collegeStore.reset();
+	} else {
+		// Pre-populate local state from loaded college
+		selectedFactionId = collegeStore.factionId;
+		const existingWizard = collegeStore.models.find((m) => m.template.id === 'wizard');
+		if (existingWizard) wizardModelId = existingWizard.id;
+	}
 
 	const goTo = (step: Step) => {
 		currentStep = step;
@@ -85,7 +100,15 @@
 	};
 
 	const handleFinish = () => {
-		goto(resolve('/'));
+		collegeStore.save();
+		goTo('complete');
+	};
+
+	const handleNewCollege = () => {
+		collegeStore.reset();
+		selectedFactionId = null;
+		wizardModelId = '';
+		goTo('name');
 	};
 </script>
 
@@ -95,9 +118,11 @@
 
 <div class="min-h-screen px-4 py-8">
 	<div class="mx-auto max-w-5xl">
-		<div class="mb-8">
-			<StepIndicator steps={STEPS} {currentStep} />
-		</div>
+		{#if currentStep !== 'complete'}
+			<div class="mb-8">
+				<StepIndicator steps={STEPS} {currentStep} />
+			</div>
+		{/if}
 
 		{#if currentStep === 'name'}
 			<NameStep
@@ -118,6 +143,47 @@
 			<ModelsStep onnext={() => goTo('review')} onback={() => goTo('wizard')} />
 		{:else if currentStep === 'review'}
 			<ReviewStep onback={() => goTo('models')} onfinish={handleFinish} />
+		{:else if currentStep === 'complete'}
+			<div>
+				<h2 class="mb-2 text-center text-3xl font-bold text-amber-400">College Saved</h2>
+				<p class="mb-8 text-center text-slate-400">
+					{collegeStore.name} has been saved to your device.
+				</p>
+
+				<div class="mb-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
+					<CollegeSummary
+						{selectedModelId}
+						onmodelselect={(id) => (selectedModelId = selectedModelId === id ? null : id)}
+					/>
+
+					{#if selectedModel}
+						<div class="lg:sticky lg:top-8">
+							<ModelDetailCard model={selectedModel} onclose={() => (selectedModelId = null)} />
+						</div>
+					{:else}
+						<div
+							class="flex h-48 items-center justify-center rounded-lg border border-dashed border-slate-700 text-slate-500"
+						>
+							Select a model to view its details
+						</div>
+					{/if}
+				</div>
+
+				<div class="flex justify-center gap-4">
+					<a
+						href={resolve('/')}
+						class="rounded-lg border border-slate-700 px-6 py-3 text-slate-300 transition hover:bg-slate-800"
+					>
+						Home
+					</a>
+					<button
+						onclick={handleNewCollege}
+						class="rounded-lg bg-amber-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
+					>
+						Create Another
+					</button>
+				</div>
+			</div>
 		{/if}
 	</div>
 </div>

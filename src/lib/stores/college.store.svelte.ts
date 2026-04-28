@@ -6,6 +6,7 @@ import type {
 	GameConfig,
 	MerchantItem,
 	ModelTemplate,
+	SavedCollege,
 	Upgrade
 } from '$lib/types/game.types';
 import {
@@ -14,10 +15,12 @@ import {
 	calculateModelCost,
 	validateCollege
 } from '$lib/utils/college-calculations';
+import { savedCollegesStore } from './saved-colleges.store.svelte';
 
 const generateId = (): string => crypto.randomUUID();
 
 const createCollegeStore = () => {
+	let collegeId = $state(generateId());
 	let name = $state('New College');
 	let factionId = $state<FactionId>('abjurers');
 	let models = $state<CollegeModel[]>([]);
@@ -27,7 +30,7 @@ const createCollegeStore = () => {
 	const eruditeCharges = $derived(calculateEruditeCharges(totalCost, gameConfig.pointsLimit));
 
 	const college = $derived<College>({
-		id: 'active-college',
+		id: collegeId,
 		name,
 		factionId,
 		models,
@@ -120,9 +123,32 @@ const createCollegeStore = () => {
 	};
 
 	const reset = () => {
+		collegeId = generateId();
 		name = 'New College';
 		factionId = 'abjurers';
 		models = [];
+	};
+
+	const save = () => {
+		const saved: SavedCollege = {
+			id: collegeId,
+			name,
+			factionId,
+			models: structuredClone($state.snapshot(models)),
+			totalCost,
+			eruditeCharges,
+			gameConfig: { ...gameConfig },
+			savedAt: new Date().toISOString()
+		};
+		savedCollegesStore.save(saved);
+	};
+
+	const loadFromSaved = (saved: SavedCollege) => {
+		collegeId = saved.id;
+		name = saved.name;
+		factionId = saved.factionId;
+		models = structuredClone(saved.models);
+		gameConfig = { ...saved.gameConfig };
 	};
 
 	return {
@@ -160,7 +186,9 @@ const createCollegeStore = () => {
 		equipMerchantItem,
 		removeMerchantItem,
 		renameModel,
-		reset
+		reset,
+		save,
+		loadFromSaved
 	};
 };
 

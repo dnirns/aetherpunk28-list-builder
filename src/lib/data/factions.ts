@@ -22,13 +22,12 @@ export const FACTIONS: Faction[] = [
 			baseSize: '32-40mm',
 			isUnique: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
-				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
+				mv: '6"',
+				ra: { count: 1, die: 'D6' },
+				me: { count: 2, die: 'D10' },
+				df: 'D10',
+				wp: 'D10',
+				range: '6"',
 				passiveSurge: 'Hunker Down'
 			},
 			baseEquipment: [
@@ -126,13 +125,12 @@ export const FACTIONS: Faction[] = [
 			baseSize: '32-40mm',
 			isUnique: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
-				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
+				mv: '4"',
+				ra: { count: 1, die: 'D10' },
+				me: { count: 1, die: 'D6' },
+				df: 'D6',
+				wp: 'D10',
+				range: '30"',
 				passiveSurge: 'Hunker Down'
 			},
 			baseEquipment: [
@@ -215,13 +213,13 @@ export const FACTIONS: Faction[] = [
 			isUnique: true,
 			stats: {
 				// TODO: stats not in docs, update manually
-				mv: '-',
+				mv: '10"',
 				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
-				passiveSurge: 'Hunker Down'
+				me: { count: 3, die: 'D10' },
+				df: 'D10',
+				wp: 'D10',
+				range: 'X',
+				passiveSurge: 'Fight'
 			},
 			baseEquipment: [
 				{ name: 'Fierce Glare', type: 'ranged' },
@@ -274,14 +272,13 @@ export const FACTIONS: Faction[] = [
 			baseSize: '32-40mm',
 			isUnique: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
-				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
-				passiveSurge: 'Hunker Down'
+				mv: '6"',
+				ra: { count: 3, die: 'D8' },
+				me: { count: 2, die: 'D8' },
+				df: 'D8',
+				wp: 'D10',
+				range: '12"',
+				passiveSurge: 'Fire'
 			},
 			baseEquipment: [
 				{ name: 'Brace of Pistols', type: 'ranged' },
@@ -341,14 +338,13 @@ export const FACTIONS: Faction[] = [
 			baseSize: '80-100mm',
 			isUnique: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
-				ra: { count: 0, die: 0 },
+				mv: '4"',
+				ra: { count: 3, die: 'D10' },
 				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
-				passiveSurge: 'Hunker Down'
+				df: 'D12',
+				wp: 'D10',
+				range: '18"',
+				passiveSurge: 'Fire'
 			},
 			baseEquipment: [
 				{ name: 'Bombard', type: 'ranged' },
@@ -422,14 +418,13 @@ export const FACTIONS: Faction[] = [
 			isUnique: true,
 			isSummonable: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
-				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
-				passiveSurge: 'Hunker Down'
+				mv: '4"',
+				ra: { count: 10, die: 'D6' },
+				me: { count: 3, die: 'D10' },
+				df: 'D10',
+				wp: 'D10',
+				range: '6"',
+				passiveSurge: 'Fight'
 			},
 			baseEquipment: [
 				{
@@ -472,14 +467,13 @@ export const FACTIONS: Faction[] = [
 			baseSize: '60-80mm',
 			isUnique: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
-				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
-				passiveSurge: 'Hunker Down'
+				mv: '6"',
+				ra: { count: 3, die: 'D8' },
+				me: { count: 1, die: 'D8' },
+				df: 'D10',
+				wp: 'D10',
+				range: '12"',
+				passiveSurge: 'Fire'
 			},
 			baseEquipment: [
 				{ name: 'Splinter Gun', type: 'ranged' },
@@ -555,14 +549,13 @@ export const FACTIONS: Faction[] = [
 			isUnique: true,
 			isSummonable: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
+				mv: '4"',
 				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
-				passiveSurge: 'Hunker Down'
+				me: { count: 3, die: 'D8' },
+				df: 'D6',
+				wp: 'D6',
+				range: 'X',
+				passiveSurge: 'Move'
 			},
 			baseEquipment: [
 				{ name: 'Discomforting Groan', type: 'ranged' },
@@ -594,14 +587,13 @@ export const FACTIONS: Faction[] = [
 			baseSize: '32-40mm',
 			isUnique: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
+				mv: '6"',
 				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
-				passiveSurge: 'Hunker Down'
+				me: { count: 3, die: 'D12' },
+				df: 'D8',
+				wp: 'D8',
+				range: 'X',
+				passiveSurge: 'Charge'
 			},
 			baseEquipment: [
 				{ name: 'Aggressive Shouting', type: 'ranged' },
@@ -687,14 +679,13 @@ export const FACTIONS: Faction[] = [
 			baseSize: '32-40mm',
 			isUnique: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
-				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
-				passiveSurge: 'Hunker Down'
+				mv: '4"',
+				ra: { count: 2, die: 'D8' },
+				me: { count: 2, die: 'D8' },
+				df: 'D8',
+				wp: 'D8',
+				range: '24"',
+				passiveSurge: 'Move'
 			},
 			baseEquipment: [
 				{ name: 'Thunder Carbine', type: 'ranged' },
@@ -779,13 +770,12 @@ export const FACTIONS: Faction[] = [
 			isUnique: true,
 			isSummonable: true,
 			stats: {
-				// TODO: stats not in docs, update manually
-				mv: '-',
-				ra: { count: 0, die: 0 },
-				me: { count: 0, die: 0 },
-				df: 0,
-				wp: 0,
-				range: '-',
+				mv: '8"',
+				ra: { count: 2, die: 'D6' },
+				me: { count: 2, die: 'D6' },
+				df: 'D6',
+				wp: 'D6',
+				range: '12"',
 				passiveSurge: 'Hunker Down'
 			},
 			baseEquipment: [
