@@ -311,8 +311,8 @@ export const UNIVERSAL_MODELS: ModelTemplate[] = [
 			me: { count: 2, die: 'D6' },
 			df: 'D10',
 			wp: 'D10',
-			range: '-', // TODO: stats not in docs, update manually
-			passiveSurge: 'Hunker Down' // TODO: stats not in docs, update manually
+			range: '24"',
+			passiveSurge: 'Move'
 		},
 		baseEquipment: [
 			{
@@ -406,14 +406,13 @@ export const UNIVERSAL_MODELS: ModelTemplate[] = [
 		baseCost: 26,
 		baseSize: '80-100mm',
 		stats: {
-			// TODO: stats not in docs, update manually
-			mv: '-',
-			ra: { count: 0, die: 0 },
+			mv: '8"',
+			ra: { count: 3, die: 'D10' },
 			me: { count: 0, die: 0 },
-			df: 0,
-			wp: 0,
-			range: '-',
-			passiveSurge: 'Hunker Down'
+			df: 'D12',
+			wp: 'D10',
+			range: '24"',
+			passiveSurge: 'Fire'
 		},
 		baseEquipment: [
 			{ name: 'Wand Battery', type: 'ranged' },
@@ -481,13 +480,12 @@ export const UNIVERSAL_MODELS: ModelTemplate[] = [
 		baseCost: 11,
 		baseSize: '50-60mm',
 		stats: {
-			// TODO: stats not in docs, update manually
-			mv: '-',
-			ra: { count: 0, die: 0 },
+			mv: '0"',
+			ra: { count: 3, die: 'D8' },
 			me: { count: 0, die: 0 },
-			df: 0,
-			wp: 0,
-			range: '-',
+			df: 'D10',
+			wp: 'D8',
+			range: '24"',
 			passiveSurge: 'Hunker Down'
 		},
 		baseEquipment: [
@@ -537,14 +535,13 @@ export const UNIVERSAL_MODELS: ModelTemplate[] = [
 		baseCost: 15,
 		baseSize: '80-100mm',
 		stats: {
-			// TODO: stats not in docs, update manually
-			mv: '-',
+			mv: '10"',
 			ra: { count: 0, die: 0 },
 			me: { count: 0, die: 0 },
-			df: 0,
-			wp: 0,
-			range: '-',
-			passiveSurge: 'Hunker Down'
+			df: 'D10',
+			wp: 'D10',
+			range: 'X',
+			passiveSurge: 'Charge'
 		},
 		baseEquipment: [
 			{ name: 'Loud Horn', type: 'ranged' },

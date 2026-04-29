@@ -22,7 +22,11 @@
 	});
 
 	const allModels = $derived(collegeStore.models);
-	const budgetRemaining = $derived(collegeStore.gameConfig.pointsLimit - collegeStore.totalCost);
+	const pointsLimit = $derived(collegeStore.gameConfig.pointsLimit);
+	const hasLimit = $derived(pointsLimit !== null);
+	const budgetRemaining = $derived(
+		pointsLimit === null ? 0 : pointsLimit - collegeStore.totalCost
+	);
 	const wizardModel = $derived(allModels.find((m) => m.template.id === 'wizard'));
 
 	let selectedModelId = $state<string | null>(null);
@@ -61,12 +65,16 @@
 		<div class="budget">
 			<div class="budget-amount">
 				{collegeStore.totalCost} <span class="budget-sep">/</span>
-				{collegeStore.gameConfig.pointsLimit} <span class="budget-unit">Sh</span>
+				{pointsLimit ?? '∞'} <span class="budget-unit">Sh</span>
 			</div>
-			<div class="budget-remaining" class:over={budgetRemaining < 0}>
-				{budgetRemaining >= 0
-					? `${budgetRemaining} Shillings remaining`
-					: `${Math.abs(budgetRemaining)} Shillings over budget`}
+			<div class="budget-remaining" class:over={hasLimit && budgetRemaining < 0}>
+				{#if !hasLimit}
+					No limit
+				{:else if budgetRemaining >= 0}
+					{budgetRemaining} Shillings remaining
+				{:else}
+					{Math.abs(budgetRemaining)} Shillings over budget
+				{/if}
 			</div>
 		</div>
 	</header>

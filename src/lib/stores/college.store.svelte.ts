@@ -52,6 +52,10 @@ const createCollegeStore = () => {
 		gameConfig = config;
 	};
 
+	const setPointsLimit = (limit: number | null) => {
+		gameConfig = { ...gameConfig, pointsLimit: limit };
+	};
+
 	const addModel = (template: ModelTemplate, customName?: string) => {
 		const model: CollegeModel = {
 			id: generateId(),
@@ -127,6 +131,7 @@ const createCollegeStore = () => {
 		name = 'New College';
 		factionId = 'abjurers';
 		models = [];
+		gameConfig = { pointsLimit: 50, isCampaign: false };
 	};
 
 	const save = () => {
@@ -179,6 +184,7 @@ const createCollegeStore = () => {
 		setFaction,
 		setName,
 		setGameConfig,
+		setPointsLimit,
 		addModel,
 		removeModel,
 		equipUpgrade,

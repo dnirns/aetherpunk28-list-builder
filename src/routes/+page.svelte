@@ -58,7 +58,7 @@
 					<div class="card-meta-item">
 						<span class="card-meta-label">Treasury</span>
 						<span class="card-meta-val">
-							{saved.totalCost} / {saved.gameConfig.pointsLimit} ʃ
+							{saved.totalCost} / {saved.gameConfig.pointsLimit ?? '∞'} ʃ
 						</span>
 					</div>
 				</div>

@@ -56,7 +56,9 @@
 	});
 
 	const allModels = $derived(collegeStore.models);
-	const budgetRemaining = $derived(collegeStore.gameConfig.pointsLimit - collegeStore.totalCost);
+	const pointsLimit = $derived(collegeStore.gameConfig.pointsLimit);
+	const hasLimit = $derived(pointsLimit !== null);
+	const budgetRemaining = $derived(pointsLimit === null ? 0 : pointsLimit - collegeStore.totalCost);
 	const wizardModel = $derived(allModels.find((m) => m.template.id === 'wizard'));
 	const hasErrors = $derived(collegeStore.validationErrors.length > 0);
 
@@ -105,7 +107,7 @@
 		<div class="edit-page">
 			<header class="step-head">
 				<div class="head-text">
-					<div class="ap-section-label-ink">Editing</div>
+					<span class="editing-badge">Editing</span>
 					{#if editingName}
 						<input
 							bind:this={nameInputEl}
@@ -142,13 +144,16 @@
 								class="treasury-input"
 								type="number"
 								min="0"
-								value={collegeStore.gameConfig.pointsLimit}
+								value={pointsLimit ?? ''}
+								placeholder="∞"
 								oninput={(e) => {
-									const v = Number((e.target as HTMLInputElement).value) || 0;
-									collegeStore.setGameConfig({
-										...collegeStore.gameConfig,
-										pointsLimit: v
-									});
+									const raw = (e.target as HTMLInputElement).value;
+									if (raw.trim() === '') {
+										collegeStore.setPointsLimit(null);
+										return;
+									}
+									const v = Number(raw) || 0;
+									collegeStore.setPointsLimit(v);
 								}}
 								onblur={() => (editingTreasury = false)}
 								onkeydown={(e) => {
@@ -159,19 +164,21 @@
 							<button
 								class="treasury-button"
 								onclick={() => (editingTreasury = true)}
-								title="Click to edit treasury"
+								title="Click to edit treasury (clear for no limit)"
 							>
-								{collegeStore.gameConfig.pointsLimit}<span class="edit-hint" aria-hidden="true"
-									>✎</span
-								>
+								{pointsLimit ?? '∞'}<span class="edit-hint" aria-hidden="true">✎</span>
 							</button>
 						{/if}
 						<span class="budget-unit">Sh</span>
 					</div>
-					<div class="budget-remaining" class:over={budgetRemaining < 0}>
-						{budgetRemaining >= 0
-							? `${budgetRemaining} Shillings remaining`
-							: `${Math.abs(budgetRemaining)} Shillings over budget`}
+					<div class="budget-remaining" class:over={hasLimit && budgetRemaining < 0}>
+						{#if !hasLimit}
+							No limit
+						{:else if budgetRemaining >= 0}
+							{budgetRemaining} Shillings remaining
+						{:else}
+							{Math.abs(budgetRemaining)} Shillings over budget
+						{/if}
 					</div>
 				</div>
 			</header>
@@ -284,6 +291,19 @@
 	.head-text {
 		min-width: 0;
 		flex: 1;
+	}
+	.editing-badge {
+		display: inline-block;
+		font-family: 'Cinzel', serif;
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: var(--ink);
+		background: var(--gold);
+		padding: 4px 10px;
+		border-radius: 2px;
+		margin-bottom: 10px;
 	}
 	.title-button {
 		display: inline-flex;

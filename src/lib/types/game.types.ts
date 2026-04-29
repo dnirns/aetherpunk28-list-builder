@@ -191,6 +191,6 @@ export type SavedCollege = {
 // --- Game Setup ---
 
 export type GameConfig = {
-	pointsLimit: number; // default 50 shillings
+	pointsLimit: number | null; // default 50 shillings; null = no limit
 	isCampaign: boolean;
 };

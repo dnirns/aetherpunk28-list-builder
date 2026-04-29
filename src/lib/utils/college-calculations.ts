@@ -20,8 +20,9 @@ export const calculateCollegeCost = (models: CollegeModel[]): number =>
 	models.reduce((sum, m) => sum + calculateModelCost(m), 0);
 
 /** Calculate starting erudite charges for a standalone game. */
-export const calculateEruditeCharges = (totalSpent: number, gameSize: number): number => {
+export const calculateEruditeCharges = (totalSpent: number, gameSize: number | null): number => {
 	const fromSpending = Math.floor(totalSpent / 10);
+	if (gameSize === null) return fromSpending;
 	const unspent = gameSize - totalSpent;
 	const fromUnspent = Math.floor(Math.max(0, unspent) / 2);
 	return fromSpending + fromUnspent;
@@ -58,7 +59,7 @@ export const validateCollege = (college: College, config: GameConfig): string[] 
 	}
 
 	// Cost within points limit
-	if (college.totalCost > config.pointsLimit) {
+	if (config.pointsLimit !== null && college.totalCost > config.pointsLimit) {
 		errors.push(
 			`College costs ${college.totalCost} Shillings, exceeding the ${config.pointsLimit} limit.`
 		);

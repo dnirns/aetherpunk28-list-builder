@@ -1,6 +1,7 @@
 <script lang="ts">
 	import StepIndicator from '$lib/components/builder/step-indicator.svelte';
 	import NameStep from '$lib/components/builder/name-step.svelte';
+	import LimitStep from '$lib/components/builder/limit-step.svelte';
 	import FactionStep from '$lib/components/builder/faction-step.svelte';
 	import ModelsStep from '$lib/components/builder/models-step.svelte';
 	import ReviewStep from '$lib/components/builder/review-step.svelte';
@@ -14,10 +15,11 @@
 	import { page } from '$app/state';
 	import { storage } from '$lib/utils/storage';
 
-	type Step = 'name' | 'faction' | 'models' | 'review' | 'complete';
+	type Step = 'name' | 'limit' | 'faction' | 'models' | 'review' | 'complete';
 
 	const STEPS = [
 		{ id: 'name', label: 'Name' },
+		{ id: 'limit', label: 'Limit' },
 		{ id: 'faction', label: 'Faction' },
 		{ id: 'models', label: 'Roster' },
 		{ id: 'review', label: 'Review' }
@@ -52,7 +54,10 @@
 		scroller?.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 
-	const handleNameNext = () => goTo('faction');
+	const handleNameNext = () => goTo('limit');
+
+	const handleLimitNext = () => goTo('faction');
+	const handleLimitBack = () => goTo('name');
 
 	const handleFactionSelect = (id: FactionId) => {
 		selectedFactionId = id;
@@ -86,7 +91,7 @@
 		goTo('models');
 	};
 
-	const handleFactionBack = () => goTo('name');
+	const handleFactionBack = () => goTo('limit');
 
 	const handleFinish = () => {
 		collegeStore.save();
@@ -112,6 +117,13 @@
 				name={collegeStore.name}
 				onnamechange={(n) => collegeStore.setName(n)}
 				onnext={handleNameNext}
+			/>
+		{:else if currentStep === 'limit'}
+			<LimitStep
+				pointsLimit={collegeStore.gameConfig.pointsLimit}
+				onlimitchange={(l) => collegeStore.setPointsLimit(l)}
+				onnext={handleLimitNext}
+				onback={handleLimitBack}
 			/>
 		{:else if currentStep === 'faction'}
 			<FactionStep

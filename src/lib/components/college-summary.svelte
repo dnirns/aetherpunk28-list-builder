@@ -21,7 +21,9 @@
 		</div>
 		<div class="summary-cost">
 			<div class="cost-amount">{collegeStore.totalCost} <span class="unit">Sh</span></div>
-			<div class="cost-of">of {collegeStore.gameConfig.pointsLimit}</div>
+			<div class="cost-of">
+				of {collegeStore.gameConfig.pointsLimit ?? '∞'}
+			</div>
 		</div>
 	</header>
 
@@ -37,7 +39,12 @@
 		<div class="key-stat">
 			<span class="key-label">Unspent</span>
 			<span class="key-val">
-				{collegeStore.gameConfig.pointsLimit - collegeStore.totalCost} <span class="unit">Sh</span>
+				{#if collegeStore.gameConfig.pointsLimit === null}
+					∞
+				{:else}
+					{collegeStore.gameConfig.pointsLimit - collegeStore.totalCost}
+					<span class="unit">Sh</span>
+				{/if}
 			</span>
 		</div>
 	</div>
