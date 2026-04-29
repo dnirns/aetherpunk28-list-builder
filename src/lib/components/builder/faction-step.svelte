@@ -72,7 +72,7 @@
 		margin-bottom: 12px;
 	}
 	.title {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 24px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -140,7 +140,7 @@
 		gap: 8px;
 	}
 	.faction-name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 17px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -159,7 +159,7 @@
 		line-height: 1.4;
 	}
 	.row-label {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 9px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;

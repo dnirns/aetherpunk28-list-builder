@@ -146,7 +146,7 @@
 		flex-wrap: wrap;
 	}
 	.title {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 24px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -164,7 +164,7 @@
 		flex-shrink: 0;
 	}
 	.budget-amount {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 22px;
 		font-weight: 600;
 		color: var(--gold-light);
@@ -208,7 +208,7 @@
 		gap: 8px;
 	}
 	.list-header {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 9px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
@@ -249,7 +249,7 @@
 		flex: 1;
 	}
 	.list-row-name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 13px;
 		color: var(--parchment);
 		white-space: nowrap;
@@ -264,7 +264,7 @@
 		margin-top: 1px;
 	}
 	.list-row-cost {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 12px;
 		color: var(--gold-light);
 		flex-shrink: 0;

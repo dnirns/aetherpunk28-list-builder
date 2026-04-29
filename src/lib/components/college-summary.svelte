@@ -143,7 +143,7 @@
 		gap: 16px;
 	}
 	.summary-name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 22px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -159,7 +159,7 @@
 		text-align: right;
 	}
 	.cost-amount {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 22px;
 		font-weight: 600;
 		color: var(--gold-light);
@@ -190,14 +190,14 @@
 		gap: 2px;
 	}
 	.key-label {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 9px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--ink-light);
 	}
 	.key-val {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 16px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -219,14 +219,14 @@
 		gap: 4px;
 	}
 	.info-label {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 9px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--gold);
 	}
 	.info-name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 14px;
 		color: var(--parchment);
 		font-weight: 600;
@@ -299,7 +299,7 @@
 		flex-wrap: wrap;
 	}
 	.model-name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 14px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -311,7 +311,7 @@
 		color: var(--ink-light);
 	}
 	.leader-badge {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 9px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
@@ -321,7 +321,7 @@
 		padding: 1px 6px;
 	}
 	.model-cost {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 13px;
 		color: var(--gold-light);
 	}

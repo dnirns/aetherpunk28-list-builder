@@ -111,7 +111,7 @@
 		flex-shrink: 0;
 	}
 	.picker-title {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 18px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -174,7 +174,7 @@
 		flex: 1;
 	}
 	.card-name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 15px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -194,7 +194,7 @@
 		opacity: 0.5;
 	}
 	.card-cost {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 14px;
 		font-weight: 600;
 		color: var(--gold-light);
@@ -211,7 +211,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 4px 12px;
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 11px;
 		color: var(--parchment);
 	}
@@ -228,7 +228,7 @@
 		gap: 4px;
 	}
 	.rule-tag {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 9px;
 		letter-spacing: 0.04em;
 		color: #c2a8e0;

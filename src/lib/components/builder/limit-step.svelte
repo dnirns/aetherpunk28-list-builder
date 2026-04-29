@@ -110,7 +110,7 @@
 		margin-bottom: 20px;
 	}
 	.title {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 28px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -159,7 +159,7 @@
 		background: rgba(184, 144, 58, 0.1);
 	}
 	.preset-amount {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 20px;
 		font-weight: 600;
 		color: var(--gold-light);
@@ -182,7 +182,7 @@
 		margin-bottom: 28px;
 	}
 	.custom-label {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 10px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
@@ -191,7 +191,7 @@
 	.custom-input {
 		max-width: 200px;
 		text-align: center;
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 18px;
 	}
 	.custom-input.active {

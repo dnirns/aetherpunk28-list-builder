@@ -294,7 +294,7 @@
 	}
 	.editing-badge {
 		display: inline-block;
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 11px;
 		font-weight: 600;
 		letter-spacing: 0.22em;
@@ -321,7 +321,7 @@
 		opacity: 1;
 	}
 	.title {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 24px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -333,7 +333,7 @@
 		border: none;
 		border-bottom: 1.5px solid var(--gold);
 		color: var(--parchment);
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 24px;
 		font-weight: 600;
 		outline: none;
@@ -360,7 +360,7 @@
 		flex-shrink: 0;
 	}
 	.budget-amount {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 22px;
 		font-weight: 600;
 		color: var(--gold-light);
@@ -392,7 +392,7 @@
 		border: none;
 		border-bottom: 1.5px solid var(--gold);
 		color: var(--gold-light);
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 22px;
 		font-weight: 600;
 		width: 70px;
@@ -423,7 +423,7 @@
 		margin-bottom: 18px;
 	}
 	.errors h3 {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 11px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
@@ -466,7 +466,7 @@
 		gap: 8px;
 	}
 	.list-header {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 9px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
@@ -507,7 +507,7 @@
 		flex: 1;
 	}
 	.list-row-name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 13px;
 		color: var(--parchment);
 		white-space: nowrap;
@@ -522,7 +522,7 @@
 		margin-top: 1px;
 	}
 	.list-row-cost {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 12px;
 		color: var(--gold-light);
 		flex-shrink: 0;

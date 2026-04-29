@@ -152,7 +152,7 @@
 		gap: 12px;
 	}
 	.name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 20px;
 		font-weight: 600;
 		color: var(--gold-light);
@@ -196,7 +196,7 @@
 	.stat-table {
 		width: 100%;
 		border-collapse: collapse;
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 	}
 	.stat-table th {
 		font-size: 9px;
@@ -244,7 +244,7 @@
 		gap: 10px;
 	}
 	.row-name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 13px;
 		color: var(--parchment);
 	}
@@ -255,7 +255,7 @@
 		font-style: italic;
 	}
 	.row-cost {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 11px;
 		color: var(--gold-light);
 	}

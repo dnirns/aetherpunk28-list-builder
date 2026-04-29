@@ -116,7 +116,7 @@
 	}
 
 	.card-name {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 18px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -153,14 +153,14 @@
 		gap: 4px;
 	}
 	.card-meta-label {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 9px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--ink-light);
 	}
 	.card-meta-val {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 14px;
 		color: var(--gold-light);
 		font-weight: 600;
@@ -185,7 +185,7 @@
 	}
 
 	.card-open {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 11px;
 		letter-spacing: 0.1em;
 		color: var(--gold);
@@ -203,7 +203,7 @@
 		line-height: 1;
 	}
 	.new-college-label {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 12px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;

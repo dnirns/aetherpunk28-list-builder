@@ -1,5 +1,13 @@
 @import 'tailwindcss';
 
+@font-face {
+	font-family: 'Surabanglus';
+	src: url('/fonts/Surabanglus.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
 @theme {
 	--color-ink: #1c1510;
 	--color-ink-mid: #4a3f35;
@@ -16,7 +24,7 @@
 	--color-danger: #8b2a2a;
 	--color-required: #5a3e7a;
 
-	--font-display: 'Cinzel', Georgia, serif;
+	--font-display: 'Surabanglus', Georgia, serif;
 	--font-body: 'Lora', Georgia, serif;
 }
 
@@ -85,7 +93,7 @@
 		flex-shrink: 0;
 	}
 	.ap-topbar-title {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 14px;
 		letter-spacing: 0.12em;
 		color: var(--gold);
@@ -93,7 +101,7 @@
 		text-decoration: none;
 	}
 	.ap-topbar-subtitle {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 13px;
 		color: var(--ink-light);
 		font-style: italic;
@@ -119,7 +127,7 @@
 		border-color: var(--border-gold);
 	}
 	.ap-topbar-home-btn {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 11px;
 		letter-spacing: 0.1em;
 		color: var(--ink-light);
@@ -141,7 +149,7 @@
 
 	/* ── Section labels ── */
 	.ap-section-label {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 11px;
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
@@ -158,7 +166,7 @@
 	}
 
 	.ap-section-label-ink {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 9px;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
@@ -256,7 +264,7 @@
 		color: var(--ink);
 		border: 1.5px solid var(--gold);
 		border-radius: var(--r);
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -297,7 +305,7 @@
 		color: var(--ink-mid);
 		border: 1.5px solid var(--parchment3);
 		border-radius: var(--r);
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -331,7 +339,7 @@
 		color: var(--gold-light);
 		border: 1.5px solid rgba(184, 144, 58, 0.4);
 		border-radius: var(--r);
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -368,7 +376,7 @@
 		color: var(--danger);
 		border: 1.5px solid rgba(139, 42, 42, 0.5);
 		border-radius: var(--r);
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -410,7 +418,7 @@
 		border-bottom-color: var(--gold);
 	}
 	.ap-field-input.large {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 22px;
 		font-weight: 600;
 	}
@@ -465,7 +473,7 @@
 		border: 1.5px solid var(--parchment3);
 		background: var(--parchment2);
 		border-radius: 2px;
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 24px;
 		font-weight: 700;
 		text-align: center;

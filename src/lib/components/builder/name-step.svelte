@@ -45,7 +45,7 @@
 		margin-bottom: 20px;
 	}
 	.title {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 28px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -60,7 +60,7 @@
 	}
 	.name-input {
 		text-align: center;
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 18px;
 	}
 	.actions {

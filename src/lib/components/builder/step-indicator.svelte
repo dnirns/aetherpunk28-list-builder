@@ -59,7 +59,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 12px;
 		border-radius: 50%;
 		border: 1px solid rgba(122, 110, 98, 0.4);
@@ -82,7 +82,7 @@
 	}
 
 	.step-label {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 11px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;

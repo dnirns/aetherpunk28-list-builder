@@ -201,7 +201,7 @@
 		margin-bottom: 12px;
 	}
 	.complete-title {
-		font-family: 'Cinzel', serif;
+		font-family: 'Surabanglus', serif;
 		font-size: 28px;
 		font-weight: 600;
 		color: var(--gold-light);
