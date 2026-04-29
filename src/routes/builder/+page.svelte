@@ -202,14 +202,14 @@
 	}
 	.complete-title {
 		font-family: 'Surabanglus', serif;
-		font-size: 28px;
+		font-size: 30px;
 		font-weight: 600;
 		color: var(--gold-light);
 		margin-bottom: 4px;
 	}
 	.complete-sub {
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-bottom: 24px;
@@ -238,8 +238,8 @@
 		border: 1px dashed rgba(122, 110, 98, 0.3);
 		border-radius: 4px;
 		color: var(--ink-light);
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		font-style: italic;
 	}
 	.complete-actions {

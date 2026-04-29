@@ -46,14 +46,14 @@
 	}
 	.title {
 		font-family: 'Surabanglus', serif;
-		font-size: 28px;
+		font-size: 30px;
 		font-weight: 600;
 		color: var(--parchment);
 		margin-bottom: 8px;
 	}
 	.subtitle {
-		font-family: 'Lora', serif;
-		font-size: 14px;
+		font-family: 'Spectral', serif;
+		font-size: 16px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-bottom: 28px;
@@ -61,7 +61,7 @@
 	.name-input {
 		text-align: center;
 		font-family: 'Surabanglus', serif;
-		font-size: 18px;
+		font-size: 20px;
 	}
 	.actions {
 		margin-top: 24px;

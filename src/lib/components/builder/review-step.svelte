@@ -47,7 +47,7 @@
 	}
 	.title {
 		font-family: 'Surabanglus', serif;
-		font-size: 24px;
+		font-size: 26px;
 		font-weight: 600;
 		color: var(--parchment);
 		margin-bottom: 24px;
@@ -61,7 +61,7 @@
 	}
 	.errors h3 {
 		font-family: 'Surabanglus', serif;
-		font-size: 12px;
+		font-size: 14px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: #d97a7a;
@@ -72,8 +72,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		color: #e0a3a3;
 	}
 	.errors li::before {

@@ -153,20 +153,20 @@
 	}
 	.name {
 		font-family: 'Surabanglus', serif;
-		font-size: 20px;
+		font-size: 22px;
 		font-weight: 600;
 		color: var(--gold-light);
 	}
 	.template {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-top: 2px;
 	}
 	.meta {
-		font-family: 'Lora', serif;
-		font-size: 11px;
+		font-family: 'Spectral', serif;
+		font-size: 13px;
 		color: var(--ink-light);
 		margin-top: 2px;
 	}
@@ -177,7 +177,7 @@
 		padding: 4px 10px;
 		color: var(--ink-light);
 		cursor: pointer;
-		font-size: 13px;
+		font-size: 15px;
 		transition:
 			color 0.15s,
 			border-color 0.15s;
@@ -199,7 +199,7 @@
 		font-family: 'Surabanglus', serif;
 	}
 	.stat-table th {
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--ink-light);
@@ -208,13 +208,13 @@
 		border-bottom: 1px solid var(--border-gold-faint);
 	}
 	.stat-table td {
-		font-size: 14px;
+		font-size: 16px;
 		color: var(--parchment);
 		padding: 8px 4px;
 		text-align: center;
 	}
 	.stat-table td.surge {
-		font-size: 11px;
+		font-size: 13px;
 	}
 
 	.rows {
@@ -245,23 +245,23 @@
 	}
 	.row-name {
 		font-family: 'Surabanglus', serif;
-		font-size: 13px;
+		font-size: 15px;
 		color: var(--parchment);
 	}
 	.row-meta {
-		font-family: 'Lora', serif;
-		font-size: 11px;
+		font-family: 'Spectral', serif;
+		font-size: 13px;
 		color: var(--ink-light);
 		font-style: italic;
 	}
 	.row-cost {
 		font-family: 'Surabanglus', serif;
-		font-size: 11px;
+		font-size: 13px;
 		color: var(--gold-light);
 	}
 	.row-desc {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		color: var(--ink-light);
 		line-height: 1.5;
 	}

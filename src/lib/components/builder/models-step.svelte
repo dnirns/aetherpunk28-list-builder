@@ -147,14 +147,14 @@
 	}
 	.title {
 		font-family: 'Surabanglus', serif;
-		font-size: 24px;
+		font-size: 26px;
 		font-weight: 600;
 		color: var(--parchment);
 		margin-top: 6px;
 	}
 	.subtitle {
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-top: 4px;
@@ -165,7 +165,7 @@
 	}
 	.budget-amount {
 		font-family: 'Surabanglus', serif;
-		font-size: 22px;
+		font-size: 24px;
 		font-weight: 600;
 		color: var(--gold-light);
 	}
@@ -175,8 +175,8 @@
 		font-weight: 400;
 	}
 	.budget-remaining {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-top: 2px;
@@ -209,7 +209,7 @@
 	}
 	.list-header {
 		font-family: 'Surabanglus', serif;
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: var(--gold);
@@ -250,22 +250,22 @@
 	}
 	.list-row-name {
 		font-family: 'Surabanglus', serif;
-		font-size: 13px;
+		font-size: 15px;
 		color: var(--parchment);
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
 	.list-row-sub {
-		font-family: 'Lora', serif;
-		font-size: 11px;
+		font-family: 'Spectral', serif;
+		font-size: 13px;
 		font-style: italic;
 		color: var(--ink-light);
 		margin-top: 1px;
 	}
 	.list-row-cost {
 		font-family: 'Surabanglus', serif;
-		font-size: 12px;
+		font-size: 14px;
 		color: var(--gold-light);
 		flex-shrink: 0;
 	}
@@ -277,8 +277,8 @@
 		border: 1px dashed rgba(184, 144, 58, 0.35);
 		border-radius: var(--r);
 		color: var(--gold);
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -293,7 +293,7 @@
 		border-color: var(--gold);
 	}
 	.add-model-btn .plus {
-		font-size: 18px;
+		font-size: 20px;
 		line-height: 1;
 	}
 
@@ -310,8 +310,8 @@
 		border: 1px dashed rgba(122, 110, 98, 0.3);
 		border-radius: 4px;
 		color: var(--ink-light);
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		font-style: italic;
 	}
 
@@ -324,10 +324,10 @@
 
 	@media (max-width: 640px) {
 		.title {
-			font-size: 20px;
+			font-size: 22px;
 		}
 		.budget-amount {
-			font-size: 18px;
+			font-size: 20px;
 		}
 	}
 </style>

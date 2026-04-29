@@ -261,7 +261,7 @@
 		align-items: center;
 		gap: 18px;
 		padding: 96px 24px;
-		font-family: 'Lora', serif;
+		font-family: 'Spectral', serif;
 		color: var(--ink-light);
 	}
 
@@ -295,7 +295,7 @@
 	.editing-badge {
 		display: inline-block;
 		font-family: 'Surabanglus', serif;
-		font-size: 11px;
+		font-size: 13px;
 		font-weight: 600;
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
@@ -322,7 +322,7 @@
 	}
 	.title {
 		font-family: 'Surabanglus', serif;
-		font-size: 24px;
+		font-size: 26px;
 		font-weight: 600;
 		color: var(--parchment);
 	}
@@ -334,7 +334,7 @@
 		border-bottom: 1.5px solid var(--gold);
 		color: var(--parchment);
 		font-family: 'Surabanglus', serif;
-		font-size: 24px;
+		font-size: 26px;
 		font-weight: 600;
 		outline: none;
 		padding: 0 0 2px;
@@ -342,15 +342,15 @@
 		max-width: 420px;
 	}
 	.edit-hint {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		color: var(--ink-light);
 		opacity: 0.4;
 		transition: opacity 0.2s;
 	}
 	.subtitle {
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-top: 4px;
@@ -361,7 +361,7 @@
 	}
 	.budget-amount {
 		font-family: 'Surabanglus', serif;
-		font-size: 22px;
+		font-size: 24px;
 		font-weight: 600;
 		color: var(--gold-light);
 		display: inline-flex;
@@ -393,7 +393,7 @@
 		border-bottom: 1.5px solid var(--gold);
 		color: var(--gold-light);
 		font-family: 'Surabanglus', serif;
-		font-size: 22px;
+		font-size: 24px;
 		font-weight: 600;
 		width: 70px;
 		text-align: right;
@@ -405,8 +405,8 @@
 		-webkit-appearance: none;
 	}
 	.budget-remaining {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-top: 2px;
@@ -424,7 +424,7 @@
 	}
 	.errors h3 {
 		font-family: 'Surabanglus', serif;
-		font-size: 11px;
+		font-size: 13px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: var(--danger);
@@ -432,8 +432,8 @@
 	}
 	.errors ul {
 		list-style: none;
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		color: var(--danger);
 		display: flex;
 		flex-direction: column;
@@ -467,7 +467,7 @@
 	}
 	.list-header {
 		font-family: 'Surabanglus', serif;
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: var(--gold);
@@ -508,22 +508,22 @@
 	}
 	.list-row-name {
 		font-family: 'Surabanglus', serif;
-		font-size: 13px;
+		font-size: 15px;
 		color: var(--parchment);
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
 	.list-row-sub {
-		font-family: 'Lora', serif;
-		font-size: 11px;
+		font-family: 'Spectral', serif;
+		font-size: 13px;
 		font-style: italic;
 		color: var(--ink-light);
 		margin-top: 1px;
 	}
 	.list-row-cost {
 		font-family: 'Surabanglus', serif;
-		font-size: 12px;
+		font-size: 14px;
 		color: var(--gold-light);
 		flex-shrink: 0;
 	}
@@ -535,8 +535,8 @@
 		border: 1px dashed rgba(184, 144, 58, 0.35);
 		border-radius: var(--r);
 		color: var(--gold);
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -551,7 +551,7 @@
 		border-color: var(--gold);
 	}
 	.add-model-btn .plus {
-		font-size: 18px;
+		font-size: 20px;
 		line-height: 1;
 	}
 
@@ -568,8 +568,8 @@
 		border: 1px dashed rgba(122, 110, 98, 0.3);
 		border-radius: 4px;
 		color: var(--ink-light);
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		font-style: italic;
 	}
 
@@ -583,11 +583,11 @@
 	@media (max-width: 640px) {
 		.title,
 		.title-input {
-			font-size: 20px;
+			font-size: 22px;
 		}
 		.budget-amount,
 		.treasury-input {
-			font-size: 18px;
+			font-size: 20px;
 		}
 	}
 </style>

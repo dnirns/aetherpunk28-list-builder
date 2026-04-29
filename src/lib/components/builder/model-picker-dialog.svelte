@@ -112,7 +112,7 @@
 	}
 	.picker-title {
 		font-family: 'Surabanglus', serif;
-		font-size: 18px;
+		font-size: 20px;
 		font-weight: 600;
 		color: var(--parchment);
 		margin-top: 4px;
@@ -124,8 +124,8 @@
 		padding: 4px 10px;
 		color: var(--ink-light);
 		cursor: pointer;
-		font-size: 13px;
-		font-family: 'Lora', serif;
+		font-size: 15px;
+		font-family: 'Spectral', serif;
 		transition:
 			color 0.15s,
 			border-color 0.15s;
@@ -175,14 +175,14 @@
 	}
 	.card-name {
 		font-family: 'Surabanglus', serif;
-		font-size: 15px;
+		font-size: 17px;
 		font-weight: 600;
 		color: var(--parchment);
 		line-height: 1.2;
 	}
 	.card-sub {
-		font-family: 'Lora', serif;
-		font-size: 11px;
+		font-family: 'Spectral', serif;
+		font-size: 13px;
 		font-style: italic;
 		color: var(--ink-light);
 		margin-top: 2px;
@@ -195,14 +195,14 @@
 	}
 	.card-cost {
 		font-family: 'Surabanglus', serif;
-		font-size: 14px;
+		font-size: 16px;
 		font-weight: 600;
 		color: var(--gold-light);
 		flex-shrink: 0;
 		line-height: 1.2;
 	}
 	.card-cost .unit {
-		font-size: 10px;
+		font-size: 12px;
 		color: var(--ink-light);
 		font-weight: 400;
 	}
@@ -212,13 +212,13 @@
 		flex-wrap: wrap;
 		gap: 4px 12px;
 		font-family: 'Surabanglus', serif;
-		font-size: 11px;
+		font-size: 13px;
 		color: var(--parchment);
 	}
 	.card-stats .key {
 		color: var(--ink-light);
 		letter-spacing: 0.08em;
-		font-size: 9px;
+		font-size: 11px;
 		margin-right: 2px;
 	}
 
@@ -229,7 +229,7 @@
 	}
 	.rule-tag {
 		font-family: 'Surabanglus', serif;
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.04em;
 		color: #c2a8e0;
 		border: 1px solid rgba(90, 62, 122, 0.4);

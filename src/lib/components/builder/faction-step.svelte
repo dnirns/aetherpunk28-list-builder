@@ -73,14 +73,14 @@
 	}
 	.title {
 		font-family: 'Surabanglus', serif;
-		font-size: 24px;
+		font-size: 26px;
 		font-weight: 600;
 		color: var(--parchment);
 		margin-bottom: 6px;
 	}
 	.subtitle {
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-bottom: 24px;
@@ -141,13 +141,13 @@
 	}
 	.faction-name {
 		font-family: 'Surabanglus', serif;
-		font-size: 17px;
+		font-size: 19px;
 		font-weight: 600;
 		color: var(--parchment);
 	}
 	.faction-symbol {
-		font-family: 'Lora', serif;
-		font-size: 11px;
+		font-family: 'Spectral', serif;
+		font-size: 13px;
 		font-style: italic;
 		color: var(--ink-light);
 	}
@@ -155,12 +155,12 @@
 	.faction-row {
 		display: flex;
 		gap: 10px;
-		font-size: 12px;
+		font-size: 14px;
 		line-height: 1.4;
 	}
 	.row-label {
 		font-family: 'Surabanglus', serif;
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--ink-light);

@@ -117,7 +117,7 @@
 
 	.card-name {
 		font-family: 'Surabanglus', serif;
-		font-size: 18px;
+		font-size: 20px;
 		font-weight: 600;
 		color: var(--parchment);
 		line-height: 1.2;
@@ -127,7 +127,7 @@
 		background: none;
 		border: none;
 		color: var(--ink-light);
-		font-size: 13px;
+		font-size: 15px;
 		cursor: pointer;
 		padding: 2px 6px;
 		opacity: 0;
@@ -154,14 +154,14 @@
 	}
 	.card-meta-label {
 		font-family: 'Surabanglus', serif;
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--ink-light);
 	}
 	.card-meta-val {
 		font-family: 'Surabanglus', serif;
-		font-size: 14px;
+		font-size: 16px;
 		color: var(--gold-light);
 		font-weight: 600;
 	}
@@ -172,8 +172,8 @@
 	}
 
 	.card-faction {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		font-style: italic;
 		color: var(--ink-light);
 	}
@@ -186,7 +186,7 @@
 
 	.card-open {
 		font-family: 'Surabanglus', serif;
-		font-size: 11px;
+		font-size: 13px;
 		letter-spacing: 0.1em;
 		color: var(--gold);
 		margin-top: auto;
@@ -199,12 +199,12 @@
 	}
 
 	.new-college-plus {
-		font-size: 28px;
+		font-size: 30px;
 		line-height: 1;
 	}
 	.new-college-label {
 		font-family: 'Surabanglus', serif;
-		font-size: 12px;
+		font-size: 14px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 	}

@@ -60,7 +60,7 @@
 		align-items: center;
 		justify-content: center;
 		font-family: 'Surabanglus', serif;
-		font-size: 12px;
+		font-size: 14px;
 		border-radius: 50%;
 		border: 1px solid rgba(122, 110, 98, 0.4);
 		color: var(--ink-light);
@@ -83,7 +83,7 @@
 
 	.step-label {
 		font-family: 'Surabanglus', serif;
-		font-size: 11px;
+		font-size: 13px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: var(--ink-light);

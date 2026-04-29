@@ -111,14 +111,14 @@
 	}
 	.title {
 		font-family: 'Surabanglus', serif;
-		font-size: 28px;
+		font-size: 30px;
 		font-weight: 600;
 		color: var(--parchment);
 		margin-bottom: 8px;
 	}
 	.subtitle {
-		font-family: 'Lora', serif;
-		font-size: 14px;
+		font-family: 'Spectral', serif;
+		font-size: 16px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-bottom: 28px;
@@ -160,18 +160,18 @@
 	}
 	.preset-amount {
 		font-family: 'Surabanglus', serif;
-		font-size: 20px;
+		font-size: 22px;
 		font-weight: 600;
 		color: var(--gold-light);
 	}
 	.preset-unit {
-		font-family: 'Lora', serif;
-		font-size: 11px;
+		font-family: 'Spectral', serif;
+		font-size: 13px;
 		color: var(--ink-light);
 		font-style: italic;
 	}
 	.no-limit .preset-amount {
-		font-size: 22px;
+		font-size: 24px;
 	}
 
 	.custom {
@@ -183,7 +183,7 @@
 	}
 	.custom-label {
 		font-family: 'Surabanglus', serif;
-		font-size: 10px;
+		font-size: 12px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: var(--ink-light);
@@ -192,7 +192,7 @@
 		max-width: 200px;
 		text-align: center;
 		font-family: 'Surabanglus', serif;
-		font-size: 18px;
+		font-size: 20px;
 	}
 	.custom-input.active {
 		border-color: var(--gold);

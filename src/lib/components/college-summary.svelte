@@ -144,13 +144,13 @@
 	}
 	.summary-name {
 		font-family: 'Surabanglus', serif;
-		font-size: 22px;
+		font-size: 24px;
 		font-weight: 600;
 		color: var(--parchment);
 	}
 	.summary-faction {
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		color: var(--ink-light);
 		font-style: italic;
 		margin-top: 2px;
@@ -160,18 +160,18 @@
 	}
 	.cost-amount {
 		font-family: 'Surabanglus', serif;
-		font-size: 22px;
+		font-size: 24px;
 		font-weight: 600;
 		color: var(--gold-light);
 	}
 	.cost-amount .unit {
-		font-size: 13px;
+		font-size: 15px;
 		color: var(--ink-light);
 		font-weight: 400;
 	}
 	.cost-of {
-		font-family: 'Lora', serif;
-		font-size: 11px;
+		font-family: 'Spectral', serif;
+		font-size: 13px;
 		color: var(--ink-light);
 		font-style: italic;
 	}
@@ -191,14 +191,14 @@
 	}
 	.key-label {
 		font-family: 'Surabanglus', serif;
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--ink-light);
 	}
 	.key-val {
 		font-family: 'Surabanglus', serif;
-		font-size: 16px;
+		font-size: 18px;
 		font-weight: 600;
 		color: var(--parchment);
 	}
@@ -206,7 +206,7 @@
 		color: var(--gold-light);
 	}
 	.key-val .unit {
-		font-size: 11px;
+		font-size: 13px;
 		color: var(--ink-light);
 		font-weight: 400;
 	}
@@ -220,26 +220,26 @@
 	}
 	.info-label {
 		font-family: 'Surabanglus', serif;
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--gold);
 	}
 	.info-name {
 		font-family: 'Surabanglus', serif;
-		font-size: 14px;
+		font-size: 16px;
 		color: var(--parchment);
 		font-weight: 600;
 	}
 	.info-cost {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		color: var(--ink-light);
 		margin-left: 6px;
 	}
 	.info-desc {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		color: var(--ink-light);
 		font-style: italic;
 		line-height: 1.5;
@@ -300,19 +300,19 @@
 	}
 	.model-name {
 		font-family: 'Surabanglus', serif;
-		font-size: 14px;
+		font-size: 16px;
 		font-weight: 600;
 		color: var(--parchment);
 	}
 	.model-template {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		font-style: italic;
 		color: var(--ink-light);
 	}
 	.leader-badge {
 		font-family: 'Surabanglus', serif;
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: #a07acc;
@@ -322,7 +322,7 @@
 	}
 	.model-cost {
 		font-family: 'Surabanglus', serif;
-		font-size: 13px;
+		font-size: 15px;
 		color: var(--gold-light);
 	}
 	.model-tags {

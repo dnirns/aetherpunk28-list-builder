@@ -290,7 +290,7 @@
 		display: block;
 		width: 100%;
 		font-family: 'Surabanglus', serif;
-		font-size: 20px;
+		font-size: 22px;
 		font-weight: 600;
 		color: var(--parchment);
 		background: transparent;
@@ -302,15 +302,15 @@
 	}
 	@media (min-width: 640px) {
 		.name-input {
-			font-size: 22px;
+			font-size: 24px;
 		}
 	}
 	.name-input:focus {
 		border-bottom-color: var(--gold);
 	}
 	.meta {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		font-style: italic;
 		color: var(--ink-light);
 		margin-top: 4px;
@@ -322,14 +322,14 @@
 	}
 	.cost {
 		font-family: 'Surabanglus', serif;
-		font-size: 18px;
+		font-size: 20px;
 		font-weight: 600;
 		color: var(--gold-light);
 		flex-shrink: 0;
 	}
 	.remove-btn {
 		font-family: 'Surabanglus', serif;
-		font-size: 11px;
+		font-size: 13px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: var(--danger);
@@ -373,17 +373,17 @@
 		border: 1px solid var(--border-gold-faint);
 		border-radius: 2px;
 		font-family: 'Surabanglus', serif;
-		font-size: 18px;
+		font-size: 20px;
 		font-weight: 600;
 		color: var(--parchment);
 		padding: 0 8px;
 	}
 	.stat-val.small {
-		font-size: 12px;
+		font-size: 14px;
 	}
 	.stat-lbl {
 		font-family: 'Surabanglus', serif;
-		font-size: 9px;
+		font-size: 11px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--ink-light);
@@ -414,8 +414,8 @@
 		gap: 4px;
 	}
 	.upgrade-legend {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		font-style: italic;
 		color: var(--ink-light);
 		padding: 0;
@@ -427,8 +427,8 @@
 		gap: 10px;
 		padding: 5px 8px;
 		border-radius: 2px;
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		color: var(--parchment);
 		cursor: pointer;
 		transition: background 0.12s;
@@ -448,17 +448,17 @@
 	.upgrade-cost {
 		color: var(--gold-light);
 		font-family: 'Surabanglus', serif;
-		font-size: 11px;
+		font-size: 13px;
 	}
 	.upgrade-desc {
 		color: var(--ink-light);
-		font-size: 12px;
+		font-size: 14px;
 		font-style: italic;
 	}
 
 	.muted-line {
-		font-family: 'Lora', serif;
-		font-size: 12px;
+		font-family: 'Spectral', serif;
+		font-size: 14px;
 		color: var(--ink-light);
 		font-style: italic;
 	}
@@ -468,8 +468,8 @@
 		background: var(--panel);
 		border: 1px solid var(--border-gold-faint);
 		color: var(--parchment);
-		font-family: 'Lora', serif;
-		font-size: 13px;
+		font-family: 'Spectral', serif;
+		font-size: 15px;
 		padding: 8px 12px;
 		border-radius: var(--r);
 		outline: none;
