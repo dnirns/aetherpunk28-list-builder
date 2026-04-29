@@ -133,8 +133,9 @@
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
-		gap: 24px;
+		gap: 16px;
 		margin-bottom: 24px;
+		flex-wrap: wrap;
 	}
 	.title {
 		font-family: 'Cinzel', serif;
@@ -152,6 +153,7 @@
 	}
 	.budget {
 		text-align: right;
+		flex-shrink: 0;
 	}
 	.budget-amount {
 		font-family: 'Cinzel', serif;
@@ -177,9 +179,14 @@
 
 	.layout {
 		display: grid;
-		grid-template-columns: 260px 1fr;
+		grid-template-columns: 1fr;
 		gap: 18px;
-		min-height: 32rem;
+	}
+	@media (min-width: 820px) {
+		.layout {
+			grid-template-columns: 260px 1fr;
+			min-height: 32rem;
+		}
 	}
 
 	.lists {
@@ -303,6 +310,16 @@
 	.actions {
 		display: flex;
 		justify-content: space-between;
+		gap: 12px;
 		margin-top: 24px;
+	}
+
+	@media (max-width: 640px) {
+		.title {
+			font-size: 20px;
+		}
+		.budget-amount {
+			font-size: 18px;
+		}
 	}
 </style>

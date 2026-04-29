@@ -101,106 +101,81 @@
 		<a class="ap-btn-ghost-dark" href={resolve('/')}>Back to Home</a>
 	</div>
 {:else}
-	<div class="edit-shell">
-		<aside class="sidebar">
-			<div class="college-header">
-				<div class="college-label">College</div>
-				{#if editingName}
-					<input
-						bind:this={nameInputEl}
-						class="college-name-input"
-						value={collegeStore.name}
-						oninput={(e) => collegeStore.setName((e.target as HTMLInputElement).value)}
-						onblur={() => {
-							if (collegeStore.name.trim()) editingName = false;
-						}}
-						onkeydown={(e) => {
-							if (e.key === 'Enter' && collegeStore.name.trim()) editingName = false;
-						}}
-					/>
-				{:else}
-					<button
-						class="college-name-display"
-						onclick={() => (editingName = true)}
-						title="Click to rename"
-					>
-						<span>{collegeStore.name}</span>
-						<span class="edit-hint">✎</span>
-					</button>
-				{/if}
-
-				<div class="treasury-row">
-					<span class="treasury-label">Treasury</span>
-					{#if editingTreasury}
+	<div class="builder-shell">
+		<div class="edit-page">
+			<header class="step-head">
+				<div class="head-text">
+					<div class="ap-section-label-ink">Editing</div>
+					{#if editingName}
 						<input
-							bind:this={treasuryInputEl}
-							class="treasury-input"
-							type="number"
-							min="0"
-							value={collegeStore.gameConfig.pointsLimit}
-							oninput={(e) => {
-								const v = Number((e.target as HTMLInputElement).value) || 0;
-								collegeStore.setGameConfig({ ...collegeStore.gameConfig, pointsLimit: v });
+							bind:this={nameInputEl}
+							class="title-input"
+							value={collegeStore.name}
+							oninput={(e) => collegeStore.setName((e.target as HTMLInputElement).value)}
+							onblur={() => {
+								if (collegeStore.name.trim()) editingName = false;
 							}}
-							onblur={() => (editingTreasury = false)}
 							onkeydown={(e) => {
-								if (e.key === 'Enter') editingTreasury = false;
+								if (e.key === 'Enter' && collegeStore.name.trim()) editingName = false;
 							}}
 						/>
 					{:else}
-						<button class="treasury-display" onclick={() => (editingTreasury = true)}>
-							<span class="treasury-amount">{collegeStore.gameConfig.pointsLimit}</span>
-							<span class="treasury-unit">shillings ✎</span>
+						<button
+							class="title-button"
+							onclick={() => (editingName = true)}
+							title="Click to rename"
+						>
+							<span class="title">{collegeStore.name}</span>
+							<span class="edit-hint" aria-hidden="true">✎</span>
 						</button>
 					{/if}
+					{#if faction}
+						<p class="subtitle">{faction.name}</p>
+					{/if}
 				</div>
-
-				<div class="treasury-row">
-					<span class="treasury-label">Spent</span>
-					<span class="spent-amount" class:over={budgetRemaining < 0}>
-						{collegeStore.totalCost}
-						<span class="spent-unit"
-							>· {budgetRemaining >= 0
-								? `${budgetRemaining} left`
-								: `${Math.abs(budgetRemaining)} over`}</span
-						>
-					</span>
-				</div>
-
-				{#if faction}
-					<div class="faction-line">
-						<span class="treasury-label">Faction</span>
-						<span class="faction-name">{faction.name}</span>
-					</div>
-				{/if}
-			</div>
-
-			<div class="roster-list">
-				<div class="ap-section-label-ink list-heading">Roster ({allModels.length})</div>
-				{#each allModels as model (model.id)}
-					<button
-						class="roster-item"
-						class:active={selectedModel?.id === model.id}
-						onclick={() => selectRosterModel(model.id)}
-					>
-						<div class="roster-info">
-							<div class="roster-name">{model.name}</div>
-							<div class="roster-role">{model.template.name}</div>
-						</div>
-						<div class="roster-cost">{model.totalCost}</div>
-						{#if model.template.id === 'wizard'}
-							<span class="required-badge">Leader</span>
+				<div class="budget">
+					<div class="budget-amount">
+						{collegeStore.totalCost} <span class="budget-sep">/</span>
+						{#if editingTreasury}
+							<input
+								bind:this={treasuryInputEl}
+								class="treasury-input"
+								type="number"
+								min="0"
+								value={collegeStore.gameConfig.pointsLimit}
+								oninput={(e) => {
+									const v = Number((e.target as HTMLInputElement).value) || 0;
+									collegeStore.setGameConfig({
+										...collegeStore.gameConfig,
+										pointsLimit: v
+									});
+								}}
+								onblur={() => (editingTreasury = false)}
+								onkeydown={(e) => {
+									if (e.key === 'Enter') editingTreasury = false;
+								}}
+							/>
+						{:else}
+							<button
+								class="treasury-button"
+								onclick={() => (editingTreasury = true)}
+								title="Click to edit treasury"
+							>
+								{collegeStore.gameConfig.pointsLimit}<span class="edit-hint" aria-hidden="true"
+									>✎</span
+								>
+							</button>
 						{/if}
-					</button>
-				{/each}
-			</div>
+						<span class="budget-unit">Sh</span>
+					</div>
+					<div class="budget-remaining" class:over={budgetRemaining < 0}>
+						{budgetRemaining >= 0
+							? `${budgetRemaining} Shillings remaining`
+							: `${Math.abs(budgetRemaining)} Shillings over budget`}
+					</div>
+				</div>
+			</header>
 
-			<button class="add-model-btn" onclick={() => (pickerOpen = true)}>
-				<span class="plus">+</span> Add Model
-			</button>
-		</aside>
-
-		<main class="editor-pane">
 			{#if hasErrors}
 				<div class="errors">
 					<h3>Validation Errors</h3>
@@ -212,28 +187,56 @@
 				</div>
 			{/if}
 
-			<div class="editor-scroll">
-				{#if selectedModel}
-					<ModelConfigurator
-						modelId={selectedModel.id}
-						showRemove={selectedModel.template.id !== 'wizard'}
-						onremove={() => removeModel(selectedModel.id)}
-					/>
-				{:else}
-					<div class="empty">
-						<div class="empty-sigil">⚗</div>
-						<p>Select a model to configure it</p>
-					</div>
-				{/if}
+			<div class="layout">
+				<aside class="lists">
+					<section class="list-section">
+						<div class="list-header">Roster ({allModels.length})</div>
+						<div class="list-items">
+							{#each allModels as model (model.id)}
+								<button
+									class="list-row"
+									class:active={selectedModel?.id === model.id}
+									onclick={() => selectRosterModel(model.id)}
+								>
+									<div class="list-row-main">
+										<div class="list-row-name">{model.name}</div>
+										<div class="list-row-sub">{model.template.name}</div>
+									</div>
+									<div class="list-row-cost">{model.totalCost} Sh</div>
+								</button>
+							{/each}
+						</div>
+
+						<button class="add-model-btn" onclick={() => (pickerOpen = true)}>
+							<span class="plus">+</span> Add Model
+						</button>
+					</section>
+				</aside>
+
+				<main class="detail">
+					{#if selectedModel}
+						<ModelConfigurator
+							modelId={selectedModel.id}
+							showRemove={selectedModel.template.id !== 'wizard'}
+							onremove={() => removeModel(selectedModel.id)}
+						/>
+					{:else}
+						<div class="empty">Select a model from the list to configure it.</div>
+					{/if}
+				</main>
 			</div>
 
-			<div class="editor-footer">
-				<button class="ap-btn-primary" onclick={handleSave} disabled={!isDirty || hasErrors}>
+			<footer class="actions">
+				<a class="ap-btn-ghost-dark" href="{resolve('/builder')}?view={collegeId}">Cancel</a>
+				<button
+					class="ap-btn-ghost-dark"
+					onclick={handleSave}
+					disabled={!isDirty || hasErrors}
+				>
 					Save College
 				</button>
-				<a class="ap-btn-ghost-dark" href="{resolve('/builder')}?view={collegeId}">Cancel</a>
-			</div>
-		</main>
+			</footer>
+		</div>
 	</div>
 
 	<ModelPickerDialog
@@ -255,110 +258,114 @@
 		color: var(--ink-light);
 	}
 
-	.edit-shell {
-		display: grid;
-		grid-template-columns: 280px 1fr;
-		height: 100%;
-		min-height: 0;
+	.builder-shell {
+		min-height: 100%;
+		padding: 24px 16px 48px;
+	}
+	@media (min-width: 640px) {
+		.builder-shell {
+			padding: 32px 32px 64px;
+		}
 	}
 
-	.sidebar {
-		background: var(--panel2);
-		border-right: 1px solid var(--border-gold);
-		display: flex;
-		flex-direction: column;
-		overflow: hidden;
-		min-height: 0;
+	.edit-page {
+		max-width: 1200px;
+		margin: 0 auto;
 	}
 
-	.college-header {
-		padding: 20px 18px 16px;
-		border-bottom: 1px solid var(--border-gold-faint);
-	}
-	.college-label {
-		font-family: 'Cinzel', serif;
-		font-size: 9px;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: var(--gold);
-		margin-bottom: 6px;
-	}
-	.college-name-display {
+	.step-head {
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
-		gap: 6px;
-		width: 100%;
+		gap: 16px;
+		margin-bottom: 24px;
+		flex-wrap: wrap;
+	}
+	.head-text {
+		min-width: 0;
+		flex: 1;
+	}
+	.title-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
 		background: transparent;
 		border: none;
-		font-family: 'Cinzel', serif;
-		font-size: 17px;
-		font-weight: 600;
-		color: var(--parchment);
-		text-align: left;
-		cursor: pointer;
 		padding: 0;
-		line-height: 1.25;
+		margin-top: 6px;
+		color: inherit;
+		cursor: pointer;
+		text-align: left;
 	}
-	.edit-hint {
-		font-family: 'Lora', serif;
-		font-size: 11px;
-		color: var(--ink-light);
-		opacity: 0;
-		transition: opacity 0.2s;
-		margin-top: 2px;
-	}
-	.college-name-display:hover .edit-hint {
+	.title-button:hover .edit-hint {
 		opacity: 1;
 	}
-	.college-name-input {
+	.title {
+		font-family: 'Cinzel', serif;
+		font-size: 24px;
+		font-weight: 600;
+		color: var(--parchment);
+	}
+	.title-input {
+		display: block;
+		margin-top: 6px;
 		background: transparent;
 		border: none;
 		border-bottom: 1.5px solid var(--gold);
 		color: var(--parchment);
 		font-family: 'Cinzel', serif;
-		font-size: 17px;
+		font-size: 24px;
 		font-weight: 600;
-		width: 100%;
 		outline: none;
 		padding: 0 0 2px;
+		width: 100%;
+		max-width: 420px;
 	}
-
-	.treasury-row {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin-top: 12px;
-	}
-	.treasury-label {
-		font-family: 'Cinzel', serif;
-		font-size: 9px;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-		color: var(--ink-light);
-		flex-shrink: 0;
-	}
-	.treasury-display {
-		display: flex;
-		align-items: center;
-		gap: 5px;
-		background: transparent;
-		border: none;
-		cursor: pointer;
-		padding: 0;
-		color: inherit;
-	}
-	.treasury-amount {
-		font-family: 'Cinzel', serif;
-		font-size: 15px;
-		color: var(--gold-light);
-		font-weight: 600;
-	}
-	.treasury-unit {
+	.edit-hint {
 		font-family: 'Lora', serif;
 		font-size: 12px;
 		color: var(--ink-light);
+		opacity: 0.4;
+		transition: opacity 0.2s;
+	}
+	.subtitle {
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		color: var(--ink-light);
 		font-style: italic;
+		margin-top: 4px;
+	}
+	.budget {
+		text-align: right;
+		flex-shrink: 0;
+	}
+	.budget-amount {
+		font-family: 'Cinzel', serif;
+		font-size: 22px;
+		font-weight: 600;
+		color: var(--gold-light);
+		display: inline-flex;
+		align-items: baseline;
+		gap: 4px;
+	}
+	.budget-sep,
+	.budget-unit {
+		color: var(--ink-light);
+		font-weight: 400;
+	}
+	.treasury-button {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 4px;
+		background: transparent;
+		border: none;
+		padding: 0;
+		font: inherit;
+		color: var(--gold-light);
+		cursor: pointer;
+	}
+	.treasury-button:hover .edit-hint {
+		opacity: 1;
 	}
 	.treasury-input {
 		background: transparent;
@@ -366,9 +373,10 @@
 		border-bottom: 1.5px solid var(--gold);
 		color: var(--gold-light);
 		font-family: 'Cinzel', serif;
-		font-size: 15px;
+		font-size: 22px;
 		font-weight: 600;
 		width: 70px;
+		text-align: right;
 		outline: none;
 		padding-bottom: 1px;
 	}
@@ -376,48 +384,132 @@
 	.treasury-input::-webkit-outer-spin-button {
 		-webkit-appearance: none;
 	}
-	.spent-amount {
-		font-family: 'Cinzel', serif;
-		font-size: 15px;
-		color: var(--parchment);
-	}
-	.spent-amount.over {
-		color: var(--danger);
-	}
-	.spent-unit {
+	.budget-remaining {
 		font-family: 'Lora', serif;
-		font-size: 11px;
+		font-size: 12px;
 		color: var(--ink-light);
 		font-style: italic;
-		margin-left: 4px;
+		margin-top: 2px;
+	}
+	.budget-remaining.over {
+		color: var(--danger);
 	}
 
-	.faction-line {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin-top: 12px;
+	.errors {
+		border: 1px solid rgba(139, 42, 42, 0.4);
+		background: rgba(139, 42, 42, 0.08);
+		border-radius: var(--r);
+		padding: 12px 16px;
+		margin-bottom: 18px;
 	}
-	.faction-name {
+	.errors h3 {
 		font-family: 'Cinzel', serif;
-		font-size: 12px;
-		color: var(--gold-light);
+		font-size: 11px;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--danger);
+		margin-bottom: 6px;
+	}
+	.errors ul {
+		list-style: none;
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		color: var(--danger);
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+	}
+	.errors li::before {
+		content: '· ';
 	}
 
-	.roster-list {
-		flex: 1;
-		overflow-y: auto;
-		padding: 12px 12px 16px;
+	.layout {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+	@media (min-width: 820px) {
+		.layout {
+			grid-template-columns: 260px 1fr;
+			min-height: 32rem;
+		}
+	}
+
+	.lists {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+	.list-section {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+	.list-header {
+		font-family: 'Cinzel', serif;
+		font-size: 9px;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--gold);
+		padding: 0 4px;
+	}
+	.list-items {
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
 	}
-	.list-heading {
-		margin: 6px 4px 8px;
+	.list-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		text-align: left;
+		padding: 9px 12px;
+		background: var(--panel2);
+		border: 1px solid var(--border-gold-faint);
+		border-radius: var(--r);
+		color: inherit;
+		cursor: pointer;
+		transition:
+			background 0.12s,
+			border-color 0.12s;
+	}
+	.list-row:hover {
+		background: var(--panel3);
+		border-color: var(--border-gold);
+	}
+	.list-row.active {
+		border-color: var(--gold);
+		background: rgba(184, 144, 58, 0.08);
+	}
+	.list-row-main {
+		min-width: 0;
+		flex: 1;
+	}
+	.list-row-name {
+		font-family: 'Cinzel', serif;
+		font-size: 13px;
+		color: var(--parchment);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.list-row-sub {
+		font-family: 'Lora', serif;
+		font-size: 11px;
+		font-style: italic;
+		color: var(--ink-light);
+		margin-top: 1px;
+	}
+	.list-row-cost {
+		font-family: 'Cinzel', serif;
+		font-size: 12px;
+		color: var(--gold-light);
+		flex-shrink: 0;
 	}
 
 	.add-model-btn {
-		margin: 8px 12px 14px;
+		margin-top: 4px;
 		padding: 10px 14px;
 		background: transparent;
 		border: 1px dashed rgba(184, 144, 58, 0.35);
@@ -443,144 +535,39 @@
 		line-height: 1;
 	}
 
-	.roster-item {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		padding: 9px 12px;
-		background: transparent;
-		border: 1px solid transparent;
-		border-left: 3px solid transparent;
-		border-radius: var(--r);
-		text-align: left;
-		color: inherit;
-		cursor: pointer;
-		transition:
-			background 0.12s,
-			border-color 0.12s;
-	}
-	.roster-item:hover {
-		background: var(--panel3);
-	}
-	.roster-item.active {
-		background: rgba(184, 144, 58, 0.08);
-		border-left-color: var(--gold);
-	}
-	.roster-info {
-		flex: 1;
+	.detail {
 		min-width: 0;
-	}
-	.roster-name {
-		font-family: 'Cinzel', serif;
-		font-size: 13px;
-		color: var(--parchment);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	.roster-role {
-		font-family: 'Lora', serif;
-		font-size: 11px;
-		font-style: italic;
-		color: var(--ink-light);
-		margin-top: 1px;
-	}
-	.roster-cost {
-		font-family: 'Cinzel', serif;
-		font-size: 12px;
-		color: var(--gold-light);
-		flex-shrink: 0;
-	}
-	.required-badge {
-		font-family: 'Cinzel', serif;
-		font-size: 8px;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: #a07acc;
-		border: 1px solid rgba(90, 62, 122, 0.4);
-		border-radius: 2px;
-		padding: 1px 5px;
-		flex-shrink: 0;
-	}
-
-	.editor-pane {
-		background: var(--parchment);
-		color: var(--ink);
-		display: flex;
-		flex-direction: column;
-		min-height: 0;
-		overflow: hidden;
-	}
-
-	.errors {
-		margin: 18px 36px 0;
-		border: 1px solid rgba(139, 42, 42, 0.4);
-		background: rgba(139, 42, 42, 0.06);
-		border-radius: var(--r);
-		padding: 12px 16px;
-	}
-	.errors h3 {
-		font-family: 'Cinzel', serif;
-		font-size: 11px;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: var(--danger);
-		margin-bottom: 6px;
-	}
-	.errors ul {
-		list-style: none;
-		font-family: 'Lora', serif;
-		font-size: 13px;
-		color: var(--danger);
-		display: flex;
-		flex-direction: column;
-		gap: 3px;
-	}
-	.errors li::before {
-		content: '· ';
-	}
-
-	.editor-scroll {
-		flex: 1;
-		min-height: 0;
-		overflow-y: auto;
-		padding: 28px 36px;
 	}
 
 	.empty {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: 12px;
 		height: 100%;
-		opacity: 0.5;
-	}
-	.empty-sigil {
-		width: 64px;
-		height: 64px;
-		border: 2px solid var(--ink-mid);
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 28px;
-		color: var(--ink-mid);
-	}
-	.empty p {
-		font-family: 'Cinzel', serif;
-		font-size: 14px;
-		letter-spacing: 0.08em;
-		color: var(--ink-mid);
+		min-height: 320px;
+		border: 1px dashed rgba(122, 110, 98, 0.3);
+		border-radius: 4px;
+		color: var(--ink-light);
+		font-family: 'Lora', serif;
+		font-size: 13px;
+		font-style: italic;
 	}
 
-	.editor-footer {
-		flex-shrink: 0;
-		padding: 14px 36px;
-		background: var(--parchment);
-		border-top: 1px solid var(--parchment3);
+	.actions {
 		display: flex;
-		align-items: center;
-		gap: 10px;
+		justify-content: space-between;
+		gap: 12px;
+		margin-top: 24px;
+	}
+
+	@media (max-width: 640px) {
+		.title,
+		.title-input {
+			font-size: 20px;
+		}
+		.budget-amount,
+		.treasury-input {
+			font-size: 18px;
+		}
 	}
 </style>

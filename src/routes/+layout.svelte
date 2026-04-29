@@ -26,7 +26,7 @@
 		{/if}
 	</header>
 
-	<div class="flex-1 overflow-auto">
+	<div class="flex-1 overflow-auto" id="app-scroll">
 		{@render children()}
 	</div>
 </div>

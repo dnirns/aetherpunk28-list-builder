@@ -265,16 +265,22 @@
 		background: var(--panel2);
 		border: 1px solid var(--border-gold-faint);
 		border-radius: 4px;
-		padding: 22px 24px;
+		padding: 16px;
 		display: flex;
 		flex-direction: column;
 		gap: 22px;
+	}
+	@media (min-width: 640px) {
+		.configurator {
+			padding: 22px 24px;
+		}
 	}
 
 	.head {
 		display: flex;
 		align-items: flex-start;
-		gap: 16px;
+		gap: 12px;
+		flex-wrap: wrap;
 	}
 	.head-main {
 		flex: 1;
@@ -284,7 +290,7 @@
 		display: block;
 		width: 100%;
 		font-family: 'Cinzel', serif;
-		font-size: 22px;
+		font-size: 20px;
 		font-weight: 600;
 		color: var(--parchment);
 		background: transparent;
@@ -293,6 +299,11 @@
 		outline: none;
 		padding: 2px 0;
 		transition: border-color 0.15s;
+	}
+	@media (min-width: 640px) {
+		.name-input {
+			font-size: 22px;
+		}
 	}
 	.name-input:focus {
 		border-bottom-color: var(--gold);

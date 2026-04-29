@@ -48,7 +48,8 @@
 
 	const goTo = (step: Step) => {
 		currentStep = step;
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+		const scroller = document.getElementById('app-scroll');
+		scroller?.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 
 	const handleNameNext = () => goTo('faction');
@@ -165,7 +166,12 @@
 <style>
 	.builder-shell {
 		min-height: 100%;
-		padding: 32px 32px 64px;
+		padding: 24px 16px 48px;
+	}
+	@media (min-width: 640px) {
+		.builder-shell {
+			padding: 32px 32px 64px;
+		}
 	}
 	.builder-inner {
 		max-width: 1200px;
