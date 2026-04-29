@@ -124,9 +124,15 @@
 		border-bottom: 1px solid var(--border-gold);
 		display: flex;
 		align-items: center;
-		padding: 0 20px;
-		gap: 14px;
+		padding: 0 12px;
+		gap: 8px;
 		flex-shrink: 0;
+	}
+	@media (min-width: 480px) {
+		.ap-topbar {
+			padding: 0 20px;
+			gap: 14px;
+		}
 	}
 	.ap-topbar-sigil {
 		width: 30px;
@@ -147,6 +153,7 @@
 		color: var(--gold);
 		text-transform: uppercase;
 		text-decoration: none;
+		white-space: nowrap;
 	}
 	.ap-topbar-subtitle {
 		font-family: 'Surabanglus', serif;
@@ -156,6 +163,7 @@
 		letter-spacing: 0.06em;
 	}
 	.ap-topbar-btn {
+		display: none;
 		font-family: 'Spectral', serif;
 		font-size: 14px;
 		color: var(--ink-light);
@@ -173,6 +181,11 @@
 	.ap-topbar-btn:hover {
 		color: var(--gold-light);
 		border-color: var(--border-gold);
+	}
+	@media (min-width: 480px) {
+		.ap-topbar-btn {
+			display: inline-block;
+		}
 	}
 	.ap-topbar-home-btn {
 		font-family: 'Surabanglus', serif;

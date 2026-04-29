@@ -141,7 +141,6 @@
 				<div class="ap-section-label-ink heading-rule">
 					{mode === 'view' ? 'College' : 'Saved'}
 				</div>
-				<h2 class="complete-title">{collegeStore.name}</h2>
 				{#if mode === 'build'}
 					<p class="complete-sub">College has been saved to your device.</p>
 				{/if}
@@ -200,13 +199,7 @@
 	.heading-rule {
 		margin-bottom: 12px;
 	}
-	.complete-title {
-		font-family: 'Surabanglus', serif;
-		font-size: 30px;
-		font-weight: 600;
-		color: var(--gold-light);
-		margin-bottom: 4px;
-	}
+
 	.complete-sub {
 		font-family: 'Spectral', serif;
 		font-size: 15px;

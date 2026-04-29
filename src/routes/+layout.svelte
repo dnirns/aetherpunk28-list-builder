@@ -13,11 +13,8 @@
 
 <div class="flex h-screen flex-col overflow-hidden">
 	<header class="ap-topbar ap-no-print">
-		<a href={resolve('/')} class="ap-topbar-sigil" aria-label="Aetherpunk 28 home">⚗</a>
 		<a href={resolve('/')} class="ap-topbar-title">Aetherpunk 28</a>
-
 		<div class="flex-1"></div>
-
 		{#if !isHome}
 			<button class="ap-topbar-btn" onclick={() => window.print()}>Print / Export PDF</button>
 			<a href={resolve('/')} class="ap-topbar-home-btn">
