@@ -3,6 +3,7 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import PrintLayout from '$lib/components/print-layout.svelte';
 
 	let { children } = $props();
 
@@ -11,7 +12,7 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
-<div class="flex h-screen flex-col overflow-hidden">
+<div class="flex h-screen flex-col overflow-hidden ap-screen-only">
 	<header class="ap-topbar ap-no-print">
 		<a href={resolve('/')} class="ap-topbar-title">Aetherpunk 28</a>
 		<div class="flex-1"></div>
@@ -27,3 +28,7 @@
 		{@render children()}
 	</div>
 </div>
+
+{#if !isHome}
+	<PrintLayout />
+{/if}
