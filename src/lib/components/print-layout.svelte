@@ -281,15 +281,25 @@
 		}
 
 		.models {
-			display: flex;
-			flex-direction: column;
-			gap: 8pt;
+			display: block;
+		}
+		.models::after {
+			content: '';
+			display: block;
+			clear: both;
 		}
 		.model {
+			float: left;
+			width: calc(50% - 4pt);
+			box-sizing: border-box;
 			border: 0.75pt solid black;
 			padding: 6pt 8pt;
+			margin: 0 8pt 8pt 0;
 			break-inside: avoid;
 			page-break-inside: avoid;
+		}
+		.model:nth-child(2n) {
+			margin-right: 0;
 		}
 		.model-head {
 			display: flex;
@@ -391,6 +401,44 @@
 
 		@page {
 			margin: 0;
+		}
+	}
+
+	@media print and (orientation: landscape) {
+		.print-only {
+			padding: 10mm 12mm;
+		}
+		.header {
+			margin-bottom: 6pt;
+			padding-bottom: 4pt;
+		}
+		.college-name {
+			font-size: 18pt;
+		}
+		.faction-info {
+			margin-bottom: 6pt;
+			padding: 4pt 6pt;
+		}
+		.model {
+			width: calc(33.333% - 5.333pt);
+			padding: 5pt 7pt;
+			margin: 0 8pt 6pt 0;
+		}
+		.model:nth-child(2n) {
+			margin-right: 8pt;
+		}
+		.model:nth-child(3n) {
+			margin-right: 0;
+		}
+		.model-name {
+			font-size: 12pt;
+		}
+		.stats {
+			margin: 3pt 0 4pt;
+		}
+		.stats td {
+			font-size: 10pt;
+			padding: 2pt 0;
 		}
 	}
 </style>
