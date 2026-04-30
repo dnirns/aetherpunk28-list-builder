@@ -99,7 +99,7 @@
 @layer base {
 	html,
 	body {
-		background: var(--panel);
+		background: #2a2218 url('/images/paper.jpg') repeat;
 		color: var(--parchment);
 		font-family: 'Spectral', Georgia, serif;
 		font-feature-settings: 'liga', 'kern';

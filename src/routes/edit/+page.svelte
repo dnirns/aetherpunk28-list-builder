@@ -197,7 +197,6 @@
 			<div class="layout">
 				<aside class="lists">
 					<section class="list-section">
-						<div class="list-header">Roster ({allModels.length})</div>
 						<div class="list-items">
 							{#each allModels as model (model.id)}
 								<button
@@ -464,14 +463,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
-	}
-	.list-header {
-		font-family: 'Surabanglus', serif;
-		font-size: 11px;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: var(--gold);
-		padding: 0 4px;
 	}
 	.list-items {
 		display: flex;
