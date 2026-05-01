@@ -120,7 +120,7 @@
 
 	<footer class="actions">
 		<button class="ap-btn-ghost-dark" onclick={onback}>Back</button>
-		<button class="ap-btn-ghost-dark" onclick={onnext}>Review College</button>
+		<button class="ap-btn-ghost-dark" onclick={onnext}>Save College</button>
 	</footer>
 </div>
 

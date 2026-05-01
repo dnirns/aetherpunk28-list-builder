@@ -4,7 +4,6 @@
 	import LimitStep from '$lib/components/builder/limit-step.svelte';
 	import FactionStep from '$lib/components/builder/faction-step.svelte';
 	import ModelsStep from '$lib/components/builder/models-step.svelte';
-	import ReviewStep from '$lib/components/builder/review-step.svelte';
 	import CollegeSummary from '$lib/components/college-summary.svelte';
 	import ModelDetailCard from '$lib/components/model-detail-card.svelte';
 	import { collegeStore } from '$lib/stores/college.store.svelte';
@@ -15,14 +14,13 @@
 	import { page } from '$app/state';
 	import { storage } from '$lib/utils/storage';
 
-	type Step = 'name' | 'limit' | 'faction' | 'models' | 'review' | 'complete';
+	type Step = 'name' | 'limit' | 'faction' | 'models' | 'complete';
 
 	const STEPS = [
 		{ id: 'name', label: 'Name' },
 		{ id: 'limit', label: 'Limit' },
 		{ id: 'faction', label: 'Faction' },
-		{ id: 'models', label: 'Roster' },
-		{ id: 'review', label: 'Review' }
+		{ id: 'models', label: 'Roster' }
 	] as const;
 
 	let currentStep = $state<Step>('name');
@@ -133,9 +131,7 @@
 				onback={handleFactionBack}
 			/>
 		{:else if currentStep === 'models'}
-			<ModelsStep onnext={() => goTo('review')} onback={() => goTo('faction')} />
-		{:else if currentStep === 'review'}
-			<ReviewStep onback={() => goTo('models')} onfinish={handleFinish} />
+			<ModelsStep onnext={handleFinish} onback={() => goTo('faction')} />
 		{:else if currentStep === 'complete'}
 			<div class="complete">
 				<div class="ap-section-label-ink heading-rule">
