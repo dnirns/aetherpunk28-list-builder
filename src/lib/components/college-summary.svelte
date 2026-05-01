@@ -128,6 +128,7 @@
 <style>
 	.summary {
 		background: var(--panel2);
+		color: var(--parchment);
 		border: 1px solid var(--border-gold-faint);
 		border-radius: 4px;
 		padding: 22px 24px;
@@ -267,7 +268,7 @@
 		border: 1px solid var(--border-gold-faint);
 		border-radius: var(--r);
 		padding: 12px 14px;
-		color: inherit;
+		color: var(--parchment);
 		cursor: pointer;
 		transition:
 			border-color 0.15s,
@@ -280,8 +281,13 @@
 		border-color: var(--border-gold);
 	}
 	.model-row.active {
-		border-color: var(--gold);
-		background: rgba(184, 144, 58, 0.06);
+		border-color: var(--gold-light);
+		background:
+			linear-gradient(rgba(184, 144, 58, 0.14), rgba(184, 144, 58, 0.14)),
+			var(--panel);
+		box-shadow:
+			0 0 0 2px var(--gold-light),
+			0 0 12px rgba(184, 144, 58, 0.35);
 	}
 	.model-row.static {
 		cursor: default;

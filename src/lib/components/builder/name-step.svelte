@@ -25,7 +25,7 @@
 		oninput={(e) => onnamechange(e.currentTarget.value)}
 		onkeydown={handleKeydown}
 		placeholder="e.g. The Iron Scholars"
-		class="ap-field-input-dark name-input"
+		class="ap-field-input name-input"
 	/>
 
 	<div class="actions">
@@ -48,7 +48,7 @@
 		font-family: 'Special Elite', serif;
 		font-size: 30px;
 		font-weight: 600;
-		color: var(--parchment);
+		color: var(--ink);
 		margin-bottom: 8px;
 	}
 	.subtitle {

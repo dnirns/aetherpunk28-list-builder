@@ -75,7 +75,7 @@
 		font-family: 'Special Elite', serif;
 		font-size: 26px;
 		font-weight: 600;
-		color: var(--parchment);
+		color: var(--ink);
 		margin-bottom: 6px;
 	}
 	.subtitle {
@@ -102,7 +102,7 @@
 		border: 1px solid var(--border-gold-faint);
 		border-radius: 4px;
 		cursor: pointer;
-		color: inherit;
+		color: var(--parchment);
 		transition:
 			border-color 0.15s,
 			background 0.15s;
@@ -129,8 +129,13 @@
 		opacity: 1;
 	}
 	.faction-card.selected {
-		border-color: var(--gold);
-		background: rgba(184, 144, 58, 0.06);
+		border-color: var(--gold-light);
+		background:
+			linear-gradient(rgba(184, 144, 58, 0.14), rgba(184, 144, 58, 0.14)),
+			var(--panel2);
+		box-shadow:
+			0 0 0 2px var(--gold-light),
+			0 0 12px rgba(184, 144, 58, 0.35);
 	}
 
 	.faction-head {

@@ -323,7 +323,7 @@
 		font-family: 'Special Elite', serif;
 		font-size: 26px;
 		font-weight: 600;
-		color: var(--parchment);
+		color: var(--ink);
 	}
 	.title-input {
 		display: block;
@@ -331,7 +331,7 @@
 		background: transparent;
 		border: none;
 		border-bottom: 1.5px solid var(--gold);
-		color: var(--parchment);
+		color: var(--ink);
 		font-family: 'Special Elite', serif;
 		font-size: 26px;
 		font-weight: 600;
@@ -479,7 +479,7 @@
 		background: var(--panel2);
 		border: 1px solid var(--border-gold-faint);
 		border-radius: var(--r);
-		color: inherit;
+		color: var(--parchment);
 		cursor: pointer;
 		transition:
 			background 0.12s,
@@ -490,8 +490,13 @@
 		border-color: var(--border-gold);
 	}
 	.list-row.active {
-		border-color: var(--gold);
-		background: rgba(184, 144, 58, 0.08);
+		border-color: var(--gold-light);
+		background:
+			linear-gradient(rgba(184, 144, 58, 0.16), rgba(184, 144, 58, 0.16)),
+			var(--panel2);
+		box-shadow:
+			0 0 0 2px var(--gold-light),
+			0 0 12px rgba(184, 144, 58, 0.35);
 	}
 	.list-row-main {
 		min-width: 0;

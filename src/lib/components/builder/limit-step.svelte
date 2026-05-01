@@ -113,7 +113,7 @@
 		font-family: 'Special Elite', serif;
 		font-size: 30px;
 		font-weight: 600;
-		color: var(--parchment);
+		color: var(--ink);
 		margin-bottom: 8px;
 	}
 	.subtitle {
@@ -144,7 +144,7 @@
 		background: var(--panel2);
 		border: 1px solid var(--border-gold-faint);
 		border-radius: var(--r);
-		color: inherit;
+		color: var(--parchment);
 		cursor: pointer;
 		transition:
 			background 0.12s,
@@ -155,8 +155,13 @@
 		border-color: var(--border-gold);
 	}
 	.preset.active {
-		border-color: var(--gold);
-		background: rgba(184, 144, 58, 0.1);
+		border-color: var(--gold-light);
+		background:
+			linear-gradient(rgba(184, 144, 58, 0.16), rgba(184, 144, 58, 0.16)),
+			var(--panel2);
+		box-shadow:
+			0 0 0 2px var(--gold-light),
+			0 0 12px rgba(184, 144, 58, 0.35);
 	}
 	.preset-amount {
 		font-family: 'Special Elite', serif;

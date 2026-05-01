@@ -49,7 +49,7 @@
 		font-family: 'Special Elite', serif;
 		font-size: 26px;
 		font-weight: 600;
-		color: var(--parchment);
+		color: var(--ink);
 		margin-bottom: 24px;
 	}
 	.errors {

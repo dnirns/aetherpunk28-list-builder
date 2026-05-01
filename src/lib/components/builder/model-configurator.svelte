@@ -263,6 +263,7 @@
 <style>
 	.configurator {
 		background: var(--panel2);
+		color: var(--parchment);
 		border: 1px solid var(--border-gold-faint);
 		border-radius: 4px;
 		padding: 16px;

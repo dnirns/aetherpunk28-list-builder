@@ -104,7 +104,7 @@
 	html,
 	body {
 		background: #2a2218 url('/images/paper-background.jpeg') repeat;
-		color: var(--parchment);
+		color: var(--ink);
 		font-family: 'Spectral', Georgia, serif;
 		font-feature-settings: 'liga', 'kern';
 		-webkit-font-smoothing: antialiased;
@@ -263,7 +263,7 @@
 		position: relative;
 		overflow: hidden;
 		text-decoration: none;
-		color: inherit;
+		color: var(--parchment);
 	}
 	.ap-card::before {
 		content: '';

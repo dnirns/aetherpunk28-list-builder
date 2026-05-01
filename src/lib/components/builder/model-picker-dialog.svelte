@@ -152,7 +152,7 @@
 		background: var(--panel);
 		border: 1px solid var(--border-gold-faint);
 		border-radius: var(--r);
-		color: inherit;
+		color: var(--parchment);
 		cursor: pointer;
 		transition:
 			background 0.15s,
