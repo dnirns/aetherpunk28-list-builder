@@ -198,6 +198,7 @@
 		text-align: center;
 		font-family: 'Special Elite', serif;
 		font-size: 20px;
+		color: #000;
 	}
 	.custom-input.active {
 		border-color: var(--gold);
