@@ -15,6 +15,13 @@
 
 	const faction = $derived(FACTIONS.find((f) => f.id === collegeStore.factionId));
 
+	const formatEmpowered = (empowered: NonNullable<typeof faction>['empowered']) =>
+		empowered
+			.map((e) =>
+				e.stat === 'lightCover' ? 'Permanent Light Cover' : `${e.stat.toUpperCase()} ${e.value}`
+			)
+			.join(', ');
+
 	const availableModels = $derived.by(() => {
 		const models: ModelTemplate[] = UNIVERSAL_MODELS.filter((m) => m.id !== 'wizard');
 		if (faction) models.push(faction.uniqueModel);
@@ -78,6 +85,30 @@
 			</div>
 		</div>
 	</header>
+
+	{#if faction}
+		<section class="faction-card" aria-label="Faction information">
+			<div class="faction-heading">
+				<span class="faction-eyebrow">Faction</span>
+				<span class="faction-name">{faction.name}</span>
+				<span class="faction-symbol">Symbol: {faction.symbol}</span>
+			</div>
+
+			<div class="faction-block">
+				<span class="faction-label">Empowered</span>
+				<span class="faction-empowered-val">{formatEmpowered(faction.empowered)}</span>
+			</div>
+
+			<div class="faction-block">
+				<span class="faction-label">Faction Spell</span>
+				<span class="faction-spell-line">
+					{faction.factionSpell.name}
+					<span class="faction-spell-cost">({faction.factionSpell.cost} Ch)</span>
+				</span>
+				<p class="faction-spell-desc">{faction.factionSpell.description}</p>
+			</div>
+		</section>
+	{/if}
 
 	<div class="layout">
 		<aside class="lists">
@@ -150,6 +181,82 @@
 		font-weight: 600;
 		color: var(--ink);
 		margin-top: 6px;
+	}
+	.faction-card {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 12px;
+		padding: 14px 16px;
+		margin-bottom: 20px;
+		background: var(--panel2);
+		border: 1px solid var(--border-gold-faint);
+		border-left: 3px solid var(--gold-light);
+		border-radius: var(--r);
+	}
+	@media (min-width: 720px) {
+		.faction-card {
+			grid-template-columns: minmax(160px, auto) 1fr 1.4fr;
+			gap: 24px;
+			align-items: start;
+		}
+	}
+	.faction-heading {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	.faction-eyebrow {
+		font-family: 'Spectral', serif;
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--ink-light);
+	}
+	.faction-name {
+		font-family: 'Special Elite', serif;
+		font-size: 19px;
+		color: var(--gold-light);
+		line-height: 1.2;
+	}
+	.faction-symbol {
+		font-family: 'Spectral', serif;
+		font-size: 13px;
+		font-style: italic;
+		color: var(--ink-light);
+	}
+	.faction-block {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		min-width: 0;
+	}
+	.faction-label {
+		font-family: 'Spectral', serif;
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--ink-light);
+	}
+	.faction-empowered-val {
+		font-family: 'Special Elite', serif;
+		font-size: 14px;
+		color: var(--parchment);
+	}
+	.faction-spell-line {
+		font-family: 'Special Elite', serif;
+		font-size: 14px;
+		color: var(--parchment);
+	}
+	.faction-spell-cost {
+		color: var(--ink-light);
+		font-weight: 400;
+	}
+	.faction-spell-desc {
+		font-family: 'Spectral', serif;
+		font-size: 13px;
+		color: var(--ink-light);
+		margin-top: 2px;
+		line-height: 1.4;
 	}
 	.subtitle {
 		font-family: 'Spectral', serif;
