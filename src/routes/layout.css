@@ -6,6 +6,10 @@
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
+	size-adjust: 122%;
+	ascent-override: 90%;
+	descent-override: 10%;
+	line-gap-override: 0%;
 }
 
 @font-face {
@@ -72,7 +76,7 @@
 	--color-danger: #8b2a2a;
 	--color-required: #5a3e7a;
 
-	--font-display: 'Surabanglus', Georgia, serif;
+	--font-display: 'Special Elite', Georgia, serif;
 	--font-body: 'Spectral', Georgia, serif;
 }
 
@@ -156,7 +160,7 @@
 		white-space: nowrap;
 	}
 	.ap-topbar-subtitle {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 15px;
 		color: var(--ink-light);
 		font-style: italic;
@@ -188,7 +192,7 @@
 		}
 	}
 	.ap-topbar-home-btn {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 13px;
 		letter-spacing: 0.1em;
 		color: var(--ink-light);
@@ -210,7 +214,7 @@
 
 	/* ── Section labels ── */
 	.ap-section-label {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 13px;
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
@@ -227,7 +231,7 @@
 	}
 
 	.ap-section-label-ink {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 11px;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
@@ -325,7 +329,7 @@
 		color: var(--ink);
 		border: 1.5px solid var(--gold);
 		border-radius: var(--r);
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 14px;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -366,7 +370,7 @@
 		color: var(--ink-mid);
 		border: 1.5px solid var(--parchment3);
 		border-radius: var(--r);
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 14px;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -400,7 +404,7 @@
 		color: var(--gold-light);
 		border: 1.5px solid rgba(184, 144, 58, 0.4);
 		border-radius: var(--r);
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 14px;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -437,7 +441,7 @@
 		color: var(--danger);
 		border: 1.5px solid rgba(139, 42, 42, 0.5);
 		border-radius: var(--r);
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 14px;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -479,7 +483,7 @@
 		border-bottom-color: var(--gold);
 	}
 	.ap-field-input.large {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 24px;
 		font-weight: 600;
 	}
@@ -534,7 +538,7 @@
 		border: 1.5px solid var(--parchment3);
 		background: var(--parchment2);
 		border-radius: 2px;
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 26px;
 		font-weight: 700;
 		text-align: center;

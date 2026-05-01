@@ -207,7 +207,7 @@
 		}
 
 		.brand {
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 			font-size: 10pt;
 			letter-spacing: 0.32em;
 			text-align: center;
@@ -226,7 +226,7 @@
 			margin-bottom: 10pt;
 		}
 		.college-name {
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 			font-size: 22pt;
 			font-weight: 700;
 			line-height: 1.1;
@@ -249,13 +249,13 @@
 			text-align: right;
 		}
 		.meta-label {
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 			font-size: 8pt;
 			letter-spacing: 0.14em;
 			text-transform: uppercase;
 		}
 		.meta-val {
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 			font-size: 13pt;
 			font-weight: 700;
 		}
@@ -273,7 +273,7 @@
 			font-size: 10pt;
 		}
 		.info-label {
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 			text-transform: uppercase;
 			letter-spacing: 0.1em;
 			font-size: 9pt;
@@ -315,7 +315,7 @@
 			flex-wrap: wrap;
 		}
 		.model-name {
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 			font-size: 14pt;
 			font-weight: 700;
 			margin: 0;
@@ -325,7 +325,7 @@
 			font-size: 10pt;
 		}
 		.leader-tag {
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 			font-size: 8pt;
 			letter-spacing: 0.1em;
 			text-transform: uppercase;
@@ -338,7 +338,7 @@
 			font-size: 10pt;
 		}
 		.cost {
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 			font-weight: 700;
 		}
 
@@ -346,7 +346,7 @@
 			width: 100%;
 			border-collapse: collapse;
 			margin: 4pt 0 6pt;
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 		}
 		.stats th {
 			font-size: 8pt;
@@ -370,7 +370,7 @@
 			font-size: 10pt;
 		}
 		.row-label {
-			font-family: 'Surabanglus', Georgia, serif;
+			font-family: 'Special Elite', Georgia, serif;
 			font-size: 8.5pt;
 			letter-spacing: 0.12em;
 			text-transform: uppercase;

@@ -45,7 +45,7 @@
 		margin-bottom: 20px;
 	}
 	.title {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 30px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -60,7 +60,7 @@
 	}
 	.name-input {
 		text-align: center;
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 20px;
 	}
 	.actions {

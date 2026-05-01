@@ -72,7 +72,7 @@
 		margin-bottom: 12px;
 	}
 	.title {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 26px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -140,7 +140,7 @@
 		gap: 8px;
 	}
 	.faction-name {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 19px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -159,7 +159,7 @@
 		line-height: 1.4;
 	}
 	.row-label {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 11px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;

@@ -46,7 +46,7 @@
 		margin-bottom: 12px;
 	}
 	.title {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 26px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -60,7 +60,7 @@
 		margin-bottom: 20px;
 	}
 	.errors h3 {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 14px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;

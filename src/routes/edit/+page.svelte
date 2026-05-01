@@ -293,7 +293,7 @@
 	}
 	.editing-badge {
 		display: inline-block;
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 13px;
 		font-weight: 600;
 		letter-spacing: 0.22em;
@@ -320,7 +320,7 @@
 		opacity: 1;
 	}
 	.title {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 26px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -332,7 +332,7 @@
 		border: none;
 		border-bottom: 1.5px solid var(--gold);
 		color: var(--parchment);
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 26px;
 		font-weight: 600;
 		outline: none;
@@ -359,7 +359,7 @@
 		flex-shrink: 0;
 	}
 	.budget-amount {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 24px;
 		font-weight: 600;
 		color: var(--gold-light);
@@ -391,7 +391,7 @@
 		border: none;
 		border-bottom: 1.5px solid var(--gold);
 		color: var(--gold-light);
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 24px;
 		font-weight: 600;
 		width: 70px;
@@ -422,7 +422,7 @@
 		margin-bottom: 18px;
 	}
 	.errors h3 {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 13px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
@@ -498,7 +498,7 @@
 		flex: 1;
 	}
 	.list-row-name {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 15px;
 		color: var(--parchment);
 		white-space: nowrap;
@@ -513,7 +513,7 @@
 		margin-top: 1px;
 	}
 	.list-row-cost {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 14px;
 		color: var(--gold-light);
 		flex-shrink: 0;

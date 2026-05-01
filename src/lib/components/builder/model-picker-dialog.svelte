@@ -111,7 +111,7 @@
 		flex-shrink: 0;
 	}
 	.picker-title {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 20px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -174,7 +174,7 @@
 		flex: 1;
 	}
 	.card-name {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 17px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -194,7 +194,7 @@
 		opacity: 0.5;
 	}
 	.card-cost {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 16px;
 		font-weight: 600;
 		color: var(--gold-light);
@@ -211,7 +211,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 4px 12px;
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 13px;
 		color: var(--parchment);
 	}
@@ -228,7 +228,7 @@
 		gap: 4px;
 	}
 	.rule-tag {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 11px;
 		letter-spacing: 0.04em;
 		color: #c2a8e0;

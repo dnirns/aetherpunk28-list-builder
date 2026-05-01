@@ -289,7 +289,7 @@
 	.name-input {
 		display: block;
 		width: 100%;
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 22px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -321,14 +321,14 @@
 		opacity: 0.5;
 	}
 	.cost {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 20px;
 		font-weight: 600;
 		color: var(--gold-light);
 		flex-shrink: 0;
 	}
 	.remove-btn {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 13px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
@@ -372,7 +372,7 @@
 		background: rgba(184, 144, 58, 0.06);
 		border: 1px solid var(--border-gold-faint);
 		border-radius: 2px;
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 20px;
 		font-weight: 600;
 		color: var(--parchment);
@@ -382,7 +382,7 @@
 		font-size: 14px;
 	}
 	.stat-lbl {
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 11px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -447,7 +447,7 @@
 	}
 	.upgrade-cost {
 		color: var(--gold-light);
-		font-family: 'Surabanglus', serif;
+		font-family: 'Special Elite', serif;
 		font-size: 13px;
 	}
 	.upgrade-desc {
