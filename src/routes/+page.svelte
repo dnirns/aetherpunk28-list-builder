@@ -27,63 +27,69 @@
 </svelte:head>
 
 <div class="home-screen">
-	<div class="ap-section-label home-heading">My Colleges</div>
+	<div class="home-layout">
+		<aside class="home-recruit">
+			<h1 class="recruit-title">Start Recruiting</h1>
+			<img class="recruit-image" src="/images/rebecca.png" alt="Recruiter" />
+			<div class="recruit-heading">Get Recruiting</div>
+			<a class="recruit-button" href={resolve('/builder')}>Create a New College</a>
+		</aside>
 
-	<div class="colleges-grid">
-		{#each savedCollegesStore.colleges as saved (saved.id)}
-			{@const memberCount = saved.models.length}
-			{@const previewModels = saved.models.slice(0, 4)}
-			<a class="ap-card college-card" href="{resolve('/builder')}?view={saved.id}">
-				<div class="card-header">
-					<div class="card-name">{saved.name}</div>
-					<button
-						class="card-delete"
-						onclick={(e) => handleDelete(e, saved.id)}
-						title="Delete College"
-						aria-label="Delete College"
-					>
-						✕
-					</button>
-				</div>
+		<section class="home-colleges">
+			<div class="ap-section-label home-heading">My Colleges</div>
 
-				<div class="card-meta">
-					<div class="card-meta-item">
-						<span class="card-meta-label">Members</span>
-						<div class="card-pips">
-							{#each Array(MAX_MEMBERS) as _, i (i)}
-								<span class="ap-pip" class:filled={i < memberCount}></span>
-							{/each}
+			<div class="colleges-grid">
+				{#each savedCollegesStore.colleges as saved (saved.id)}
+					{@const memberCount = saved.models.length}
+					{@const previewModels = saved.models.slice(0, 4)}
+					<a class="ap-card college-card" href="{resolve('/builder')}?view={saved.id}">
+						<div class="card-header">
+							<div class="card-name">{saved.name}</div>
+							<button
+								class="card-delete"
+								onclick={(e) => handleDelete(e, saved.id)}
+								title="Delete College"
+								aria-label="Delete College"
+							>
+								✕
+							</button>
 						</div>
-					</div>
-					<div class="card-meta-item">
-						<span class="card-meta-label">Treasury</span>
-						<span class="card-meta-val">
-							{saved.totalCost} / {saved.gameConfig.pointsLimit ?? '∞'} ʃ
-						</span>
-					</div>
-				</div>
 
-				<div class="card-faction">{getFactionName(saved.factionId)}</div>
+						<div class="card-meta">
+							<div class="card-meta-item">
+								<span class="card-meta-label">Members</span>
+								<div class="card-pips">
+									{#each Array(MAX_MEMBERS) as _, i (i)}
+										<span class="ap-pip" class:filled={i < memberCount}></span>
+									{/each}
+								</div>
+							</div>
+							<div class="card-meta-item">
+								<span class="card-meta-label">Treasury</span>
+								<span class="card-meta-val">
+									{saved.totalCost} / {saved.gameConfig.pointsLimit ?? '∞'} ʃ
+								</span>
+							</div>
+						</div>
 
-				{#if previewModels.length > 0}
-					<div class="card-roles">
-						{#each previewModels as model (model.id)}
-							<span class="ap-tag">{model.name}</span>
-						{/each}
-						{#if saved.models.length > previewModels.length}
-							<span class="ap-tag">+{saved.models.length - previewModels.length}</span>
+						<div class="card-faction">{getFactionName(saved.factionId)}</div>
+
+						{#if previewModels.length > 0}
+							<div class="card-roles">
+								{#each previewModels as model (model.id)}
+									<span class="ap-tag">{model.name}</span>
+								{/each}
+								{#if saved.models.length > previewModels.length}
+									<span class="ap-tag">+{saved.models.length - previewModels.length}</span>
+								{/if}
+							</div>
 						{/if}
-					</div>
-				{/if}
 
-				<div class="card-open">Open College →</div>
-			</a>
-		{/each}
-
-		<a class="ap-card-dashed new-college-card" href={resolve('/builder')}>
-			<div class="new-college-plus">+</div>
-			<div class="new-college-label">New College</div>
-		</a>
+						<div class="card-open">Open College →</div>
+					</a>
+				{/each}
+			</div>
+		</section>
 	</div>
 </div>
 
@@ -93,15 +99,97 @@
 		padding: 48px 60px;
 	}
 
+	.home-layout {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 48px;
+		align-items: start;
+	}
+
+	.home-recruit {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		position: sticky;
+		top: 48px;
+	}
+
+	.recruit-title {
+		font-family: 'Special Elite', serif;
+		font-size: 32px;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--ink);
+		text-align: center;
+		margin: 0 0 12px;
+		line-height: 1.1;
+	}
+
+	.recruit-button {
+		margin-top: 8px;
+	}
+
+	.recruit-image {
+		max-width: 100%;
+		max-height: calc(100vh - 240px);
+		width: auto;
+		height: auto;
+		display: block;
+		object-fit: contain;
+	}
+
+	.recruit-heading {
+		font-family: 'Special Elite', serif;
+		font-size: 28px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--parchment);
+		text-align: center;
+	}
+
+	.recruit-button {
+		font-family: 'Special Elite', serif;
+		font-size: 14px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--gold);
+		border: 1px solid var(--gold);
+		padding: 12px 22px;
+		text-decoration: none;
+		transition:
+			background 0.15s,
+			color 0.15s;
+	}
+	.recruit-button:hover {
+		background: var(--gold);
+		color: var(--ink);
+	}
+
 	.home-heading {
 		margin-bottom: 28px;
 	}
 
 	.colleges-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		grid-template-columns: repeat(2, 1fr);
 		gap: 16px;
 		margin-bottom: 32px;
+	}
+
+	@media (max-width: 1200px) {
+		.colleges-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 900px) {
+		.home-layout {
+			grid-template-columns: 1fr;
+		}
+		.home-recruit {
+			position: static;
+		}
 	}
 
 	.college-card {
@@ -196,16 +284,5 @@
 	}
 	.college-card:hover .card-open {
 		opacity: 1;
-	}
-
-	.new-college-plus {
-		font-size: 30px;
-		line-height: 1;
-	}
-	.new-college-label {
-		font-family: 'Special Elite', serif;
-		font-size: 14px;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
 	}
 </style>
