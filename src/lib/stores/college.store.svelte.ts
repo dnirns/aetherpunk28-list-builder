@@ -21,7 +21,7 @@ const generateId = (): string => crypto.randomUUID();
 
 const createCollegeStore = () => {
 	let collegeId = $state(generateId());
-	let name = $state('New College');
+	let name = $state('');
 	let factionId = $state<FactionId>('abjurers');
 	let models = $state<CollegeModel[]>([]);
 	let gameConfig = $state<GameConfig>({ pointsLimit: 50, isCampaign: false });
@@ -128,7 +128,7 @@ const createCollegeStore = () => {
 
 	const reset = () => {
 		collegeId = generateId();
-		name = 'New College';
+		name = '';
 		factionId = 'abjurers';
 		models = [];
 		gameConfig = { pointsLimit: 50, isCampaign: false };
