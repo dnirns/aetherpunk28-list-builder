@@ -405,29 +405,31 @@
 	.stat-row {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 10px;
+		align-items: stretch;
 	}
 	.stat-cell {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		gap: 4px;
 		min-width: 52px;
+		padding: 0 14px;
+		border-right: 1px solid var(--border-gold-faint);
+	}
+	.stat-cell:first-child {
+		padding-left: 0;
+	}
+	.stat-cell:last-child {
+		padding-right: 0;
+		border-right: none;
 	}
 	.stat-val {
-		min-width: 52px;
-		height: 44px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: rgba(184, 144, 58, 0.06);
-		border: 1px solid var(--border-gold-faint);
-		border-radius: 2px;
 		font-family: 'Special Elite', serif;
 		font-size: 20px;
 		font-weight: 600;
 		color: var(--parchment);
-		padding: 0 8px;
+		line-height: 1.1;
 	}
 	.stat-val.small {
 		font-size: 14px;
