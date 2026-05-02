@@ -94,6 +94,18 @@
 		collegeStore.renameModel(modelId, (e.target as HTMLInputElement).value);
 	};
 
+	let editingName = $state(false);
+	let nameInputEl = $state<HTMLInputElement | null>(null);
+
+	$effect(() => {
+		modelId;
+		editingName = false;
+	});
+
+	$effect(() => {
+		if (editingName) nameInputEl?.focus();
+	});
+
 	const formatDicePool = (pool: { count: number; die: string | number }) =>
 		pool.die === 0 ? '-' : `${pool.count}x${pool.die}`;
 </script>
@@ -102,13 +114,31 @@
 	<div class="configurator">
 		<div class="head">
 			<div class="head-main">
-				<input
-					type="text"
-					value={model.name}
-					oninput={handleNameChange}
-					class="name-input"
-					placeholder="Character name…"
-				/>
+				{#if editingName}
+					<input
+						bind:this={nameInputEl}
+						type="text"
+						value={model.name}
+						oninput={handleNameChange}
+						onblur={() => {
+							if (model.name.trim()) editingName = false;
+						}}
+						onkeydown={(e) => {
+							if (e.key === 'Enter' && model.name.trim()) editingName = false;
+						}}
+						class="name-input"
+						placeholder="Character name…"
+					/>
+				{:else}
+					<button
+						class="name-button"
+						onclick={() => (editingName = true)}
+						title="Click to rename"
+					>
+						<span class="name-display">{model.name}</span>
+						<span class="name-edit-hint" aria-hidden="true">✎</span>
+					</button>
+				{/if}
 				<div class="meta">
 					<span>{model.template.name}</span>
 					<span class="dot">·</span>
@@ -287,27 +317,47 @@
 		flex: 1;
 		min-width: 0;
 	}
+	.name-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		background: transparent;
+		border: none;
+		padding: 0;
+		color: inherit;
+		cursor: pointer;
+		text-align: left;
+	}
+	.name-display {
+		font-family: 'Special Elite', serif;
+		font-size: 22px;
+		font-weight: 600;
+		color: var(--parchment);
+	}
+	.name-edit-hint {
+		font-family: 'Spectral', serif;
+		font-size: 26px;
+		color: var(--parchment);
+	}
 	.name-input {
 		display: block;
-		width: 100%;
 		font-family: 'Special Elite', serif;
 		font-size: 22px;
 		font-weight: 600;
 		color: var(--parchment);
 		background: transparent;
 		border: none;
-		border-bottom: 1.5px solid transparent;
+		border-bottom: 1.5px solid var(--gold);
 		outline: none;
-		padding: 2px 0;
-		transition: border-color 0.15s;
+		padding: 0 0 2px;
+		width: 100%;
+		max-width: 420px;
 	}
 	@media (min-width: 640px) {
+		.name-display,
 		.name-input {
 			font-size: 24px;
 		}
-	}
-	.name-input:focus {
-		border-bottom-color: var(--gold);
 	}
 	.meta {
 		font-family: 'Spectral', serif;

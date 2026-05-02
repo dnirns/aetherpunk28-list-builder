@@ -354,10 +354,9 @@
 	}
 	.edit-hint {
 		font-family: 'Spectral', serif;
-		font-size: 14px;
-		color: var(--ink-light);
-		opacity: 0.4;
-		transition: opacity 0.2s;
+		font-size: 26px;
+		color: var(--ink);
+		opacity: 1;
 	}
 	.subtitle {
 		font-family: 'Spectral', serif;
