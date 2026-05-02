@@ -104,8 +104,9 @@
 	</div>
 {:else}
 	<div class="builder-shell">
-		<div class="edit-page">
-			<header class="step-head">
+		<div class="edit-scroll" id="edit-scroll">
+			<div class="edit-page">
+				<header class="step-head">
 				<div class="head-text">
 					<span class="editing-badge">Editing</span>
 					{#if editingName}
@@ -232,7 +233,11 @@
 				</main>
 			</div>
 
-			<footer class="actions">
+			</div>
+		</div>
+
+		<footer class="actions">
+			<div class="actions-inner">
 				<a class="ap-btn-ghost-dark" href="{resolve('/builder')}?view={collegeId}">Cancel</a>
 				<button
 					class="ap-btn-ghost-dark"
@@ -241,8 +246,8 @@
 				>
 					Save College
 				</button>
-			</footer>
-		</div>
+			</div>
+		</footer>
 	</div>
 
 	<ModelPickerDialog
@@ -265,12 +270,19 @@
 	}
 
 	.builder-shell {
-		min-height: 100%;
-		padding: 24px 16px 48px;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+	.edit-scroll {
+		flex: 1;
+		min-height: 0;
+		overflow-y: auto;
+		padding: 24px 16px 24px;
 	}
 	@media (min-width: 640px) {
-		.builder-shell {
-			padding: 32px 32px 64px;
+		.edit-scroll {
+			padding: 32px 32px 32px;
 		}
 	}
 
@@ -570,10 +582,20 @@
 	}
 
 	.actions {
+		flex-shrink: 0;
+		padding: 14px 16px 18px;
+	}
+	@media (min-width: 640px) {
+		.actions {
+			padding: 14px 32px 22px;
+		}
+	}
+	.actions-inner {
+		max-width: 1200px;
+		margin: 0 auto;
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		gap: 12px;
-		margin-top: 24px;
 	}
 
 	@media (max-width: 640px) {

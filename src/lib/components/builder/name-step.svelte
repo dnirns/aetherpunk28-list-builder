@@ -27,10 +27,6 @@
 		placeholder="e.g. The Iron Scholars"
 		class="ap-field-input name-input"
 	/>
-
-	<div class="actions">
-		<button class="ap-btn-ghost-dark" onclick={onnext} disabled={!isValid}>Next</button>
-	</div>
 </div>
 
 <style>
@@ -62,8 +58,5 @@
 		text-align: center;
 		font-family: 'Special Elite', serif;
 		font-size: 20px;
-	}
-	.actions {
-		margin-top: 24px;
 	}
 </style>

@@ -6,13 +6,6 @@
 	import { FACTIONS } from '$lib/data/factions';
 	import type { ModelTemplate } from '$lib/types/game.types';
 
-	type Props = {
-		onnext: () => void;
-		onback: () => void;
-	};
-
-	const { onnext, onback }: Props = $props();
-
 	const faction = $derived(FACTIONS.find((f) => f.id === collegeStore.factionId));
 
 	const formatEmpowered = (empowered: NonNullable<typeof faction>['empowered']) =>
@@ -148,10 +141,6 @@
 		</main>
 	</div>
 
-	<footer class="actions">
-		<button class="ap-btn-ghost-dark" onclick={onback}>Back</button>
-		<button class="ap-btn-ghost-dark" onclick={onnext}>Save College</button>
-	</footer>
 </div>
 
 <ModelPickerDialog
@@ -416,13 +405,6 @@
 		font-family: 'Spectral', serif;
 		font-size: 15px;
 		font-style: italic;
-	}
-
-	.actions {
-		display: flex;
-		justify-content: space-between;
-		gap: 12px;
-		margin-top: 24px;
 	}
 
 	@media (max-width: 640px) {

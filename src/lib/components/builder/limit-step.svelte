@@ -3,10 +3,9 @@
 		pointsLimit: number | null;
 		onlimitchange: (limit: number | null) => void;
 		onnext: () => void;
-		onback: () => void;
 	};
 
-	const { pointsLimit, onlimitchange, onnext, onback }: Props = $props();
+	const { pointsLimit, onlimitchange, onnext }: Props = $props();
 
 	const PRESETS = [30, 50, 75, 100] as const;
 
@@ -92,10 +91,6 @@
 		/>
 	</div>
 
-	<div class="actions">
-		<button class="ap-btn-ghost-dark" onclick={onback}>Back</button>
-		<button class="ap-btn-ghost-dark" onclick={onnext} disabled={!isValid}>Next</button>
-	</div>
 </div>
 
 <style>
@@ -204,10 +199,4 @@
 		border-color: var(--gold);
 	}
 
-	.actions {
-		display: flex;
-		justify-content: space-between;
-		gap: 12px;
-		margin-top: 24px;
-	}
 </style>

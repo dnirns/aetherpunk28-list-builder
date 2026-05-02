@@ -6,10 +6,9 @@
 		selectedFaction: FactionId | null;
 		onfactionselect: (id: FactionId) => void;
 		onnext: () => void;
-		onback: () => void;
 	};
 
-	const { selectedFaction, onfactionselect, onnext, onback }: Props = $props();
+	const { selectedFaction, onfactionselect, onnext }: Props = $props();
 
 	const formatEmpowered = (empowered: (typeof FACTIONS)[number]['empowered']) =>
 		empowered
@@ -78,9 +77,6 @@
 		{/each}
 	</div>
 
-	<div class="actions">
-		<button class="ap-btn-ghost-dark" onclick={onback}>Back</button>
-	</div>
 </div>
 
 <style>
@@ -212,9 +208,4 @@
 		visibility: visible;
 	}
 
-	.actions {
-		display: flex;
-		justify-content: flex-start;
-		margin-top: 32px;
-	}
 </style>
