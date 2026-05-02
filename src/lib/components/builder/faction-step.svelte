@@ -26,10 +26,18 @@
 
 	<div class="faction-grid">
 		{#each FACTIONS as faction (faction.id)}
-			<button
+			<div
 				class="faction-card"
 				class:selected={selectedFaction === faction.id}
+				role="button"
+				tabindex="0"
 				onclick={() => onfactionselect(faction.id)}
+				onkeydown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						onfactionselect(faction.id);
+					}
+				}}
 			>
 				<div class="faction-head">
 					<span class="faction-name">{faction.name}</span>
@@ -53,13 +61,25 @@
 						<span class="dim">({faction.uniqueModel.baseCost} Sh)</span>
 					</span>
 				</div>
-			</button>
+				<button
+					type="button"
+					class="select-action ap-btn-ghost-dark"
+					class:visible={selectedFaction === faction.id}
+					tabindex={selectedFaction === faction.id ? 0 : -1}
+					aria-hidden={selectedFaction !== faction.id}
+					onclick={(e) => {
+						e.stopPropagation();
+						onnext();
+					}}
+				>
+					Select
+				</button>
+			</div>
 		{/each}
 	</div>
 
 	<div class="actions">
 		<button class="ap-btn-ghost-dark" onclick={onback}>Back</button>
-		<button class="ap-btn-ghost-dark" onclick={onnext} disabled={!selectedFaction}>Next</button>
 	</div>
 </div>
 
@@ -183,9 +203,18 @@
 		color: var(--ink-light);
 	}
 
+	.select-action {
+		margin-top: 8px;
+		align-self: stretch;
+		visibility: hidden;
+	}
+	.select-action.visible {
+		visibility: visible;
+	}
+
 	.actions {
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-start;
 		margin-top: 32px;
 	}
 </style>
