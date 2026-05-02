@@ -12,6 +12,7 @@
 	import type { FactionId } from '$lib/types/game.types';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 	import { storage } from '$lib/utils/storage';
 
 	type Step = 'name' | 'limit' | 'faction' | 'models' | 'complete';
@@ -94,6 +95,9 @@
 
 	const handleFinish = () => {
 		collegeStore.save();
+		const url = new URL(page.url);
+		url.searchParams.set('view', collegeStore.college.id);
+		goto(url, { replaceState: true, noScroll: true, keepFocus: true });
 		goTo('complete');
 	};
 
