@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { FACTIONS } from '$lib/data/factions';
+	import FactionIcon from './faction-icon.svelte';
 
 	type Props = {
 		selectedModelId?: string | null;
@@ -15,9 +16,14 @@
 
 <div class="summary">
 	<header class="summary-head">
-		<div>
-			<h3 class="summary-name">{collegeStore.name}</h3>
-			<p class="summary-faction">{faction?.name} ({faction?.symbol})</p>
+		<div class="summary-head-main">
+			{#if faction}
+				<FactionIcon factionId={faction.id} size={64} />
+			{/if}
+			<div>
+				<h3 class="summary-name">{collegeStore.name}</h3>
+				<p class="summary-faction">{faction?.name} ({faction?.symbol})</p>
+			</div>
 		</div>
 		<div class="summary-cost">
 			<div class="cost-amount">{collegeStore.totalCost} <span class="unit">Sh</span></div>
@@ -142,6 +148,11 @@
 		align-items: flex-start;
 		justify-content: space-between;
 		gap: 16px;
+	}
+	.summary-head-main {
+		display: flex;
+		align-items: center;
+		gap: 14px;
 	}
 	.summary-name {
 		font-family: 'Special Elite', serif;

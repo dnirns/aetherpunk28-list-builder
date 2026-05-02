@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { FACTIONS } from '$lib/data/factions';
+	import FactionIcon from '$lib/components/faction-icon.svelte';
 	import type { FactionId } from '$lib/types/game.types';
 
 	type Props = {
@@ -38,9 +39,10 @@
 					}
 				}}
 			>
-				<div class="faction-head">
-					<span class="faction-name">{faction.name}</span>
-					<span class="faction-symbol">{faction.symbol}</span>
+				<div class="faction-badge">
+					<FactionIcon factionId={faction.id} size={88} />
+					<div class="badge-name">{faction.name}</div>
+					<div class="badge-symbol">{faction.symbol}</div>
 				</div>
 				<div class="faction-row">
 					<span class="row-label">Empowered</span>
@@ -81,7 +83,7 @@
 
 <style>
 	.faction-step {
-		max-width: 1100px;
+		max-width: 1300px;
 		margin: 0 auto;
 	}
 	.heading-rule {
@@ -104,7 +106,7 @@
 
 	.faction-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 		gap: 14px;
 	}
 
@@ -154,23 +156,33 @@
 			0 0 12px rgba(184, 144, 58, 0.35);
 	}
 
-	.faction-head {
+	.faction-badge {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		width: 92px;
 		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 8px;
+		flex-direction: column;
+		align-items: center;
+		pointer-events: none;
+		z-index: 1;
 	}
-	.faction-name {
+	.badge-name {
+		margin-top: 4px;
 		font-family: 'Special Elite', serif;
-		font-size: 19px;
+		font-size: 13px;
 		font-weight: 600;
 		color: var(--parchment);
+		text-align: center;
+		line-height: 1.15;
 	}
-	.faction-symbol {
+	.badge-symbol {
 		font-family: 'Spectral', serif;
-		font-size: 13px;
+		font-size: 11px;
 		font-style: italic;
 		color: var(--ink-light);
+		text-align: center;
+		line-height: 1.15;
 	}
 
 	.faction-row {
@@ -178,6 +190,7 @@
 		gap: 10px;
 		font-size: 14px;
 		line-height: 1.4;
+		padding-right: 100px;
 	}
 	.row-label {
 		font-family: 'Special Elite', serif;
@@ -202,6 +215,7 @@
 	.select-action {
 		margin-top: 8px;
 		align-self: stretch;
+		margin-right: 100px;
 		visibility: hidden;
 	}
 	.select-action.visible {

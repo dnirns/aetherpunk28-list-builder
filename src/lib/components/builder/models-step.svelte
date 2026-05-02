@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ModelConfigurator from './model-configurator.svelte';
 	import ModelPickerDialog from './model-picker-dialog.svelte';
+	import FactionIcon from '$lib/components/faction-icon.svelte';
 	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { UNIVERSAL_MODELS } from '$lib/data/universal-models';
 	import { FACTIONS } from '$lib/data/factions';
@@ -82,9 +83,12 @@
 	{#if faction}
 		<section class="faction-card" aria-label="Faction information">
 			<div class="faction-heading">
-				<span class="faction-eyebrow">Faction</span>
-				<span class="faction-name">{faction.name}</span>
-				<span class="faction-symbol">Symbol: {faction.symbol}</span>
+				<FactionIcon factionId={faction.id} size={56} />
+				<div class="faction-heading-text">
+					<span class="faction-eyebrow">Faction</span>
+					<span class="faction-name">{faction.name}</span>
+					<span class="faction-symbol">Symbol: {faction.symbol}</span>
+				</div>
 			</div>
 
 			<div class="faction-block">
@@ -191,8 +195,14 @@
 	}
 	.faction-heading {
 		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+	.faction-heading-text {
+		display: flex;
 		flex-direction: column;
 		gap: 2px;
+		min-width: 0;
 	}
 	.faction-eyebrow {
 		font-family: 'Spectral', serif;
