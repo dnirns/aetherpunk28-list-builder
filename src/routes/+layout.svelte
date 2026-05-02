@@ -16,7 +16,7 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
-<div class="flex h-screen flex-col overflow-hidden ap-screen-only">
+<div class="flex h-dvh flex-col overflow-hidden ap-screen-only">
 	<header class="ap-topbar ap-no-print">
 		<a href={resolve('/')} class="ap-topbar-title">Aetherpunk 28</a>
 		<div class="flex-1"></div>
