@@ -3,6 +3,8 @@
 	import { onMount } from 'svelte';
 	import { savedCollegesStore } from '$lib/stores/saved-colleges.store.svelte';
 	import { FACTIONS } from '$lib/data/factions';
+	import FactionIcon from '$lib/components/faction-icon.svelte';
+	import type { FactionId } from '$lib/types/game.types';
 
 	const MAX_MEMBERS = 5;
 
@@ -42,6 +44,9 @@
 					{@const memberCount = saved.models.length}
 					{@const previewModels = saved.models.slice(0, 4)}
 					<a class="ap-card college-card" href="{resolve('/builder')}?view={saved.id}">
+						<div class="card-stamp">
+							<FactionIcon factionId={saved.factionId as FactionId} size={72} />
+						</div>
 						<div class="card-header">
 							<div class="card-name">{saved.name}</div>
 							<button
@@ -163,8 +168,9 @@
 	.colleges-grid {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 16px;
+		gap: 40px;
 		margin-bottom: 32px;
+		padding-top: 28px;
 	}
 
 	@media (max-width: 1200px) {
@@ -184,6 +190,17 @@
 
 	.college-card {
 		min-height: 140px;
+		overflow: visible;
+	}
+
+	.card-stamp {
+		position: absolute;
+		top: 0;
+		right: 0;
+		transform: translate(30%, -35%);
+		pointer-events: none;
+		z-index: 2;
+		filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
 	}
 
 	.card-header {
@@ -191,6 +208,7 @@
 		align-items: flex-start;
 		justify-content: space-between;
 		gap: 8px;
+		padding-right: 56px;
 	}
 
 	.card-name {
