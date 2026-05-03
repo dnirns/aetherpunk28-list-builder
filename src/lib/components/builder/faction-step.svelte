@@ -39,10 +39,12 @@
 					}
 				}}
 			>
-				<div class="faction-badge">
+				<div class="faction-stamp">
 					<FactionIcon factionId={faction.id} size={88} />
-					<div class="badge-name">{faction.name}</div>
-					<div class="badge-symbol">{faction.symbol}</div>
+				</div>
+				<div class="faction-header">
+					<div class="header-name">{faction.name}</div>
+					<div class="header-symbol">{faction.symbol}</div>
 				</div>
 				<div class="faction-row">
 					<span class="row-label">Empowered</span>
@@ -107,7 +109,8 @@
 	.faction-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-		gap: 14px;
+		gap: 56px 56px;
+		padding-top: 44px;
 	}
 
 	.faction-card {
@@ -125,7 +128,6 @@
 			border-color 0.15s,
 			background 0.15s;
 		position: relative;
-		overflow: hidden;
 	}
 	.faction-card::before {
 		content: '';
@@ -156,32 +158,35 @@
 			0 0 12px rgba(184, 144, 58, 0.35);
 	}
 
-	.faction-badge {
+	.faction-stamp {
 		position: absolute;
-		top: 10px;
-		right: 10px;
-		width: 92px;
+		top: 0;
+		right: 0;
+		transform: translate(30%, -35%);
+		pointer-events: none;
+		z-index: 2;
+		filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+	}
+
+	.faction-header {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		pointer-events: none;
-		z-index: 1;
+		gap: 2px;
+		padding-right: 56px;
+		margin-bottom: 4px;
 	}
-	.badge-name {
-		margin-top: 4px;
+	.header-name {
 		font-family: 'Special Elite', serif;
-		font-size: 13px;
+		font-size: 18px;
 		font-weight: 600;
 		color: var(--parchment);
-		text-align: center;
 		line-height: 1.15;
 	}
-	.badge-symbol {
+	.header-symbol {
 		font-family: 'Spectral', serif;
-		font-size: 11px;
+		font-size: 12px;
 		font-style: italic;
 		color: var(--ink-light);
-		text-align: center;
 		line-height: 1.15;
 	}
 
@@ -190,7 +195,6 @@
 		gap: 10px;
 		font-size: 14px;
 		line-height: 1.4;
-		padding-right: 100px;
 	}
 	.row-label {
 		font-family: 'Special Elite', serif;
@@ -215,11 +219,26 @@
 	.select-action {
 		margin-top: 8px;
 		align-self: stretch;
-		margin-right: 100px;
 		visibility: hidden;
 	}
 	.select-action.visible {
 		visibility: visible;
+	}
+
+	@media (max-width: 600px) {
+		.faction-grid {
+			grid-template-columns: 1fr;
+			gap: 40px;
+			padding-top: 28px;
+			padding-right: 28px;
+		}
+		.faction-stamp {
+			transform: translate(20%, -25%) scale(0.85);
+			transform-origin: top right;
+		}
+		.faction-header {
+			padding-right: 64px;
+		}
 	}
 
 </style>
