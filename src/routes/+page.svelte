@@ -31,7 +31,6 @@
 		<aside class="home-recruit">
 			<h1 class="recruit-title">Start Recruiting</h1>
 			<img class="recruit-image" src="/images/rebecca.png" alt="Recruiter" />
-			<div class="recruit-heading">Get Recruiting</div>
 			<a class="recruit-button" href={resolve('/builder')}>Create a New College</a>
 		</aside>
 
@@ -137,15 +136,6 @@
 		height: auto;
 		display: block;
 		object-fit: contain;
-	}
-
-	.recruit-heading {
-		font-family: 'Special Elite', serif;
-		font-size: 28px;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--parchment);
-		text-align: center;
 	}
 
 	.recruit-button {

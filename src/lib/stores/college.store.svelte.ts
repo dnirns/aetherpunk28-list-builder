@@ -57,10 +57,23 @@ const createCollegeStore = () => {
 	};
 
 	const addModel = (template: ModelTemplate, customName?: string) => {
+		let modelName = customName ?? template.name;
+
+		if (!customName && template.id !== 'wizard') {
+			const sameTemplate = models.filter((m) => m.template.id === template.id);
+			const count = sameTemplate.length;
+			if (count > 0) {
+				if (count === 1 && sameTemplate[0].name === template.name) {
+					sameTemplate[0].name = `${template.name} 1`;
+				}
+				modelName = `${template.name} ${count + 1}`;
+			}
+		}
+
 		const model: CollegeModel = {
 			id: generateId(),
 			template,
-			name: customName ?? template.name,
+			name: modelName,
 			equippedUpgrades: [],
 			merchantItem: undefined,
 			totalCost: template.baseCost
