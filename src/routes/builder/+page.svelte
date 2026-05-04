@@ -161,7 +161,13 @@
 								<ModelDetailCard model={selectedModel} onclose={() => (selectedModelId = null)} />
 							</div>
 						{:else}
-							<div class="detail-empty">Select a model to view its details</div>
+							<div class="detail-empty">
+								<img
+									class="detail-empty-image"
+									src="/images/scrapper_transparent.png"
+									alt=""
+								/>
+							</div>
 						{/if}
 					</div>
 				</div>
@@ -276,11 +282,13 @@
 		align-items: center;
 		justify-content: center;
 		min-height: 200px;
-		border: 1px dashed rgba(122, 110, 98, 0.3);
-		border-radius: 4px;
-		color: var(--ink-light);
-		font-family: 'Spectral', serif;
-		font-size: 15px;
-		font-style: italic;
+		height: 100%;
+		padding: 48px;
+		overflow: hidden;
+	}
+	.detail-empty-image {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
 	}
 </style>

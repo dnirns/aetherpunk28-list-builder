@@ -80,6 +80,9 @@
 	{/if}
 
 	<div class="ap-section-label-ink models-label">Models</div>
+	{#if isSelectable}
+		<p class="select-hint">Select a model to view its details</p>
+	{/if}
 	<div class="model-list">
 		{#each collegeStore.models as model (model.id)}
 			{#if isSelectable}
@@ -267,6 +270,13 @@
 
 	.models-label {
 		margin-top: 4px;
+	}
+	.select-hint {
+		font-family: 'Spectral', serif;
+		font-size: 14px;
+		font-style: italic;
+		color: var(--ink-light);
+		margin-top: -8px;
 	}
 	.model-list {
 		display: flex;
