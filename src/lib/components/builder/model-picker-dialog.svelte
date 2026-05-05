@@ -70,7 +70,7 @@
 					{#if template.specialRules.length > 0}
 						<div class="card-rules">
 							{#each template.specialRules as rule (rule.name)}
-								<span class="rule-tag">{rule.name}</span>
+								<span class="rule-tag">{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}</span>
 							{/each}
 						</div>
 					{/if}

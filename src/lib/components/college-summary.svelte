@@ -116,22 +116,6 @@
 		</div>
 		<span class="model-cost">{model.totalCost} Sh</span>
 	</div>
-	{#if model.equippedUpgrades.length > 0}
-		<div class="model-tags">
-			{#each model.equippedUpgrades as eu (eu.upgrade.name)}
-				<span class="ap-tag pale-tag">
-					{eu.upgrade.name} (+{eu.upgrade.cost})
-				</span>
-			{/each}
-		</div>
-	{/if}
-	{#if model.merchantItem}
-		<div class="model-tags">
-			<span class="ap-tag gold-tag">
-				{model.merchantItem.name} (+{model.merchantItem.cost})
-			</span>
-		</div>
-	{/if}
 {/snippet}
 
 <style>
@@ -294,9 +278,6 @@
 		transition:
 			border-color 0.15s,
 			background 0.15s;
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
 	}
 	.model-row:hover {
 		border-color: var(--border-gold);
@@ -351,20 +332,5 @@
 		font-family: 'Special Elite', serif;
 		font-size: 15px;
 		color: var(--gold-light);
-	}
-	.model-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 5px;
-	}
-	.pale-tag {
-		color: var(--parchment);
-		font-style: normal;
-		border-color: var(--border-gold-faint);
-	}
-	.gold-tag {
-		color: var(--gold-light);
-		font-style: normal;
-		border-color: rgba(184, 144, 58, 0.4);
 	}
 </style>
