@@ -32,7 +32,7 @@
 	<div class="home-layout">
 		<aside class="home-recruit">
 			<h1 class="recruit-title">Start Recruiting</h1>
-			<img class="recruit-image" src="/images/rebecca.png" alt="Recruiter" />
+			<img class="recruit-image" src="/images/rebecca-filled.png" alt="Recruiter" />
 			<a class="recruit-button" href={resolve('/builder')}>Create a New College</a>
 		</aside>
 
