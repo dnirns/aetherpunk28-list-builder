@@ -4,7 +4,7 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import PrintLayout from '$lib/components/print-layout.svelte';
-	import { Printer } from 'lucide-svelte';
+	import { Printer, House } from 'lucide-svelte';
 
 	let { children } = $props();
 
@@ -31,8 +31,9 @@
 					<Printer size={18} aria-hidden="true" />
 				</button>
 			{/if}
-			<a href={resolve('/')} class="ap-topbar-home-btn">
-				<span aria-hidden="true">⌂</span> My Colleges
+			<a href={resolve('/')} class="ap-topbar-home-btn" aria-label="My Colleges">
+				<House size={18} aria-hidden="true" />
+				<span class="home-btn-label">My Colleges</span>
 			</a>
 		{/if}
 	</header>
