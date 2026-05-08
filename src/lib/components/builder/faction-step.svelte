@@ -124,6 +124,7 @@
 		border-radius: 4px;
 		cursor: pointer;
 		color: var(--parchment);
+		font-family: 'Special Elite', serif;
 		transition:
 			border-color 0.15s,
 			background 0.15s;

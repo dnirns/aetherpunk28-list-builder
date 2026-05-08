@@ -325,6 +325,7 @@
 		border: none;
 		padding: 0;
 		color: inherit;
+		font-family: 'Special Elite', serif;
 		cursor: pointer;
 		text-align: left;
 	}
@@ -383,17 +384,20 @@
 		font-size: 13px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
-		color: var(--danger);
-		background: transparent;
-		border: 1px solid rgba(139, 42, 42, 0.4);
+		color: var(--parchment);
+		background: var(--danger);
+		border: 1px solid var(--danger);
 		border-radius: var(--r);
 		padding: 5px 12px;
 		cursor: pointer;
-		transition: background 0.15s;
+		transition:
+			background 0.15s,
+			border-color 0.15s;
 		flex-shrink: 0;
 	}
 	.remove-btn:hover {
-		background: rgba(139, 42, 42, 0.12);
+		background: #a83434;
+		border-color: #a83434;
 	}
 
 	.ed-section {

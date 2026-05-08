@@ -140,6 +140,7 @@
 		border: 1px solid var(--border-gold-faint);
 		border-radius: var(--r);
 		color: var(--parchment);
+		font-family: 'Special Elite', serif;
 		cursor: pointer;
 		transition:
 			background 0.12s,

@@ -118,21 +118,23 @@
 		margin-top: 4px;
 	}
 	.close-btn {
-		background: transparent;
-		border: 1px solid rgba(122, 110, 98, 0.3);
+		background: var(--panel3);
+		border: 1px solid var(--panel3);
 		border-radius: var(--r);
 		padding: 4px 10px;
-		color: var(--ink-light);
+		color: var(--parchment);
 		cursor: pointer;
 		font-size: 15px;
-		font-family: 'Spectral', serif;
+		font-family: 'Special Elite', serif;
 		transition:
 			color 0.15s,
+			background 0.15s,
 			border-color 0.15s;
 	}
 	.close-btn:hover {
-		color: var(--gold);
-		border-color: var(--border-gold);
+		background: var(--gold);
+		border-color: var(--gold);
+		color: var(--ink);
 	}
 
 	.picker-grid {
@@ -153,6 +155,7 @@
 		border: 1px solid var(--border-gold-faint);
 		border-radius: var(--r);
 		color: var(--parchment);
+		font-family: 'Special Elite', serif;
 		cursor: pointer;
 		transition:
 			background 0.15s,

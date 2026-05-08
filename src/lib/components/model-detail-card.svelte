@@ -172,20 +172,23 @@
 		margin-top: 2px;
 	}
 	.close {
-		background: transparent;
-		border: 1px solid rgba(122, 110, 98, 0.25);
+		background: var(--panel3);
+		border: 1px solid var(--panel3);
 		border-radius: var(--r);
 		padding: 4px 10px;
-		color: var(--ink-light);
+		color: var(--parchment);
 		cursor: pointer;
+		font-family: 'Special Elite', serif;
 		font-size: 15px;
 		transition:
 			color 0.15s,
+			background 0.15s,
 			border-color 0.15s;
 	}
 	.close:hover {
-		color: var(--gold);
-		border-color: var(--border-gold);
+		background: var(--gold);
+		border-color: var(--gold);
+		color: var(--ink);
 	}
 
 	.ed-section {

@@ -325,6 +325,7 @@
 		padding: 0;
 		margin-top: 6px;
 		color: inherit;
+		font-family: 'Special Elite', serif;
 		cursor: pointer;
 		text-align: left;
 	}
@@ -491,6 +492,7 @@
 		border: 1px solid var(--border-gold-faint);
 		border-radius: var(--r);
 		color: var(--parchment);
+		font-family: 'Special Elite', serif;
 		cursor: pointer;
 		transition:
 			background 0.12s,
@@ -538,12 +540,15 @@
 	.add-model-btn {
 		margin-top: 4px;
 		padding: 10px 14px;
-		background: transparent;
-		border: 1px dashed rgba(184, 144, 58, 0.35);
+		background: var(--gold);
+		border: 1px solid var(--gold);
 		border-radius: var(--r);
-		color: var(--gold);
-		font-family: 'Spectral', serif;
-		font-size: 15px;
+		color: var(--ink);
+		font-family: 'Special Elite', serif;
+		font-size: 14px;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -554,8 +559,8 @@
 			border-color 0.15s;
 	}
 	.add-model-btn:hover {
-		background: rgba(184, 144, 58, 0.07);
-		border-color: var(--gold);
+		background: var(--gold-light);
+		border-color: var(--gold-light);
 	}
 	.add-model-btn .plus {
 		font-size: 20px;

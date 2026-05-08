@@ -148,16 +148,19 @@
 		font-size: 14px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		color: var(--gold);
+		color: var(--ink);
+		background: var(--gold);
 		border: 1px solid var(--gold);
 		padding: 12px 22px;
 		text-decoration: none;
 		transition:
 			background 0.15s,
+			border-color 0.15s,
 			color 0.15s;
 	}
 	.recruit-button:hover {
-		background: var(--gold);
+		background: var(--gold-light);
+		border-color: var(--gold-light);
 		color: var(--ink);
 	}
 
@@ -220,23 +223,28 @@
 	}
 
 	.card-delete {
-		background: none;
-		border: none;
-		color: var(--ink-light);
-		font-size: 15px;
+		background: var(--danger);
+		border: 1px solid var(--danger);
+		border-radius: var(--r);
+		color: var(--parchment);
+		font-family: 'Spectral', serif;
+		font-size: 16px;
+		line-height: 1;
 		cursor: pointer;
-		padding: 2px 6px;
-		opacity: 0;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 		transition:
-			color 0.15s,
-			opacity 0.15s;
+			background 0.15s,
+			border-color 0.15s;
 		flex-shrink: 0;
 	}
-	.college-card:hover .card-delete {
-		opacity: 1;
-	}
 	.card-delete:hover {
-		color: var(--danger);
+		background: #a83434;
+		border-color: #a83434;
 	}
 
 	.card-meta {

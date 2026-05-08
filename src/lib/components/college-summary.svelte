@@ -274,6 +274,7 @@
 		border-radius: var(--r);
 		padding: 12px 14px;
 		color: var(--parchment);
+		font-family: 'Special Elite', serif;
 		cursor: pointer;
 		transition:
 			border-color 0.15s,
