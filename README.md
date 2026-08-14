@@ -1,6 +1,6 @@
 # Aetherpunk 28 Companion App
 
-A list building and companion app for **Aetherpunk 28**, the tabletop skirmish game by **Jack Edwards**.
+A list building and companion app for [Aetherpunk28](https://www.wargamevault.com/product/463718/Aetherpunk28?manufacturers_id=26307), the tabletop skirmish game by **Jack Edwards**.
 
 Build a College, pick a faction, kit out your models, and print a game-ready roster. The app enforces the game's list building rules as you go, so what you take to the table is always legal.
 
