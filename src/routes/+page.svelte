@@ -109,7 +109,7 @@
 				class="credits-link credits-em"
 				href="https://www.wargamevault.com/product/463718/Aetherpunk28?manufacturers_id=26307"
 				target="_blank"
-				rel="noopener noreferrer"><span>Aetherpunk 28,</span></a
+				rel="noopener noreferrer"><span>Aetherpunk 28</span></a
 			> by Jack Edwards
 		</p>
 		<p class="credits-line">
