@@ -2,6 +2,8 @@
 	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { FACTIONS } from '$lib/data/factions';
 	import FactionIcon from './faction-icon.svelte';
+	import { formatEmpowered } from '$lib/utils/format';
+	import { calculateModelCost } from '$lib/utils/college-calculations';
 
 	type Props = {
 		selectedModelId?: string | null;
@@ -68,11 +70,7 @@
 		<div class="info-block empowered">
 			<div class="info-label">Empowered</div>
 			<p class="info-desc">
-				{faction.empowered
-					.map((e) =>
-						e.stat === 'lightCover' ? 'Permanent Light Cover' : `${e.stat.toUpperCase()} ${e.value}`
-					)
-					.join(', ')}
+				{formatEmpowered(faction.empowered)}
 			</p>
 		</div>
 	{/if}
@@ -112,7 +110,7 @@
 				<span class="leader-badge">Leader</span>
 			{/if}
 		</div>
-		<span class="model-cost">{model.totalCost} Sh</span>
+		<span class="model-cost">{calculateModelCost(model)} Sh</span>
 	</div>
 {/snippet}
 

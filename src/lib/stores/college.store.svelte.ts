@@ -12,7 +12,6 @@ import type {
 import {
 	calculateCollegeCost,
 	calculateEruditeCharges,
-	calculateModelCost,
 	validateCollege
 } from '$lib/utils/college-calculations';
 import { savedCollegesStore } from './saved-colleges.store.svelte';
@@ -75,10 +74,9 @@ const createCollegeStore = () => {
 			template,
 			name: modelName,
 			equippedUpgrades: [],
-			merchantItem: undefined,
-			totalCost: template.baseCost
+			merchantItem: undefined
 		};
-		models.push(model);
+		models = [...models, model];
 		return model.id;
 	};
 
@@ -104,8 +102,7 @@ const createCollegeStore = () => {
 			upgrade,
 			replacedEquipment: upgrade.replaces
 		};
-		model.equippedUpgrades.push(equipped);
-		model.totalCost = calculateModelCost(model);
+		model.equippedUpgrades = [...model.equippedUpgrades, equipped];
 	};
 
 	const removeUpgrade = (modelId: string, upgradeName: string) => {
@@ -113,7 +110,6 @@ const createCollegeStore = () => {
 		if (!model) return;
 
 		model.equippedUpgrades = model.equippedUpgrades.filter((eu) => eu.upgrade.name !== upgradeName);
-		model.totalCost = calculateModelCost(model);
 	};
 
 	const equipMerchantItem = (modelId: string, item: MerchantItem) => {
@@ -121,7 +117,6 @@ const createCollegeStore = () => {
 		if (!model) return;
 
 		model.merchantItem = item;
-		model.totalCost = calculateModelCost(model);
 	};
 
 	const removeMerchantItem = (modelId: string) => {
@@ -129,7 +124,6 @@ const createCollegeStore = () => {
 		if (!model) return;
 
 		model.merchantItem = undefined;
-		model.totalCost = calculateModelCost(model);
 	};
 
 	const renameModel = (modelId: string, newName: string) => {
@@ -152,7 +146,7 @@ const createCollegeStore = () => {
 			id: collegeId,
 			name,
 			factionId,
-			models: structuredClone($state.snapshot(models)),
+			models: $state.snapshot(models),
 			totalCost,
 			eruditeCharges,
 			gameConfig: { ...gameConfig },
@@ -165,7 +159,7 @@ const createCollegeStore = () => {
 		collegeId = saved.id;
 		name = saved.name;
 		factionId = saved.factionId;
-		models = structuredClone(saved.models);
+		models = saved.models;
 		gameConfig = { ...saved.gameConfig };
 	};
 

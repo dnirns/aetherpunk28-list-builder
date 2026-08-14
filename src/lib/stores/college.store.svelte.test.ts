@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import type { SavedCollege } from '../types/game.types';
 import { UNIVERSAL_MODELS } from '../data/universal-models';
+import { calculateModelCost } from '../utils/college-calculations';
 import { collegeStore } from './college.store.svelte';
 import { savedCollegesStore } from './saved-colleges.store.svelte';
 
@@ -109,9 +110,9 @@ describe('addModel', () => {
 		expect(model.merchantItem).toBeUndefined();
 	});
 
-	it('initialises totalCost equal to the template base cost', () => {
+	it('costs the template base cost when nothing is equipped', () => {
 		collegeStore.addModel(slogger);
-		expect(collegeStore.models[0].totalCost).toBe(slogger.baseCost);
+		expect(calculateModelCost(collegeStore.models[0])).toBe(slogger.baseCost);
 	});
 });
 
@@ -155,10 +156,10 @@ describe('equipUpgrade', () => {
 		expect(collegeStore.models[0].equippedUpgrades[0].upgrade.name).toBe('Bayonet');
 	});
 
-	it('updates model totalCost after equipping', () => {
+	it('reflects an equipped upgrade in the model cost', () => {
 		const id = collegeStore.addModel(slogger);
 		collegeStore.equipUpgrade(id, bayonet); // cost 1
-		expect(collegeStore.models[0].totalCost).toBe(slogger.baseCost + 1);
+		expect(calculateModelCost(collegeStore.models[0])).toBe(slogger.baseCost + 1);
 	});
 
 	it('does not equip the same upgrade twice', () => {
@@ -195,11 +196,11 @@ describe('removeUpgrade', () => {
 		expect(collegeStore.models[0].equippedUpgrades).toHaveLength(0);
 	});
 
-	it('recalculates model totalCost after removal', () => {
+	it('drops the upgrade cost again after removal', () => {
 		const id = collegeStore.addModel(slogger);
 		collegeStore.equipUpgrade(id, bayonet);
 		collegeStore.removeUpgrade(id, 'Bayonet');
-		expect(collegeStore.models[0].totalCost).toBe(slogger.baseCost);
+		expect(calculateModelCost(collegeStore.models[0])).toBe(slogger.baseCost);
 	});
 
 	it('does nothing when the model id does not exist', () => {
@@ -219,10 +220,10 @@ describe('equipMerchantItem', () => {
 		expect(collegeStore.models[0].merchantItem).toEqual(item);
 	});
 
-	it('updates model totalCost', () => {
+	it('reflects an equipped merchant item in the model cost', () => {
 		const id = collegeStore.addModel(slogger);
 		collegeStore.equipMerchantItem(id, item);
-		expect(collegeStore.models[0].totalCost).toBe(slogger.baseCost + item.cost);
+		expect(calculateModelCost(collegeStore.models[0])).toBe(slogger.baseCost + item.cost);
 	});
 
 	it('does nothing when the model id does not exist', () => {
@@ -247,7 +248,7 @@ describe('removeMerchantItem', () => {
 		const id = collegeStore.addModel(slogger);
 		collegeStore.equipMerchantItem(id, item);
 		collegeStore.removeMerchantItem(id);
-		expect(collegeStore.models[0].totalCost).toBe(slogger.baseCost);
+		expect(calculateModelCost(collegeStore.models[0])).toBe(slogger.baseCost);
 	});
 
 	it('does nothing when the model id does not exist', () => {

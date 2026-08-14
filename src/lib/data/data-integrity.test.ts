@@ -2,6 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { FACTIONS } from './factions';
 import { MERCHANT_ITEMS, CORE_SPELLS } from './spells-and-items';
 import { UNIVERSAL_MODELS } from './universal-models';
+import {
+	SPECIAL_RULES,
+	UNDOCUMENTED_SPECIAL_RULES,
+	describeSpecialRule,
+	parseSpecialRule
+} from './special-rules';
 import type { FactionId, ModelTemplate } from '../types/game.types';
 
 // The full set of valid faction IDs as defined in the type system.
@@ -300,5 +306,96 @@ describe('MERCHANT_ITEMS', () => {
 				).toBe(true);
 			}
 		}
+	});
+});
+
+// --- SPECIAL_RULES ---
+
+describe('SPECIAL_RULES', () => {
+	const isAccountedFor = (rule: { name: string; description?: string }) =>
+		rule.description !== undefined ||
+		SPECIAL_RULES[rule.name] !== undefined ||
+		UNDOCUMENTED_SPECIAL_RULES.includes(rule.name);
+
+	it('accounts for every rule named on a model profile', () => {
+		for (const model of allModelTemplates()) {
+			for (const rule of model.specialRules) {
+				expect(
+					isAccountedFor(rule),
+					`model "${model.name}" references unknown special rule "${rule.name}"`
+				).toBe(true);
+			}
+		}
+	});
+
+	it('accounts for every rule granted by an upgrade', () => {
+		for (const model of allModelTemplates()) {
+			for (const upgrade of model.upgrades) {
+				for (const raw of upgrade.specialRules ?? []) {
+					expect(
+						isAccountedFor(parseSpecialRule(raw)),
+						`upgrade "${upgrade.name}" on "${model.name}" grants unknown special rule "${raw}"`
+					).toBe(true);
+				}
+			}
+		}
+	});
+
+	it('has no empty descriptions', () => {
+		for (const [name, description] of Object.entries(SPECIAL_RULES)) {
+			expect(description.length, `rule "${name}" has an empty description`).toBeGreaterThan(0);
+		}
+	});
+
+	it('does not list an undocumented rule that also has a description', () => {
+		for (const name of UNDOCUMENTED_SPECIAL_RULES) {
+			expect(
+				SPECIAL_RULES[name],
+				`rule "${name}" is listed as undocumented but has a description`
+			).toBeUndefined();
+		}
+	});
+});
+
+describe('parseSpecialRule', () => {
+	it('splits a parameterised rule into name and value', () => {
+		expect(parseSpecialRule('Impact 2')).toEqual({ name: 'Impact', params: { value: 2 } });
+		expect(parseSpecialRule('Troop Transport 10')).toEqual({
+			name: 'Troop Transport',
+			params: { value: 10 }
+		});
+	});
+
+	it('keeps a non-numeric parameter as written', () => {
+		expect(parseSpecialRule('Blast 3"')).toEqual({ name: 'Blast', params: { value: '3"' } });
+	});
+
+	it('returns a bare name when the rule takes no parameter', () => {
+		expect(parseSpecialRule('One-Use')).toEqual({ name: 'One-Use' });
+	});
+
+	it('passes through a rule it does not recognise', () => {
+		expect(parseSpecialRule('Martial Training')).toEqual({ name: 'Martial Training' });
+	});
+
+	it('prefers the longest matching rule name', () => {
+		// "Troop Transport" must not be parsed as a rule named "Troop".
+		expect(parseSpecialRule('Troop Transport 42').name).toBe('Troop Transport');
+	});
+});
+
+describe('describeSpecialRule', () => {
+	it('prefers a description inlined on the rule', () => {
+		expect(describeSpecialRule({ name: 'Fly', description: 'Bespoke text.' })).toBe(
+			'Bespoke text.'
+		);
+	});
+
+	it('falls back to the universal lookup', () => {
+		expect(describeSpecialRule({ name: 'Fly' })).toBe(SPECIAL_RULES['Fly']);
+	});
+
+	it('returns undefined for a rule the documents never define', () => {
+		expect(describeSpecialRule({ name: 'Moving Wall' })).toBeUndefined();
 	});
 });

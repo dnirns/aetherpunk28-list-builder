@@ -26,11 +26,10 @@ export const storage = {
 
 		if (existing >= 0) {
 			colleges[existing] = college;
+			storage.save(colleges);
 		} else {
-			colleges.push(college);
+			storage.save([...colleges, college]);
 		}
-
-		storage.save(colleges);
 	},
 
 	removeCollege: (id: string) => {

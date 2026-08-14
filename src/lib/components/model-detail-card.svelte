@@ -1,5 +1,14 @@
 <script lang="ts">
-	import type { CollegeModel, DicePool, DieStep } from '$lib/types/game.types';
+	import type { CollegeModel } from '$lib/types/game.types';
+	import { formatDice, formatDie, formatSpecialRule } from '$lib/utils/format';
+	import { describeSpecialRule } from '$lib/data/special-rules';
+	import {
+		abilityUpgrades,
+		calculateModelCost,
+		effectiveEquipment,
+		effectiveSpecialRules,
+		effectiveStats
+	} from '$lib/utils/college-calculations';
 
 	type Props = {
 		model: CollegeModel;
@@ -8,25 +17,10 @@
 
 	const { model, onclose }: Props = $props();
 
-	const formatDice = (pool: DicePool): string => {
-		if (pool.die === 0) return '-';
-		return pool.count > 1 ? `${pool.count}${pool.die}` : `${pool.die}`;
-	};
-
-	const formatDie = (die: DieStep): string => (die === 0 ? '-' : `${die}`);
-
-	const effectiveEquipment = $derived.by(() => {
-		const replaced = new Set(
-			model.equippedUpgrades.map((eu) => eu.replacedEquipment).filter(Boolean)
-		);
-		const base = model.template.baseEquipment.filter((w) => !replaced.has(w.name));
-		const upgradeWeapons = model.equippedUpgrades
-			.filter((eu) => eu.upgrade.weapon)
-			.map((eu) => eu.upgrade.weapon!);
-		return [...base, ...upgradeWeapons];
-	});
-
-	const abilityUpgrades = $derived(model.equippedUpgrades.filter((eu) => !eu.upgrade.weapon));
+	const stats = $derived(effectiveStats(model));
+	const specialRules = $derived(effectiveSpecialRules(model));
+	const equipment = $derived(effectiveEquipment(model));
+	const abilities = $derived(abilityUpgrades(model));
 </script>
 
 <div class="detail">
@@ -36,7 +30,7 @@
 			{#if model.name !== model.template.name}
 				<p class="template">{model.template.name}</p>
 			{/if}
-			<p class="meta">{model.template.baseSize} · {model.totalCost} Sh</p>
+			<p class="meta">{model.template.baseSize} · {calculateModelCost(model)} Sh</p>
 		</div>
 		<button class="close" onclick={onclose} aria-label="Close">✕</button>
 	</header>
@@ -57,13 +51,13 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>{model.template.stats.mv}</td>
-					<td>{formatDice(model.template.stats.ra)}</td>
-					<td>{formatDice(model.template.stats.me)}</td>
-					<td>{formatDie(model.template.stats.df)}</td>
-					<td>{formatDie(model.template.stats.wp)}</td>
-					<td>{model.template.stats.range}</td>
-					<td class="surge">{model.template.stats.passiveSurge}</td>
+					<td>{stats.mv}</td>
+					<td>{formatDice(stats.ra)}</td>
+					<td>{formatDice(stats.me)}</td>
+					<td>{formatDie(stats.df)}</td>
+					<td>{formatDie(stats.wp)}</td>
+					<td>{stats.range}</td>
+					<td class="surge">{stats.passiveSurge}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -72,7 +66,7 @@
 	<div class="ed-section">
 		<div class="ap-section-label-ink">Equipment</div>
 		<div class="rows">
-			{#each effectiveEquipment as weapon (weapon.name)}
+			{#each equipment as weapon (weapon.name)}
 				<div class="row">
 					<span class="row-name">{weapon.name}</span>
 					<span class="row-meta">
@@ -85,11 +79,11 @@
 		</div>
 	</div>
 
-	{#if abilityUpgrades.length > 0}
+	{#if abilities.length > 0}
 		<div class="ed-section">
 			<div class="ap-section-label-ink">Upgrades</div>
 			<div class="rows">
-				{#each abilityUpgrades as eu (eu.upgrade.name)}
+				{#each abilities as eu (eu.upgrade.name)}
 					<div class="row stacked">
 						<div class="row-head">
 							<span class="row-name">{eu.upgrade.name}</span>
@@ -104,17 +98,16 @@
 		</div>
 	{/if}
 
-	{#if model.template.specialRules.length > 0}
+	{#if specialRules.length > 0}
 		<div class="ed-section">
 			<div class="ap-section-label-ink">Special Rules</div>
 			<div class="rows">
-				{#each model.template.specialRules as rule (rule.name)}
+				{#each specialRules as rule (rule.name)}
+					{@const description = describeSpecialRule(rule)}
 					<div class="row stacked rule">
-						<span class="row-name"
-							>{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}</span
-						>
-						{#if rule.description}
-							<p class="row-desc">{rule.description}</p>
+						<span class="row-name">{formatSpecialRule(rule)}</span>
+						{#if description}
+							<p class="row-desc">{description}</p>
 						{/if}
 					</div>
 				{/each}

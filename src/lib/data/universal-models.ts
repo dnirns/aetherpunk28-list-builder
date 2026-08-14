@@ -63,14 +63,13 @@ export const UNIVERSAL_MODELS: ModelTemplate[] = [
 			{
 				name: 'Marksmanship',
 				cost: 1,
-				statModifier: { df: 'D8' },
-				specialRules: ['Marksmanship'],
+				statModifier: { ra: { count: 1, die: 'D8' } },
 				description: 'Ra D8.'
 			},
 			{
 				name: 'Martial Training',
 				cost: 1,
-				specialRules: ['Martial Training'],
+				statModifier: { me: { count: 1, die: 'D8' } },
 				description: 'Me D8.'
 			},
 			{ name: 'Hard as Nails', cost: 1, statModifier: { df: 'D8' }, description: 'Df D8.' },

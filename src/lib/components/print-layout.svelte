@@ -1,35 +1,17 @@
 <script lang="ts">
 	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { FACTIONS } from '$lib/data/factions';
-	import type { CollegeModel, DicePool, DieStep } from '$lib/types/game.types';
+	import { formatDice, formatDie, formatEmpowered, formatSpecialRule } from '$lib/utils/format';
+	import { describeSpecialRule } from '$lib/data/special-rules';
+	import {
+		abilityUpgrades,
+		calculateModelCost,
+		effectiveEquipment,
+		effectiveSpecialRules,
+		effectiveStats
+	} from '$lib/utils/college-calculations';
 
 	const faction = $derived(FACTIONS.find((f) => f.id === collegeStore.factionId));
-
-	const formatDice = (pool: DicePool): string => {
-		if (pool.die === 0) return '-';
-		return pool.count > 1 ? `${pool.count}${pool.die}` : `${pool.die}`;
-	};
-
-	const formatDie = (die: DieStep): string => (die === 0 ? '-' : `${die}`);
-
-	const formatEmpowered = (stat: string, value: string): string => {
-		if (stat === 'lightCover') return 'Permanent Light Cover';
-		return `${stat.toUpperCase()} ${value}`;
-	};
-
-	const effectiveEquipment = (model: CollegeModel) => {
-		const replaced = new Set(
-			model.equippedUpgrades.map((eu) => eu.replacedEquipment).filter(Boolean)
-		);
-		const base = model.template.baseEquipment.filter((w) => !replaced.has(w.name));
-		const upgradeWeapons = model.equippedUpgrades
-			.filter((eu) => eu.upgrade.weapon)
-			.map((eu) => eu.upgrade.weapon!);
-		return [...base, ...upgradeWeapons];
-	};
-
-	const abilityUpgrades = (model: CollegeModel) =>
-		model.equippedUpgrades.filter((eu) => !eu.upgrade.weapon);
 </script>
 
 <div class="print-only">
@@ -64,7 +46,7 @@
 			<div class="info-block">
 				<span class="info-label">Empowered:</span>
 				<span class="info-text">
-					{faction.empowered.map((e) => formatEmpowered(e.stat, e.value)).join(', ')}
+					{formatEmpowered(faction.empowered)}
 				</span>
 			</div>
 			<div class="info-block">
@@ -81,6 +63,8 @@
 		{#each collegeStore.models as model (model.id)}
 			{@const equipment = effectiveEquipment(model)}
 			{@const upgrades = abilityUpgrades(model)}
+			{@const stats = effectiveStats(model)}
+			{@const specialRules = effectiveSpecialRules(model)}
 			<article class="model">
 				<header class="model-head">
 					<div class="model-title">
@@ -94,7 +78,7 @@
 					</div>
 					<div class="model-meta">
 						<span>{model.template.baseSize}</span>
-						<span class="cost">{model.totalCost} Sh</span>
+						<span class="cost">{calculateModelCost(model)} Sh</span>
 					</div>
 				</header>
 
@@ -112,13 +96,13 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>{model.template.stats.mv}</td>
-							<td>{formatDice(model.template.stats.ra)}</td>
-							<td>{formatDice(model.template.stats.me)}</td>
-							<td>{formatDie(model.template.stats.df)}</td>
-							<td>{formatDie(model.template.stats.wp)}</td>
-							<td>{model.template.stats.range}</td>
-							<td>{model.template.stats.passiveSurge}</td>
+							<td>{stats.mv}</td>
+							<td>{formatDice(stats.ra)}</td>
+							<td>{formatDice(stats.me)}</td>
+							<td>{formatDie(stats.df)}</td>
+							<td>{formatDie(stats.wp)}</td>
+							<td>{stats.range}</td>
+							<td>{stats.passiveSurge}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -157,19 +141,16 @@
 					</div>
 				{/if}
 
-				{#if model.template.specialRules.length > 0}
+				{#if specialRules.length > 0}
 					<div class="row">
 						<span class="row-label">Special Rules</span>
 						<ul class="row-list">
-							{#each model.template.specialRules as rule (rule.name)}
+							{#each specialRules as rule (rule.name)}
+								{@const description = describeSpecialRule(rule)}
 								<li>
-									<strong
-										>{rule.name}{rule.params
-											? ` (${Object.values(rule.params).join(', ')})`
-											: ''}</strong
-									>
-									{#if rule.description}
-										<span class="desc"> &mdash; {rule.description}</span>
+									<strong>{formatSpecialRule(rule)}</strong>
+									{#if description}
+										<span class="desc"> &mdash; {description}</span>
 									{/if}
 								</li>
 							{/each}

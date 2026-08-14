@@ -1,8 +1,16 @@
 <script lang="ts">
 	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { MERCHANT_ITEMS } from '$lib/data/spells-and-items';
-	import { checkMerchantItemRestriction } from '$lib/utils/college-calculations';
+	import {
+		calculateModelCost,
+		checkMerchantItemRestriction,
+		effectiveEquipment,
+		effectiveSpecialRules,
+		effectiveStats
+	} from '$lib/utils/college-calculations';
 	import type { Upgrade } from '$lib/types/game.types';
+	import { formatDice, formatDie, formatSpecialRule } from '$lib/utils/format';
+	import { describeSpecialRule } from '$lib/data/special-rules';
 
 	type Props = {
 		modelId: string;
@@ -13,6 +21,10 @@
 	const { modelId, showRemove = false, onremove }: Props = $props();
 
 	const model = $derived(collegeStore.models.find((m) => m.id === modelId));
+
+	const stats = $derived(model ? effectiveStats(model) : null);
+	const specialRules = $derived(model ? effectiveSpecialRules(model) : []);
+	const equipment = $derived(model ? effectiveEquipment(model) : []);
 
 	const equippedNames = $derived(
 		new Set(model?.equippedUpgrades.map((eu) => eu.upgrade.name) ?? [])
@@ -97,20 +109,19 @@
 	let editingName = $state(false);
 	let nameInputEl = $state<HTMLInputElement | null>(null);
 
+	// Close the inline rename whenever a different model is selected. modelId is
+	// read purely to register it as a dependency of this effect.
 	$effect(() => {
-		modelId;
+		void modelId;
 		editingName = false;
 	});
 
 	$effect(() => {
 		if (editingName) nameInputEl?.focus();
 	});
-
-	const formatDicePool = (pool: { count: number; die: string | number }) =>
-		pool.die === 0 ? '-' : `${pool.count}x${pool.die}`;
 </script>
 
-{#if model}
+{#if model && stats}
 	<div class="configurator">
 		<div class="head">
 			<div class="head-main">
@@ -141,7 +152,7 @@
 					<span>{model.template.baseSize}</span>
 				</div>
 			</div>
-			<div class="cost">{model.totalCost} Sh</div>
+			<div class="cost">{calculateModelCost(model)} Sh</div>
 			{#if showRemove && onremove}
 				<button class="remove-btn" onclick={onremove}>Remove</button>
 			{/if}
@@ -151,42 +162,42 @@
 			<div class="ap-section-label-ink">Statistics</div>
 			<div class="stat-row">
 				<div class="stat-cell">
-					<div class="stat-val">{model.template.stats.mv}</div>
+					<div class="stat-val">{stats.mv}</div>
 					<div class="stat-lbl">MV</div>
 				</div>
 				<div class="stat-cell">
-					<div class="stat-val">{formatDicePool(model.template.stats.ra)}</div>
+					<div class="stat-val">{formatDice(stats.ra)}</div>
 					<div class="stat-lbl">RA</div>
 				</div>
 				<div class="stat-cell">
-					<div class="stat-val">{formatDicePool(model.template.stats.me)}</div>
+					<div class="stat-val">{formatDice(stats.me)}</div>
 					<div class="stat-lbl">ME</div>
 				</div>
 				<div class="stat-cell">
-					<div class="stat-val">{model.template.stats.df || '-'}</div>
+					<div class="stat-val">{formatDie(stats.df)}</div>
 					<div class="stat-lbl">DF</div>
 				</div>
 				<div class="stat-cell">
-					<div class="stat-val">{model.template.stats.wp || '-'}</div>
+					<div class="stat-val">{formatDie(stats.wp)}</div>
 					<div class="stat-lbl">WP</div>
 				</div>
-				{#if model.template.stats.range !== '-'}
+				{#if stats.range !== '-'}
 					<div class="stat-cell">
-						<div class="stat-val small">{model.template.stats.range}</div>
+						<div class="stat-val small">{stats.range}</div>
 						<div class="stat-lbl">RNG</div>
 					</div>
 				{/if}
 				<div class="stat-cell">
-					<div class="stat-val small">{model.template.stats.passiveSurge}</div>
+					<div class="stat-val small">{stats.passiveSurge}</div>
 					<div class="stat-lbl">SURGE</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="ed-section">
-			<div class="ap-section-label-ink">Base Equipment</div>
+			<div class="ap-section-label-ink">Equipment</div>
 			<div class="tag-row">
-				{#each model.template.baseEquipment as equip (equip.name)}
+				{#each equipment as equip (equip.name)}
 					<span class="ap-tag base-tag">
 						{equip.name}{#if equip.range}
 							({equip.range}){/if}
@@ -195,13 +206,13 @@
 			</div>
 		</div>
 
-		{#if model.template.specialRules.length > 0}
+		{#if specialRules.length > 0}
 			<div class="ed-section">
 				<div class="ap-section-label-ink">Special Rules</div>
 				<div class="tag-row">
-					{#each model.template.specialRules as rule (rule.name)}
-						<span class="ap-tag rule-tag" title={rule.description ?? ''}>
-							{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}
+					{#each specialRules as rule (rule.name)}
+						<span class="ap-tag rule-tag" title={describeSpecialRule(rule) ?? ''}>
+							{formatSpecialRule(rule)}
 						</span>
 					{/each}
 				</div>

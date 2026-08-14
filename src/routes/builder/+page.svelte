@@ -97,6 +97,9 @@
 		collegeStore.save();
 		const url = new URL(page.url);
 		url.searchParams.set('view', collegeStore.college.id);
+		// Staying on the current route and only adding a query param, so there is no
+		// route id for resolve() to take.
+		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		goto(url, { replaceState: true, noScroll: true, keepFocus: true });
 		goTo('complete');
 	};
@@ -161,7 +164,14 @@
 							</div>
 						{:else}
 							<div class="detail-empty">
-								<img class="detail-empty-image" src="/images/scrapper_transparent.png" alt="" />
+								<img
+									class="detail-empty-image"
+									src="/images/scrapper_transparent.webp"
+									alt=""
+									width="800"
+									height="928"
+									loading="lazy"
+								/>
 							</div>
 						{/if}
 					</div>

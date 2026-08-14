@@ -2,6 +2,7 @@
 	import { FACTIONS } from '$lib/data/factions';
 	import FactionIcon from '$lib/components/faction-icon.svelte';
 	import type { FactionId } from '$lib/types/game.types';
+	import { formatEmpowered } from '$lib/utils/format';
 
 	type Props = {
 		selectedFaction: FactionId | null;
@@ -10,13 +11,6 @@
 	};
 
 	const { selectedFaction, onfactionselect, onnext }: Props = $props();
-
-	const formatEmpowered = (empowered: (typeof FACTIONS)[number]['empowered']) =>
-		empowered
-			.map((e) =>
-				e.stat === 'lightCover' ? 'Permanent Light Cover' : `${e.stat.toUpperCase()} ${e.value}`
-			)
-			.join(', ');
 </script>
 
 <div class="faction-step">

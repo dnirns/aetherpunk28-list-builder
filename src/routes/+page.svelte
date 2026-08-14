@@ -32,7 +32,13 @@
 	<div class="home-layout">
 		<aside class="home-recruit">
 			<h1 class="recruit-title">Start Recruiting</h1>
-			<img class="recruit-image" src="/images/rebecca-filled.png" alt="Recruiter" />
+			<img
+				class="recruit-image"
+				src="/images/rebecca-filled.webp"
+				alt="Recruiter"
+				width="388"
+				height="570"
+			/>
 			<a class="recruit-button" href={resolve('/builder')}>Create a New College</a>
 		</aside>
 
@@ -63,8 +69,8 @@
 							<div class="card-meta-item">
 								<span class="card-meta-label">Members</span>
 								<div class="card-pips">
-									{#each Array(MAX_MEMBERS) as _, i (i)}
-										<span class="ap-pip" class:filled={i < memberCount}></span>
+									{#each Array.from({ length: MAX_MEMBERS }, (_, i) => i) as pip (pip)}
+										<span class="ap-pip" class:filled={pip < memberCount}></span>
 									{/each}
 								</div>
 							</div>

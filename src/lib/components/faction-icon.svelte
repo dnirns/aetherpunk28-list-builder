@@ -9,23 +9,30 @@
 	const { factionId, size = 56 }: Props = $props();
 
 	const FACTION_IMAGES: Record<FactionId, string> = {
-		abjurers: '/images/factions/Abjurer.png',
-		diviners: '/images/factions/Diviner.png',
-		druids: '/images/factions/Druid.png',
-		evokers: '/images/factions/Evoker.png',
-		geomancers: '/images/factions/Geomancer.png',
-		'golem-corps': '/images/factions/Golem-Corps.png',
-		'hedge-wizards': '/images/factions/Hedge-Wizard.png',
-		mechanists: '/images/factions/Mechanists.png',
-		necromancers: '/images/factions/Necromancer.png',
-		paladins: '/images/factions/Paladin.png',
-		stormcallers: '/images/factions/Stormcaller.png'
+		abjurers: '/images/factions/Abjurer.webp',
+		diviners: '/images/factions/Diviner.webp',
+		druids: '/images/factions/Druid.webp',
+		evokers: '/images/factions/Evoker.webp',
+		geomancers: '/images/factions/Geomancer.webp',
+		'golem-corps': '/images/factions/Golem-Corps.webp',
+		'hedge-wizards': '/images/factions/Hedge-Wizard.webp',
+		mechanists: '/images/factions/Mechanists.webp',
+		necromancers: '/images/factions/Necromancer.webp',
+		paladins: '/images/factions/Paladin.webp',
+		stormcallers: '/images/factions/Stormcaller.webp'
 	};
 </script>
 
 <div class="icon" style="width: {size}px; height: {size}px;" aria-hidden="true">
-	<img class="circle" src="/images/circle.png" alt="" />
-	<img class="faction" src={FACTION_IMAGES[factionId]} alt="" />
+	<img class="circle" src="/images/circle.webp" alt="" width={size} height={size} />
+	<img
+		class="faction"
+		src={FACTION_IMAGES[factionId]}
+		alt=""
+		width={size}
+		height={size}
+		loading="lazy"
+	/>
 </div>
 
 <style>

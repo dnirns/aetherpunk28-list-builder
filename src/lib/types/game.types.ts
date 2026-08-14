@@ -124,10 +124,22 @@ export type EquippedUpgrade = {
 	replacedEquipment?: string;
 };
 
+/**
+ * The restrictions understood by checkMerchantItemRestriction. Keeping this a
+ * union means a mistyped restriction is a compile error rather than an item
+ * that silently becomes available to every model.
+ */
+export type ItemRestriction =
+	| 'Wizard only'
+	| 'Wizard or Veteran only'
+	| 'Dragoon/Familiar/Mount only'
+	| 'Cargo Hold models only'
+	| '50mm base or smaller';
+
 export type MerchantItem = {
 	name: string;
 	cost: number;
-	restriction?: string; // e.g. "Wizard only", "Dragoon/Familiar only"
+	restriction?: ItemRestriction;
 	description: string;
 };
 
@@ -137,7 +149,8 @@ export type CollegeModel = {
 	name: string; // custom name for this instance
 	equippedUpgrades: EquippedUpgrade[];
 	merchantItem?: MerchantItem;
-	totalCost: number; // derived: baseCost + upgrades + item
+	// Cost is not stored: derive it with calculateModelCost so it can never
+	// drift from the equipped upgrades and merchant item.
 };
 
 export type College = {

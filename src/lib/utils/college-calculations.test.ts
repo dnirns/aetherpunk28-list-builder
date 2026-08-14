@@ -11,11 +11,15 @@ import type {
 	ModelTemplate
 } from '../types/game.types';
 import {
+	abilityUpgrades,
 	calculateCollegeCost,
 	calculateEruditeCharges,
 	calculateModelCost,
 	calculateUnderdogBonus,
 	checkMerchantItemRestriction,
+	effectiveEquipment,
+	effectiveSpecialRules,
+	effectiveStats,
 	validateCampaignCollege,
 	validateCollege
 } from './college-calculations';
@@ -49,7 +53,6 @@ const makeModel = (overrides: Partial<CollegeModel> = {}): CollegeModel => ({
 	template: makeTemplate(),
 	name: 'Test Model',
 	equippedUpgrades: [],
-	totalCost: 5,
 	...overrides
 });
 
@@ -58,7 +61,6 @@ const makeWizardModel = (overrides: Partial<CollegeModel> = {}): CollegeModel =>
 		id: 'wizard-1',
 		template: makeTemplate({ id: 'wizard', name: 'Wizard', baseCost: 5 }),
 		name: 'Wizard',
-		totalCost: 5,
 		...overrides
 	});
 
@@ -283,9 +285,24 @@ describe('checkMerchantItemRestriction', () => {
 		expect(checkMerchantItemRestriction(model, item)).toBe(false);
 	});
 
-	it('returns true for an unrecognised restriction (default case)', () => {
+	it('stays permissive for an unrecognised restriction', () => {
+		// ItemRestriction rules this out at compile time, but saved colleges are
+		// read back from localStorage unvalidated, so an older app version could
+		// still supply one. Such an item must not invalidate an existing list.
 		const model = makeModel();
-		const item = makeMerchantItem({ restriction: 'Unknown restriction' });
+		const item = makeMerchantItem({
+			restriction: 'Unknown restriction' as MerchantItem['restriction']
+		});
+		expect(checkMerchantItemRestriction(model, item)).toBe(true);
+	});
+
+	it('allows Cargo Hold items on a model granted the rule by an upgrade', () => {
+		const model = makeModel({
+			equippedUpgrades: [
+				{ upgrade: { name: 'Hold Extension', cost: 2, specialRules: ['Cargo Hold'] } }
+			]
+		});
+		const item = makeMerchantItem({ restriction: 'Cargo Hold models only' });
 		expect(checkMerchantItemRestriction(model, item)).toBe(true);
 	});
 });
@@ -465,5 +482,193 @@ describe('calculateUnderdogBonus', () => {
 	it('returns zero charges for a difference smaller than 5', () => {
 		// diff 4 → floor(4/5) = 0 charges
 		expect(calculateUnderdogBonus(30, 34)).toEqual({ charges: 0, bonusXp: false });
+	});
+});
+
+// --- effectiveStats ---
+
+describe('effectiveStats', () => {
+	it('returns the template statline when nothing is equipped', () => {
+		expect(effectiveStats(makeModel())).toEqual(baseStats);
+	});
+
+	it('applies a single upgrade modifier', () => {
+		const model = makeModel({
+			equippedUpgrades: [{ upgrade: { name: 'Mount', cost: 2, statModifier: { mv: '10"' } } }]
+		});
+		expect(effectiveStats(model).mv).toBe('10"');
+	});
+
+	it('leaves stats the modifier does not mention untouched', () => {
+		const model = makeModel({
+			equippedUpgrades: [{ upgrade: { name: 'Mount', cost: 2, statModifier: { mv: '10"' } } }]
+		});
+		const stats = effectiveStats(model);
+		expect(stats.df).toBe(baseStats.df);
+		expect(stats.passiveSurge).toBe(baseStats.passiveSurge);
+	});
+
+	it('stacks modifiers across several upgrades', () => {
+		const model = makeModel({
+			equippedUpgrades: [
+				{ upgrade: { name: 'Mount', cost: 2, statModifier: { mv: '10"' } } },
+				{
+					upgrade: {
+						name: 'Marksmanship',
+						cost: 1,
+						statModifier: { ra: { count: 1, die: 'D8' } }
+					}
+				}
+			]
+		});
+		const stats = effectiveStats(model);
+		expect(stats.mv).toBe('10"');
+		expect(stats.ra).toEqual({ count: 1, die: 'D8' });
+	});
+
+	it('lets a later upgrade win when two modify the same stat', () => {
+		const model = makeModel({
+			equippedUpgrades: [
+				{ upgrade: { name: 'Mount', cost: 2, statModifier: { mv: '10"' } } },
+				{ upgrade: { name: 'Blinding Speed', cost: 3, statModifier: { mv: '18"' } } }
+			]
+		});
+		expect(effectiveStats(model).mv).toBe('18"');
+	});
+
+	it('ignores upgrades that carry no stat modifier', () => {
+		const model = makeModel({
+			equippedUpgrades: [{ upgrade: { name: 'Grenade', cost: 1 } }]
+		});
+		expect(effectiveStats(model)).toEqual(baseStats);
+	});
+
+	it('does not mutate the shared template statline', () => {
+		const template = makeTemplate();
+		const model = makeModel({
+			template,
+			equippedUpgrades: [{ upgrade: { name: 'Mount', cost: 2, statModifier: { mv: '10"' } } }]
+		});
+		effectiveStats(model);
+		expect(template.stats.mv).toBe('6"');
+	});
+});
+
+// --- effectiveSpecialRules ---
+
+describe('effectiveSpecialRules', () => {
+	it('returns the template rules when nothing is equipped', () => {
+		const model = makeModel({ template: makeTemplate({ specialRules: [{ name: 'Fly' }] }) });
+		expect(effectiveSpecialRules(model)).toEqual([{ name: 'Fly' }]);
+	});
+
+	it('adds rules granted by an upgrade', () => {
+		const model = makeModel({
+			equippedUpgrades: [
+				{ upgrade: { name: 'Senior Officer', cost: 3, specialRules: ['Commander'] } }
+			]
+		});
+		expect(effectiveSpecialRules(model)).toEqual([{ name: 'Commander' }]);
+	});
+
+	it('parses a parameterised rule granted by an upgrade', () => {
+		const model = makeModel({
+			equippedUpgrades: [
+				{ upgrade: { name: 'Bladed Plough', cost: 3, specialRules: ['Impact 2'] } }
+			]
+		});
+		expect(effectiveSpecialRules(model)).toEqual([{ name: 'Impact', params: { value: 2 } }]);
+	});
+
+	it('does not duplicate a rule the template already has', () => {
+		const model = makeModel({
+			template: makeTemplate({ specialRules: [{ name: 'Fly' }] }),
+			equippedUpgrades: [{ upgrade: { name: 'Wings', cost: 2, specialRules: ['Fly'] } }]
+		});
+		expect(effectiveSpecialRules(model)).toHaveLength(1);
+	});
+
+	it('does not mutate the template rules array', () => {
+		const template = makeTemplate({ specialRules: [{ name: 'Fly' }] });
+		const model = makeModel({
+			template,
+			equippedUpgrades: [
+				{ upgrade: { name: 'Senior Officer', cost: 3, specialRules: ['Commander'] } }
+			]
+		});
+		effectiveSpecialRules(model);
+		expect(template.specialRules).toHaveLength(1);
+	});
+});
+
+// --- effectiveEquipment ---
+
+describe('effectiveEquipment', () => {
+	const rifle = { name: 'Rifle', type: 'ranged' as const, range: '24"' };
+	const knife = { name: 'Combat Knife', type: 'melee' as const };
+	const claymore = { name: 'Claymore', type: 'melee' as const };
+
+	it('returns base equipment when nothing is equipped', () => {
+		const model = makeModel({ template: makeTemplate({ baseEquipment: [rifle, knife] }) });
+		expect(effectiveEquipment(model)).toEqual([rifle, knife]);
+	});
+
+	it('swaps out equipment an upgrade replaces', () => {
+		const model = makeModel({
+			template: makeTemplate({ baseEquipment: [rifle, knife] }),
+			equippedUpgrades: [
+				{
+					upgrade: { name: 'Claymore', cost: 2, replaces: 'Combat Knife', weapon: claymore },
+					replacedEquipment: 'Combat Knife'
+				}
+			]
+		});
+		expect(effectiveEquipment(model)).toEqual([rifle, claymore]);
+	});
+
+	it('adds a weapon from an upgrade that replaces nothing', () => {
+		const grenade = { name: 'Grenade', type: 'ranged' as const, range: '6"' };
+		const model = makeModel({
+			template: makeTemplate({ baseEquipment: [rifle] }),
+			equippedUpgrades: [{ upgrade: { name: 'Grenade', cost: 1, weapon: grenade } }]
+		});
+		expect(effectiveEquipment(model)).toEqual([rifle, grenade]);
+	});
+
+	it('ignores upgrades that carry no weapon', () => {
+		const model = makeModel({
+			template: makeTemplate({ baseEquipment: [rifle] }),
+			equippedUpgrades: [{ upgrade: { name: 'Familiar', cost: 1 } }]
+		});
+		expect(effectiveEquipment(model)).toEqual([rifle]);
+	});
+});
+
+// --- abilityUpgrades ---
+
+describe('abilityUpgrades', () => {
+	it('keeps only upgrades that do not carry a weapon', () => {
+		const model = makeModel({
+			equippedUpgrades: [
+				{ upgrade: { name: 'Familiar', cost: 1 } },
+				{
+					upgrade: {
+						name: 'Claymore',
+						cost: 2,
+						weapon: { name: 'Claymore', type: 'melee' }
+					}
+				}
+			]
+		});
+		expect(abilityUpgrades(model).map((eu) => eu.upgrade.name)).toEqual(['Familiar']);
+	});
+
+	it('returns an empty list when every upgrade is a weapon', () => {
+		const model = makeModel({
+			equippedUpgrades: [
+				{ upgrade: { name: 'Rifle', cost: 2, weapon: { name: 'Rifle', type: 'ranged' } } }
+			]
+		});
+		expect(abilityUpgrades(model)).toEqual([]);
 	});
 });

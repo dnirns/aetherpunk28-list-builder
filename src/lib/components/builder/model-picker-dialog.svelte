@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { ModelTemplate } from '$lib/types/game.types';
+	import { formatDice, formatDie, formatSpecialRule } from '$lib/utils/format';
 
 	type Props = {
 		open: boolean;
@@ -17,9 +18,6 @@
 		if (open && !dialogEl.open) dialogEl.showModal();
 		if (!open && dialogEl.open) dialogEl.close();
 	});
-
-	const formatDicePool = (pool: { count: number; die: string | number }) =>
-		pool.die === 0 ? '-' : `${pool.count}x${pool.die}`;
 
 	const handleBackdrop = (e: MouseEvent) => {
 		if (e.target === dialogEl) onclose();
@@ -61,20 +59,16 @@
 
 					<div class="card-stats">
 						<span><span class="key">MV</span> {template.stats.mv}</span>
-						<span><span class="key">RA</span> {formatDicePool(template.stats.ra)}</span>
-						<span><span class="key">ME</span> {formatDicePool(template.stats.me)}</span>
-						<span><span class="key">DF</span> {template.stats.df || '-'}</span>
-						<span><span class="key">WP</span> {template.stats.wp || '-'}</span>
+						<span><span class="key">RA</span> {formatDice(template.stats.ra)}</span>
+						<span><span class="key">ME</span> {formatDice(template.stats.me)}</span>
+						<span><span class="key">DF</span> {formatDie(template.stats.df)}</span>
+						<span><span class="key">WP</span> {formatDie(template.stats.wp)}</span>
 					</div>
 
 					{#if template.specialRules.length > 0}
 						<div class="card-rules">
 							{#each template.specialRules as rule (rule.name)}
-								<span class="rule-tag"
-									>{rule.name}{rule.params
-										? ` (${Object.values(rule.params).join(', ')})`
-										: ''}</span
-								>
+								<span class="rule-tag">{formatSpecialRule(rule)}</span>
 							{/each}
 						</div>
 					{/if}
