@@ -105,7 +105,7 @@
 	<footer class="home-credits">
 		<div class="ap-section-label credits-heading">Credits</div>
 		<p class="credits-line">
-			For <span class="credits-em">Aetherpunk 28</span>, by Jack Edwards
+			For <span class="credits-em">Aetherpunk 28,</span>turn  by Jack Edwards
 		</p>
 		<p class="credits-line">
 			Developed by Daniel Lowena-Irons
