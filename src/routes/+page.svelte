@@ -105,7 +105,12 @@
 	<footer class="home-credits">
 		<div class="ap-section-label credits-heading">Credits</div>
 		<p class="credits-line">
-			For <span class="credits-em">Aetherpunk 28,</span>turn  by Jack Edwards
+			For <a
+				class="credits-link credits-em"
+				href="https://www.wargamevault.com/product/463718/Aetherpunk28?manufacturers_id=26307"
+				target="_blank"
+				rel="noopener noreferrer"><span>Aetherpunk 28,</span></a
+			> by Jack Edwards
 		</p>
 		<p class="credits-line">
 			Developed by Daniel Lowena-Irons
@@ -399,19 +404,26 @@
 		gap: 5px;
 		color: var(--gold);
 		text-decoration: none;
-		border-bottom: 1px solid transparent;
-		transition:
-			color 0.15s,
-			border-color 0.15s;
+		transition: color 0.15s;
 	}
-	.credits-icon {
-		width: 14px;
-		height: 14px;
-		flex-shrink: 0;
+
+	.credits-link span {
+		text-decoration: none;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
 	}
 
 	.credits-link:hover {
 		color: var(--gold-light);
-		border-bottom-color: var(--gold-light);
+	}
+
+	.credits-link:hover span {
+		text-decoration: underline;
+	}
+
+	.credits-icon {
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
 	}
 </style>
