@@ -205,13 +205,13 @@ describe('checkMerchantItemRestriction', () => {
 
 	it('allows dragoon/familiar items on a dragoon model', () => {
 		const model = makeModel({ template: makeTemplate({ id: 'dragoon' }) });
-		const item = makeMerchantItem({ restriction: 'Dragoon/Familiar only' });
+		const item = makeMerchantItem({ restriction: 'Dragoon/Familiar/Mount only' });
 		expect(checkMerchantItemRestriction(model, item)).toBe(true);
 	});
 
 	it('allows dragoon/familiar items on a feral-familiar model', () => {
 		const model = makeModel({ template: makeTemplate({ id: 'feral-familiar' }) });
-		const item = makeMerchantItem({ restriction: 'Dragoon/Familiar only' });
+		const item = makeMerchantItem({ restriction: 'Dragoon/Familiar/Mount only' });
 		expect(checkMerchantItemRestriction(model, item)).toBe(true);
 	});
 
@@ -220,13 +220,22 @@ describe('checkMerchantItemRestriction', () => {
 			template: makeTemplate({ id: 'scrapper' }),
 			equippedUpgrades: [{ upgrade: { name: 'Familiar', cost: 1 } }]
 		});
-		const item = makeMerchantItem({ restriction: 'Dragoon/Familiar only' });
+		const item = makeMerchantItem({ restriction: 'Dragoon/Familiar/Mount only' });
+		expect(checkMerchantItemRestriction(model, item)).toBe(true);
+	});
+
+	it('allows dragoon/familiar items on a model with a Mount upgrade', () => {
+		const model = makeModel({
+			template: makeTemplate({ id: 'scrapper' }),
+			equippedUpgrades: [{ upgrade: { name: 'Mount', cost: 1 } }]
+		});
+		const item = makeMerchantItem({ restriction: 'Dragoon/Familiar/Mount only' });
 		expect(checkMerchantItemRestriction(model, item)).toBe(true);
 	});
 
 	it('rejects dragoon/familiar items on an ineligible model', () => {
 		const model = makeModel({ template: makeTemplate({ id: 'slogger' }) });
-		const item = makeMerchantItem({ restriction: 'Dragoon/Familiar only' });
+		const item = makeMerchantItem({ restriction: 'Dragoon/Familiar/Mount only' });
 		expect(checkMerchantItemRestriction(model, item)).toBe(false);
 	});
 
@@ -241,6 +250,36 @@ describe('checkMerchantItemRestriction', () => {
 	it('rejects cargo hold items on a model without the Cargo Hold special rule', () => {
 		const model = makeModel({ template: makeTemplate({ specialRules: [] }) });
 		const item = makeMerchantItem({ restriction: 'Cargo Hold models only' });
+		expect(checkMerchantItemRestriction(model, item)).toBe(false);
+	});
+
+	it('allows wizard-or-veteran items on a wizard model', () => {
+		const model = makeModel({ template: makeTemplate({ id: 'wizard' }) });
+		const item = makeMerchantItem({ restriction: 'Wizard or Veteran only' });
+		expect(checkMerchantItemRestriction(model, item)).toBe(true);
+	});
+
+	it('rejects wizard-or-veteran items on a non-wizard model', () => {
+		const model = makeModel({ template: makeTemplate({ id: 'slogger' }) });
+		const item = makeMerchantItem({ restriction: 'Wizard or Veteran only' });
+		expect(checkMerchantItemRestriction(model, item)).toBe(false);
+	});
+
+	it('allows small-base items on a 32-40mm model', () => {
+		const model = makeModel({ template: makeTemplate({ baseSize: '32-40mm' }) });
+		const item = makeMerchantItem({ restriction: '50mm base or smaller' });
+		expect(checkMerchantItemRestriction(model, item)).toBe(true);
+	});
+
+	it('rejects small-base items on an 80-100mm model', () => {
+		const model = makeModel({ template: makeTemplate({ baseSize: '80-100mm' }) });
+		const item = makeMerchantItem({ restriction: '50mm base or smaller' });
+		expect(checkMerchantItemRestriction(model, item)).toBe(false);
+	});
+
+	it('rejects small-base items on a 50-60mm model', () => {
+		const model = makeModel({ template: makeTemplate({ baseSize: '50-60mm' }) });
+		const item = makeMerchantItem({ restriction: '50mm base or smaller' });
 		expect(checkMerchantItemRestriction(model, item)).toBe(false);
 	});
 

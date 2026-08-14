@@ -1,4 +1,5 @@
 import type {
+	BaseSize,
 	CampaignCollege,
 	College,
 	CollegeModel,
@@ -7,6 +8,9 @@ import type {
 } from '$lib/types/game.types';
 import { FACTIONS } from '$lib/data/factions';
 import { UNIVERSAL_MODELS } from '$lib/data/universal-models';
+
+/** Base sizes treated as "50mm or smaller" for merchant item restrictions. */
+const SMALL_BASE_SIZES = new Set<BaseSize>(['25mm', '32-40mm', '40-50mm']);
 
 /** Calculate total shilling cost of a single model including upgrades and merchant item. */
 export const calculateModelCost = (model: CollegeModel): number => {
@@ -35,14 +39,23 @@ export const checkMerchantItemRestriction = (model: CollegeModel, item: Merchant
 	switch (item.restriction) {
 		case 'Wizard only':
 			return model.template.id === 'wizard';
-		case 'Dragoon/Familiar only':
+		case 'Wizard or Veteran only':
+			// TODO: see open question 2. Veteran access is campaign-only state that is not
+			// yet tracked on CollegeModel, so this currently permits Wizards only.
+			return model.template.id === 'wizard';
+		case 'Dragoon/Familiar/Mount only':
 			return (
 				model.template.id === 'dragoon' ||
 				model.template.id === 'feral-familiar' ||
-				model.equippedUpgrades.some((eu) => eu.upgrade.name === 'Familiar')
+				model.equippedUpgrades.some(
+					(eu) => eu.upgrade.name === 'Familiar' || eu.upgrade.name === 'Mount'
+				)
 			);
 		case 'Cargo Hold models only':
 			return model.template.specialRules.some((r) => r.name === 'Cargo Hold');
+		case '50mm base or smaller':
+			// TODO: see open question 1. The 50-60mm band is treated as too large for now.
+			return SMALL_BASE_SIZES.has(model.template.baseSize);
 		default:
 			return true;
 	}

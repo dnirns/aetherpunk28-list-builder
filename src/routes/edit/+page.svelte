@@ -107,143 +107,138 @@
 		<div class="edit-scroll" id="edit-scroll">
 			<div class="edit-page">
 				<header class="step-head">
-				<div class="head-text">
-					<span class="editing-badge">Editing</span>
-					{#if editingName}
-						<input
-							bind:this={nameInputEl}
-							class="title-input"
-							value={collegeStore.name}
-							oninput={(e) => collegeStore.setName((e.target as HTMLInputElement).value)}
-							onblur={() => {
-								if (collegeStore.name.trim()) editingName = false;
-							}}
-							onkeydown={(e) => {
-								if (e.key === 'Enter' && collegeStore.name.trim()) editingName = false;
-							}}
-						/>
-					{:else}
-						<button
-							class="title-button"
-							onclick={() => (editingName = true)}
-							title="Click to rename"
-						>
-							<span class="title">{collegeStore.name}</span>
-							<span class="edit-hint" aria-hidden="true">✎</span>
-						</button>
-					{/if}
-					{#if faction}
-						<p class="subtitle">{faction.name}</p>
-					{/if}
-				</div>
-				<div class="budget">
-					<div class="budget-amount">
-						{collegeStore.totalCost} <span class="budget-sep">/</span>
-						{#if editingTreasury}
+					<div class="head-text">
+						<span class="editing-badge">Editing</span>
+						{#if editingName}
 							<input
-								bind:this={treasuryInputEl}
-								class="treasury-input"
-								type="number"
-								min="0"
-								value={pointsLimit ?? ''}
-								placeholder="∞"
-								oninput={(e) => {
-									const raw = (e.target as HTMLInputElement).value;
-									if (raw.trim() === '') {
-										collegeStore.setPointsLimit(null);
-										return;
-									}
-									const v = Number(raw) || 0;
-									collegeStore.setPointsLimit(v);
+								bind:this={nameInputEl}
+								class="title-input"
+								value={collegeStore.name}
+								oninput={(e) => collegeStore.setName((e.target as HTMLInputElement).value)}
+								onblur={() => {
+									if (collegeStore.name.trim()) editingName = false;
 								}}
-								onblur={() => (editingTreasury = false)}
 								onkeydown={(e) => {
-									if (e.key === 'Enter') editingTreasury = false;
+									if (e.key === 'Enter' && collegeStore.name.trim()) editingName = false;
 								}}
 							/>
 						{:else}
 							<button
-								class="treasury-button"
-								onclick={() => (editingTreasury = true)}
-								title="Click to edit treasury (clear for no limit)"
+								class="title-button"
+								onclick={() => (editingName = true)}
+								title="Click to rename"
 							>
-								{pointsLimit ?? '∞'}<span class="edit-hint" aria-hidden="true">✎</span>
+								<span class="title">{collegeStore.name}</span>
+								<span class="edit-hint" aria-hidden="true">✎</span>
 							</button>
 						{/if}
-						<span class="budget-unit">Sh</span>
-					</div>
-					<div class="budget-remaining" class:over={hasLimit && budgetRemaining < 0}>
-						{#if !hasLimit}
-							No limit
-						{:else if budgetRemaining >= 0}
-							{budgetRemaining} Shillings remaining
-						{:else}
-							{Math.abs(budgetRemaining)} Shillings over budget
+						{#if faction}
+							<p class="subtitle">{faction.name}</p>
 						{/if}
 					</div>
-				</div>
-			</header>
-
-			{#if hasErrors}
-				<div class="errors">
-					<h3>Validation Errors</h3>
-					<ul>
-						{#each collegeStore.validationErrors as error, i (i)}
-							<li>{error}</li>
-						{/each}
-					</ul>
-				</div>
-			{/if}
-
-			<div class="layout">
-				<aside class="lists">
-					<section class="list-section">
-						<div class="list-items">
-							{#each allModels as model (model.id)}
+					<div class="budget">
+						<div class="budget-amount">
+							{collegeStore.totalCost} <span class="budget-sep">/</span>
+							{#if editingTreasury}
+								<input
+									bind:this={treasuryInputEl}
+									class="treasury-input"
+									type="number"
+									min="0"
+									value={pointsLimit ?? ''}
+									placeholder="∞"
+									oninput={(e) => {
+										const raw = (e.target as HTMLInputElement).value;
+										if (raw.trim() === '') {
+											collegeStore.setPointsLimit(null);
+											return;
+										}
+										const v = Number(raw) || 0;
+										collegeStore.setPointsLimit(v);
+									}}
+									onblur={() => (editingTreasury = false)}
+									onkeydown={(e) => {
+										if (e.key === 'Enter') editingTreasury = false;
+									}}
+								/>
+							{:else}
 								<button
-									class="list-row"
-									class:active={selectedModel?.id === model.id}
-									onclick={() => selectRosterModel(model.id)}
+									class="treasury-button"
+									onclick={() => (editingTreasury = true)}
+									title="Click to edit treasury (clear for no limit)"
 								>
-									<div class="list-row-main">
-										<div class="list-row-name">{model.name}</div>
-										<div class="list-row-sub">{model.template.name}</div>
-									</div>
-									<div class="list-row-cost">{model.totalCost} Sh</div>
+									{pointsLimit ?? '∞'}<span class="edit-hint" aria-hidden="true">✎</span>
 								</button>
-							{/each}
+							{/if}
+							<span class="budget-unit">Sh</span>
 						</div>
+						<div class="budget-remaining" class:over={hasLimit && budgetRemaining < 0}>
+							{#if !hasLimit}
+								No limit
+							{:else if budgetRemaining >= 0}
+								{budgetRemaining} Shillings remaining
+							{:else}
+								{Math.abs(budgetRemaining)} Shillings over budget
+							{/if}
+						</div>
+					</div>
+				</header>
 
-						<button class="add-model-btn" onclick={() => (pickerOpen = true)}>
-							<span class="plus">+</span> Add Model
-						</button>
-					</section>
-				</aside>
+				{#if hasErrors}
+					<div class="errors">
+						<h3>Validation Errors</h3>
+						<ul>
+							{#each collegeStore.validationErrors as error, i (i)}
+								<li>{error}</li>
+							{/each}
+						</ul>
+					</div>
+				{/if}
 
-				<main class="detail">
-					{#if selectedModel}
-						<ModelConfigurator
-							modelId={selectedModel.id}
-							showRemove={selectedModel.template.id !== 'wizard'}
-							onremove={() => removeModel(selectedModel.id)}
-						/>
-					{:else}
-						<div class="empty">Select a model from the list to configure it.</div>
-					{/if}
-				</main>
-			</div>
+				<div class="layout">
+					<aside class="lists">
+						<section class="list-section">
+							<div class="list-items">
+								{#each allModels as model (model.id)}
+									<button
+										class="list-row"
+										class:active={selectedModel?.id === model.id}
+										onclick={() => selectRosterModel(model.id)}
+									>
+										<div class="list-row-main">
+											<div class="list-row-name">{model.name}</div>
+											<div class="list-row-sub">{model.template.name}</div>
+										</div>
+										<div class="list-row-cost">{model.totalCost} Sh</div>
+									</button>
+								{/each}
+							</div>
 
+							<button class="add-model-btn" onclick={() => (pickerOpen = true)}>
+								<span class="plus">+</span> Add Model
+							</button>
+						</section>
+					</aside>
+
+					<main class="detail">
+						{#if selectedModel}
+							<ModelConfigurator
+								modelId={selectedModel.id}
+								showRemove={selectedModel.template.id !== 'wizard'}
+								onremove={() => removeModel(selectedModel.id)}
+							/>
+						{:else}
+							<div class="empty">Select a model from the list to configure it.</div>
+						{/if}
+					</main>
+				</div>
 			</div>
 		</div>
 
 		<footer class="actions">
 			<div class="actions-inner">
 				<a class="ap-btn-ghost-dark" href="{resolve('/builder')}?view={collegeId}">Cancel</a>
-				<button
-					class="ap-btn-ghost-dark"
-					onclick={handleSave}
-					disabled={!isDirty || hasErrors}
-				>
+				<button class="ap-btn-ghost-dark" onclick={handleSave} disabled={!isDirty || hasErrors}>
 					Save College
 				</button>
 			</div>
@@ -504,9 +499,7 @@
 	}
 	.list-row.active {
 		border-color: var(--gold-light);
-		background:
-			linear-gradient(rgba(184, 144, 58, 0.16), rgba(184, 144, 58, 0.16)),
-			var(--panel2);
+		background: linear-gradient(rgba(184, 144, 58, 0.16), rgba(184, 144, 58, 0.16)), var(--panel2);
 		box-shadow:
 			0 0 0 2px var(--gold-light),
 			0 0 12px rgba(184, 144, 58, 0.35);

@@ -31,7 +31,7 @@
 	};
 </script>
 
-<dialog bind:this={dialogEl} class="picker" onclose={onclose} onclick={handleBackdrop}>
+<dialog bind:this={dialogEl} class="picker" {onclose} onclick={handleBackdrop}>
 	<div class="picker-inner">
 		<header class="picker-head">
 			<div>
@@ -70,7 +70,11 @@
 					{#if template.specialRules.length > 0}
 						<div class="card-rules">
 							{#each template.specialRules as rule (rule.name)}
-								<span class="rule-tag">{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}</span>
+								<span class="rule-tag"
+									>{rule.name}{rule.params
+										? ` (${Object.values(rule.params).join(', ')})`
+										: ''}</span
+								>
 							{/each}
 						</div>
 					{/if}

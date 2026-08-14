@@ -10,7 +10,9 @@
 	const PRESETS = [30, 50, 75, 100] as const;
 
 	const isNoLimit = $derived(pointsLimit === null);
-	const isPreset = $derived(pointsLimit !== null && (PRESETS as readonly number[]).includes(pointsLimit));
+	const isPreset = $derived(
+		pointsLimit !== null && (PRESETS as readonly number[]).includes(pointsLimit)
+	);
 	const isCustom = $derived(!isNoLimit && !isPreset);
 
 	let customValue = $state('');
@@ -90,7 +92,6 @@
 			class:active={isCustom}
 		/>
 	</div>
-
 </div>
 
 <style>
@@ -152,9 +153,7 @@
 	}
 	.preset.active {
 		border-color: var(--gold-light);
-		background:
-			linear-gradient(rgba(184, 144, 58, 0.16), rgba(184, 144, 58, 0.16)),
-			var(--panel2);
+		background: linear-gradient(rgba(184, 144, 58, 0.16), rgba(184, 144, 58, 0.16)), var(--panel2);
 		box-shadow:
 			0 0 0 2px var(--gold-light),
 			0 0 12px rgba(184, 144, 58, 0.35);
@@ -199,5 +198,4 @@
 	.custom-input.active {
 		border-color: var(--gold);
 	}
-
 </style>

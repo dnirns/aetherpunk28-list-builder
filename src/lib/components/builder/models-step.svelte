@@ -25,9 +25,7 @@
 	const allModels = $derived(collegeStore.models);
 	const pointsLimit = $derived(collegeStore.gameConfig.pointsLimit);
 	const hasLimit = $derived(pointsLimit !== null);
-	const budgetRemaining = $derived(
-		pointsLimit === null ? 0 : pointsLimit - collegeStore.totalCost
-	);
+	const budgetRemaining = $derived(pointsLimit === null ? 0 : pointsLimit - collegeStore.totalCost);
 	const wizardModel = $derived(allModels.find((m) => m.template.id === 'wizard'));
 
 	let selectedModelId = $state<string | null>(null);
@@ -59,9 +57,7 @@
 		<div>
 			<div class="ap-section-label-ink">Roster</div>
 			<h2 class="title">Build your Roster</h2>
-			<p class="subtitle">
-				Select a model to configure it. Add new models from the catalogue.
-			</p>
+			<p class="subtitle">Select a model to configure it. Add new models from the catalogue.</p>
 		</div>
 		<div class="budget">
 			<div class="budget-amount">
@@ -144,7 +140,6 @@
 			{/if}
 		</main>
 	</div>
-
 </div>
 
 <ModelPickerDialog
@@ -340,9 +335,7 @@
 	}
 	.list-row.active {
 		border-color: var(--gold-light);
-		background:
-			linear-gradient(rgba(184, 144, 58, 0.16), rgba(184, 144, 58, 0.16)),
-			var(--panel2);
+		background: linear-gradient(rgba(184, 144, 58, 0.16), rgba(184, 144, 58, 0.16)), var(--panel2);
 		box-shadow:
 			0 0 0 2px var(--gold-light),
 			0 0 12px rgba(184, 144, 58, 0.35);

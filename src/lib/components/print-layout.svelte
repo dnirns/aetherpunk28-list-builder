@@ -163,7 +163,11 @@
 						<ul class="row-list">
 							{#each model.template.specialRules as rule (rule.name)}
 								<li>
-									<strong>{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}</strong>
+									<strong
+										>{rule.name}{rule.params
+											? ` (${Object.values(rule.params).join(', ')})`
+											: ''}</strong
+									>
 									{#if rule.description}
 										<span class="desc"> &mdash; {rule.description}</span>
 									{/if}

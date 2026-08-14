@@ -140,7 +140,22 @@ export const FACTIONS: Faction[] = [
 			specialRules: [
 				{
 					name: 'Prescience',
-					description: 'Surge resolved before attacker rolls.'
+					description:
+						'Any surge made by a Seer is resolved before the attacking model rolls the relevant checks for their Fire or Fight order.'
+				},
+				{
+					name: 'Deadeye',
+					description:
+						"If this model does not execute a Move order during its activation, then any hits dealt during any executed Fire orders decrease the target's willpower by 2 instead of 1."
+				},
+				{
+					name: 'Forward Position',
+					description: 'This model may be deployed 6" outside of your deployment zone.'
+				},
+				{
+					name: 'Goblins in a Barrel',
+					description:
+						'While in elevated terrain, this model automatically passes willpower checks when selecting targets.'
 				}
 			],
 			upgrades: [

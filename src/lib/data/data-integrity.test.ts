@@ -20,7 +20,13 @@ const KNOWN_FACTION_IDS: FactionId[] = [
 ];
 
 // The only restriction strings handled by checkMerchantItemRestriction.
-const KNOWN_RESTRICTIONS = new Set(['Wizard only', 'Dragoon/Familiar only', 'Cargo Hold models only']);
+const KNOWN_RESTRICTIONS = new Set([
+	'Wizard only',
+	'Wizard or Veteran only',
+	'Dragoon/Familiar/Mount only',
+	'Cargo Hold models only',
+	'50mm base or smaller'
+]);
 
 // Helper: collect all equipment names for a model template.
 const equipmentNames = (model: ModelTemplate): Set<string> =>
@@ -108,7 +114,10 @@ describe('FACTIONS', () => {
 	it('has positive base costs on all unique models', () => {
 		for (const faction of FACTIONS) {
 			const model = faction.uniqueModel;
-			expect(model.baseCost, `${faction.id} unique model ${model.id} has non-positive cost`).toBeGreaterThan(0);
+			expect(
+				model.baseCost,
+				`${faction.id} unique model ${model.id} has non-positive cost`
+			).toBeGreaterThan(0);
 		}
 	});
 
@@ -128,10 +137,9 @@ describe('FACTIONS', () => {
 		for (const faction of FACTIONS) {
 			const model = faction.uniqueModel;
 			const names = model.upgrades.map((u) => u.name);
-			expect(
-				new Set(names).size,
-				`${faction.id} unique model has duplicate upgrade names`
-			).toBe(names.length);
+			expect(new Set(names).size, `${faction.id} unique model has duplicate upgrade names`).toBe(
+				names.length
+			);
 		}
 	});
 
@@ -189,10 +197,7 @@ describe('UNIVERSAL_MODELS', () => {
 	it('has no duplicate upgrade names within any model', () => {
 		for (const model of UNIVERSAL_MODELS) {
 			const names = model.upgrades.map((u) => u.name);
-			expect(
-				new Set(names).size,
-				`${model.id} has duplicate upgrade names`
-			).toBe(names.length);
+			expect(new Set(names).size, `${model.id} has duplicate upgrade names`).toBe(names.length);
 		}
 	});
 
@@ -213,14 +218,8 @@ describe('UNIVERSAL_MODELS', () => {
 	it('has at least one ranged and one melee weapon in base equipment', () => {
 		for (const model of UNIVERSAL_MODELS) {
 			const types = model.baseEquipment.map((e) => e.type);
-			expect(
-				types,
-				`${model.id} missing ranged base equipment`
-			).toContain('ranged');
-			expect(
-				types,
-				`${model.id} missing melee base equipment`
-			).toContain('melee');
+			expect(types, `${model.id} missing ranged base equipment`).toContain('ranged');
+			expect(types, `${model.id} missing melee base equipment`).toContain('melee');
 		}
 	});
 });

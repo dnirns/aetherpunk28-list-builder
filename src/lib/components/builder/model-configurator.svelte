@@ -130,11 +130,7 @@
 						placeholder="Character name…"
 					/>
 				{:else}
-					<button
-						class="name-button"
-						onclick={() => (editingName = true)}
-						title="Click to rename"
-					>
+					<button class="name-button" onclick={() => (editingName = true)} title="Click to rename">
 						<span class="name-display">{model.name}</span>
 						<span class="name-edit-hint" aria-hidden="true">✎</span>
 					</button>

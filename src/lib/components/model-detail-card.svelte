@@ -110,7 +110,9 @@
 			<div class="rows">
 				{#each model.template.specialRules as rule (rule.name)}
 					<div class="row stacked rule">
-						<span class="row-name">{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}</span>
+						<span class="row-name"
+							>{rule.name}{rule.params ? ` (${Object.values(rule.params).join(', ')})` : ''}</span
+						>
 						{#if rule.description}
 							<p class="row-desc">{rule.description}</p>
 						{/if}

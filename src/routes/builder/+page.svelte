@@ -30,7 +30,7 @@
 	let mode = $state<'build' | 'view'>('build');
 
 	const selectedModel = $derived(
-		selectedModelId ? collegeStore.models.find((m) => m.id === selectedModelId) ?? null : null
+		selectedModelId ? (collegeStore.models.find((m) => m.id === selectedModelId) ?? null) : null
 	);
 
 	const viewId = page.url.searchParams.get('view');
@@ -103,8 +103,7 @@
 
 	const nameValid = $derived(collegeStore.name.trim().length > 0);
 	const limitValid = $derived(
-		collegeStore.gameConfig.pointsLimit === null ||
-			(collegeStore.gameConfig.pointsLimit ?? 0) > 0
+		collegeStore.gameConfig.pointsLimit === null || (collegeStore.gameConfig.pointsLimit ?? 0) > 0
 	);
 </script>
 
@@ -162,11 +161,7 @@
 							</div>
 						{:else}
 							<div class="detail-empty">
-								<img
-									class="detail-empty-image"
-									src="/images/scrapper_transparent.png"
-									alt=""
-								/>
+								<img class="detail-empty-image" src="/images/scrapper_transparent.png" alt="" />
 							</div>
 						{/if}
 					</div>

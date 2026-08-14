@@ -70,9 +70,7 @@
 			<p class="info-desc">
 				{faction.empowered
 					.map((e) =>
-						e.stat === 'lightCover'
-							? 'Permanent Light Cover'
-							: `${e.stat.toUpperCase()} ${e.value}`
+						e.stat === 'lightCover' ? 'Permanent Light Cover' : `${e.stat.toUpperCase()} ${e.value}`
 					)
 					.join(', ')}
 			</p>
@@ -285,9 +283,7 @@
 	}
 	.model-row.active {
 		border-color: var(--gold-light);
-		background:
-			linear-gradient(rgba(184, 144, 58, 0.14), rgba(184, 144, 58, 0.14)),
-			var(--panel);
+		background: linear-gradient(rgba(184, 144, 58, 0.14), rgba(184, 144, 58, 0.14)), var(--panel);
 		box-shadow:
 			0 0 0 2px var(--gold-light),
 			0 0 12px rgba(184, 144, 58, 0.35);

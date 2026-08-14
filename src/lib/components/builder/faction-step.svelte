@@ -80,7 +80,6 @@
 			</div>
 		{/each}
 	</div>
-
 </div>
 
 <style>
@@ -151,9 +150,7 @@
 	}
 	.faction-card.selected {
 		border-color: var(--gold-light);
-		background:
-			linear-gradient(rgba(184, 144, 58, 0.14), rgba(184, 144, 58, 0.14)),
-			var(--panel2);
+		background: linear-gradient(rgba(184, 144, 58, 0.14), rgba(184, 144, 58, 0.14)), var(--panel2);
 		box-shadow:
 			0 0 0 2px var(--gold-light),
 			0 0 12px rgba(184, 144, 58, 0.35);
@@ -241,5 +238,4 @@
 			padding-right: 64px;
 		}
 	}
-
 </style>

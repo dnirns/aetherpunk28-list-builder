@@ -14,11 +14,7 @@
 <nav class="step-indicator" aria-label="Builder progress">
 	{#each steps as step, i (step.id)}
 		<div class="step-row">
-			<div
-				class="step-dot"
-				class:done={i < currentIndex}
-				class:active={i === currentIndex}
-			>
+			<div class="step-dot" class:done={i < currentIndex} class:active={i === currentIndex}>
 				{#if i < currentIndex}
 					<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
 						<path
