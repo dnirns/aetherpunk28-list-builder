@@ -6,6 +6,7 @@
 	import ModelsStep from '$lib/components/builder/models-step.svelte';
 	import CollegeSummary from '$lib/components/college-summary.svelte';
 	import ModelDetailCard from '$lib/components/model-detail-card.svelte';
+	import Seo from '$lib/components/seo.svelte';
 	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { UNIVERSAL_MODELS } from '$lib/data/universal-models';
 	import { FACTIONS } from '$lib/data/factions';
@@ -110,9 +111,14 @@
 	);
 </script>
 
-<svelte:head>
-	<title>Build a College &mdash; Aetherpunk 28</title>
-</svelte:head>
+<Seo
+	title={mode === 'view'
+		? `${collegeStore.name} | Aetherpunk 28 List Builder`
+		: 'Build a College | Aetherpunk 28 List Builder'}
+	description="Build an Aetherpunk 28 College step by step: name it, set a Shilling limit, choose from all 11 factions and kit out your models. Costs and rules are validated as you go."
+	path="/builder"
+	noindex={mode === 'view'}
+/>
 
 <div class="builder-shell">
 	<div class="builder-scroll" id="builder-scroll">

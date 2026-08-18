@@ -1,3 +1,10 @@
 # allow crawling everything by default
 User-agent: *
-Disallow:
+Allow: /
+
+# saved Colleges live in the visitor's own browser, so these are per-user views
+# with nothing to index
+Disallow: /edit
+Disallow: /builder?view=
+
+Sitemap: https://aetherpunk28-field-guide.vercel.app/sitemap.xml

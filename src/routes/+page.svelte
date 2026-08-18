@@ -4,6 +4,8 @@
 	import { savedCollegesStore } from '$lib/stores/saved-colleges.store.svelte';
 	import { FACTIONS } from '$lib/data/factions';
 	import FactionIcon from '$lib/components/faction-icon.svelte';
+	import Seo from '$lib/components/seo.svelte';
+	import { SITE_DESCRIPTION } from '$lib/config/site';
 	import type { FactionId } from '$lib/types/game.types';
 
 	const MAX_MEMBERS = 5;
@@ -24,9 +26,7 @@
 	};
 </script>
 
-<svelte:head>
-	<title>Aetherpunk 28 &mdash; College Builder</title>
-</svelte:head>
+<Seo title="Aetherpunk 28 List Builder | A28 Field Guide" description={SITE_DESCRIPTION} path="/" />
 
 <div class="home-screen">
 	<div class="home-layout">

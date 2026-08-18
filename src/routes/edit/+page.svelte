@@ -1,5 +1,6 @@
 <script lang="ts">
 	import RosterEditor from '$lib/components/builder/roster-editor.svelte';
+	import Seo from '$lib/components/seo.svelte';
 	import { collegeStore } from '$lib/stores/college.store.svelte';
 	import { FACTIONS } from '$lib/data/factions';
 	import { resolve } from '$app/paths';
@@ -61,9 +62,12 @@
 	};
 </script>
 
-<svelte:head>
-	<title>Edit {collegeStore.name} &mdash; Aetherpunk 28</title>
-</svelte:head>
+<Seo
+	title="Edit {collegeStore.name} | Aetherpunk 28 List Builder"
+	description="Edit a saved Aetherpunk 28 College: adjust the roster, swap equipment and re-check the list against the game's list building rules."
+	path="/edit"
+	noindex
+/>
 
 {#if !loaded}
 	<div class="not-found">
